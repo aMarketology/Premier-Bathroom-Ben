@@ -1,18 +1,24 @@
 'use client'
 
+import { motion } from 'framer-motion'
+import Image from 'next/image'
+import Link from 'next/link'
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
 
 export default function Gallery() {
   const galleryImages = [
-    { id: 1, title: 'Epoxy Garage Floor - Project 1', category: 'Epoxy' },
-    { id: 2, title: 'Metallic Resin Floor - Project 2', category: 'Metallic' },
-    { id: 3, title: 'Polished Concrete - Project 3', category: 'Polishing' },
-    { id: 4, title: 'Epoxy Garage Floor - Project 4', category: 'Epoxy' },
-    { id: 5, title: 'Metallic Resin Floor - Project 5', category: 'Metallic' },
-    { id: 6, title: 'Polished Concrete - Project 6', category: 'Polishing' },
-    { id: 7, title: 'Epoxy Garage Floor - Project 7', category: 'Epoxy' },
-    { id: 8, title: 'Metallic Resin Floor - Project 8', category: 'Metallic' },
+    { src: '/IMG_0387 Ben.jpeg', title: 'Modern Bathroom Remodel', category: 'Complete Remodel' },
+    { src: '/IMG_1412 Ben.jpeg', title: 'Luxury Shower Installation', category: 'Shower Remodel' },
+    { src: '/IMG_1551 Ben.jpeg', title: 'Contemporary Bathroom Design', category: 'Complete Remodel' },
+    { src: '/IMG_2305 Ben.jpeg', title: 'Custom Tile Work', category: 'Tile Installation' },
+    { src: '/IMG_2324 Ben.jpeg', title: 'Premium Bathroom Renovation', category: 'Complete Remodel' },
+    { src: '/IMG_2329 Ben.jpeg', title: 'Elegant Vanity Installation', category: 'Vanity & Fixtures' },
+    { src: '/IMG_2596 Ben.jpeg', title: 'Designer Bathroom Upgrade', category: 'Complete Remodel' },
+    { src: '/IMG_5970 Ben.jpeg', title: 'Walk-in Shower Conversion', category: 'Shower Remodel' },
+    { src: '/IMG_6283 Ben.jpeg', title: 'Spa-Style Bathroom', category: 'Luxury Remodel' },
+    { src: '/IMG_7767 Ben.jpeg', title: 'Master Bath Transformation', category: 'Complete Remodel' },
+    { src: '/IMG_8122 Ben.jpeg', title: 'Modern Fixtures & Lighting', category: 'Bathroom Update' },
   ]
 
   return (
@@ -20,41 +26,99 @@ export default function Gallery() {
       <Navigation />
 
       {/* Page Header */}
-      <section className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-5xl font-bold mb-4">Gallery</h1>
-          <p className="text-xl text-gray-300">View our completed projects</p>
+      <section className="bg-gradient-to-br from-blue-600 via-cyan-600 to-blue-700 text-white py-24 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="text-sm font-semibold uppercase tracking-widest mb-4 block text-blue-100">Our Portfolio</span>
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">Bathroom Remodeling Gallery</h1>
+            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+              Explore our stunning collection of bathroom transformations across Austin. Each project showcases our commitment to quality craftsmanship and attention to detail.
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      {/* Gallery */}
-      <section className="flex-1 py-16 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {galleryImages.map((image) => (
-              <div key={image.id} className="group relative overflow-hidden rounded-lg shadow-lg bg-gray-300 h-64">
-                <div className="w-full h-full bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center text-white font-bold group-hover:from-orange-400 group-hover:to-orange-500 transition">
-                  {image.title}
+      {/* Gallery Grid */}
+      <section className="flex-1 py-20 px-4 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {galleryImages.map((image, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 bg-white"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={image.src}
+                    alt={image.title}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/95 via-blue-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <div className="text-white">
+                      <p className="font-bold text-xl mb-2">{image.title}</p>
+                      <p className="text-sm text-blue-200 mb-3">{image.category}</p>
+                      <div className="flex items-center gap-2 text-sm">
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                        </svg>
+                        Austin, TX
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4 text-white opacity-0 group-hover:opacity-100 transition">
-                  <p className="font-semibold">{image.title}</p>
-                  <p className="text-sm text-gray-300">{image.category}</p>
-                </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-gray-50 py-12 px-4 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">Ready to see your project here?</h2>
-        <a 
-          href="tel:(727) 743-7242" 
-          className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded inline-block transition"
-        >
-          Call Now
-        </a>
+      {/* CTA Section */}
+      <section className="bg-gradient-to-br from-blue-600 to-cyan-700 py-20 px-4 text-center">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Ready to Transform Your Bathroom?
+            </h2>
+            <p className="text-xl text-blue-100 mb-8">
+              Let's bring your vision to life. Contact us today for a free consultation and estimate.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a 
+                href="tel:512-706-9577" 
+                className="inline-flex items-center justify-center gap-2 bg-white text-blue-600 font-bold py-4 px-8 rounded-lg hover:bg-gray-100 transition-all shadow-lg text-lg"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                </svg>
+                Call (512) 706-9577
+              </a>
+              <Link 
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 bg-transparent border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-blue-600 transition-all text-lg"
+              >
+                Get Free Estimate
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </Link>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       <Footer />
