@@ -6,12 +6,6 @@ import Footer from '../../components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
 
-export const metadata = {
-  title: 'Tub to Shower Conversion Austin TX | One Day Install | Premier Bathroom',
-  description: 'Convert your bathtub to a walk-in shower in Austin, TX. Quick 1-day installation, increased space, modern design. Licensed professionals. Call 512-706-9577 for free quote.',
-  keywords: 'tub to shower conversion Austin, bathtub removal Austin TX, shower conversion Austin, replace tub with shower Austin, walk-in shower conversion',
-}
-
 export default function TubToShowerConversionAustin() {
   const benefits = [
     {

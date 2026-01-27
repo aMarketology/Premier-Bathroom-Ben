@@ -6,12 +6,6 @@ import Footer from '../../components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
 
-export const metadata = {
-  title: 'Walk-in Bath Austin TX | Safe Accessible Bathtubs | Premier Bathroom',
-  description: 'Premier walk-in bath installations in Austin, TX. Safe, accessible bathing solutions for seniors and mobility concerns. Low threshold entry, anti-slip flooring, ADA compliant. Call 512-706-9577.',
-  keywords: 'walk-in bath Austin, walk-in tub Austin TX, accessible bathtub Austin, senior bathroom Austin, ADA compliant bath Austin, safe bathtub installation',
-}
-
 export default function WalkInBathAustin() {
   const features = [
     {

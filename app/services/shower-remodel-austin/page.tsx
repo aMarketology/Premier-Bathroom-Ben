@@ -6,12 +6,6 @@ import Footer from '../../components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
 
-export const metadata = {
-  title: 'Shower Remodel Austin TX | Custom Walk-in Showers | Premier Bathroom',
-  description: 'Expert shower remodeling in Austin, TX. Custom walk-in showers, frameless glass, rainfall heads, and spa-inspired designs. Transform your shower today. Call 512-706-9577.',
-  keywords: 'shower remodel Austin, walk-in shower Austin TX, custom shower Austin, shower renovation Austin, frameless shower doors Austin, rainfall shower Austin',
-}
-
 export default function ShowerRemodelAustin() {
   const showerFeatures = [
     {
