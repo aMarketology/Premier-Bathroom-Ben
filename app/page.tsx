@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import Navigation from './components/Navigation'
 import Footer from './components/Footer'
 
@@ -11,8 +12,22 @@ export default function Home() {
       <Navigation />
 
       {/* === HERO SECTION === */}
-      <section className="relative bg-gradient-to-br from-orange-500 via-orange-600 to-red-600 text-white overflow-hidden">
-        {/* Background Pattern */}
+      <section className="relative bg-gradient-to-br from-amber-700 via-amber-800 to-amber-900 text-white overflow-hidden">
+        {/* Background Video */}
+        <div className="absolute inset-0 overflow-hidden">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-30"
+          >
+            <source src="/0202 (1).mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-900/80 via-amber-800/70 to-amber-900/80" />
+        </div>
+
+        {/* Background Pattern Overlay */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(-45deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]" />
         </div>
@@ -23,20 +38,6 @@ export default function Home() {
             
             {/* Left Column - Text Content */}
             <div className="space-y-8">
-              {/* Trust Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-              >
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
-                  <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <span className="text-sm font-semibold text-white">5.0★ Rated on Google | 6 Reviews</span>
-                </div>
-              </motion.div>
-
               {/* Main Headline */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -45,8 +46,14 @@ export default function Home() {
                 className="space-y-4"
               >
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                  TRUSTED TILE INSTALLATION COMPANY IN AUSTIN, TX
+                  AUSTIN'S PREMIER TILE INSTALLATION & FLOORING EXPERTS
                 </h1>
+                <div className="flex items-center gap-3 text-2xl md:text-3xl font-bold text-amber-200">
+                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  CHAMPS TILE
+                </div>
               </motion.div>
 
               {/* Tagline */}
@@ -56,7 +63,7 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.35 }}
                 className="text-xl md:text-2xl text-white/90 font-normal leading-relaxed"
               >
-                We offer a wide range of tile installation and repair services, as well as bathroom remodeling services, to help you get the most out of your home. Serving Austin and nearby areas with exceptional craftsmanship.
+                Austin's trusted experts in custom tile installation, kitchen backsplashes, bathroom tile, and premium flooring. Serving Austin, Round Rock, Cedar Park, Pflugerville, West Lake Hills, Bee Cave, and surrounding areas for over 15 years.
               </motion.p>
 
               {/* CTA Buttons Row */}
@@ -68,7 +75,7 @@ export default function Home() {
               >
                 <a
                   href="tel:512-706-9577"
-                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-blue-600 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all duration-300 shadow-lg"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-amber-900 rounded-lg font-bold text-lg hover:bg-amber-50 transition-all duration-300 shadow-lg"
                 >
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -78,7 +85,7 @@ export default function Home() {
                 
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-bold text-lg hover:bg-white hover:text-blue-500 transition-all duration-300"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-bold text-lg hover:bg-white hover:text-amber-900 transition-all duration-300"
                 >
                   Free Instant Estimate
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -109,7 +116,7 @@ export default function Home() {
                       id="name"
                       name="name"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition"
                       placeholder="Enter your name"
                     />
                   </div>
@@ -123,7 +130,7 @@ export default function Home() {
                       id="phone"
                       name="phone"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition"
                       placeholder="(512) 555-1234"
                     />
                   </div>
@@ -137,7 +144,7 @@ export default function Home() {
                       id="email"
                       name="email"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition"
                       placeholder="your@email.com"
                     />
                   </div>
@@ -150,16 +157,16 @@ export default function Home() {
                       id="service"
                       name="service"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition bg-white"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition bg-white"
                     >
                       <option value="">Select a service...</option>
-                      <option value="bathroom-remodel">Bathroom Remodeling</option>
-                      <option value="shower-remodel">Shower Remodel</option>
-                      <option value="walk-in-bath">Walk-in Bath</option>
-                      <option value="tub-conversion">Tub to Shower Conversion</option>
-                      <option value="tub-shower-combo">Tub & Shower Combo</option>
+                      <option value="tile-installation">Custom Tile Installation</option>
+                      <option value="kitchen-backsplash">Kitchen Backsplash</option>
+                      <option value="bathroom-tile">Bathroom Tile</option>
+                      <option value="shower-tile">Shower Tile Installation</option>
+                      <option value="floor-tile">Floor Tile</option>
                       <option value="flooring">Premium Flooring</option>
-                      <option value="accessibility">Safety & Accessibility</option>
+                      <option value="backsplash">Decorative Backsplash</option>
                       <option value="other">Other</option>
                     </select>
                   </div>
@@ -169,17 +176,17 @@ export default function Home() {
                       type="checkbox"
                       id="sms-consent"
                       name="sms-consent"
-                      className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      className="mt-1 h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
                     />
                     <label htmlFor="sms-consent" className="ml-2 text-xs text-gray-600">
-                      By checking this box, you agree to receive SMS messages about your appointment/job from Premier Bathroom Remodel. 
+                      By checking this box, you agree to receive SMS messages about your appointment/job from Champs Tile. 
                       You may reply STOP to opt-out at any time. Message frequency may vary.
                     </label>
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-cyan-600 text-white font-bold rounded-lg hover:from-blue-600 hover:to-cyan-700 transition-all duration-300 shadow-lg"
+                    className="w-full px-6 py-4 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-bold rounded-lg hover:from-amber-700 hover:to-amber-800 transition-all duration-300 shadow-lg"
                   >
                     Submit Request
                   </button>
@@ -191,92 +198,174 @@ export default function Home() {
       </section>
 
       {/* === SCROLLING BANNER === */}
-      <section className="bg-gradient-to-r from-blue-500 to-cyan-600 text-white py-4 overflow-hidden">
+      <section className="bg-gradient-to-r from-amber-600 to-amber-700 text-white py-4 overflow-hidden">
         <div className="whitespace-nowrap animate-scroll">
-          <span className="inline-block px-8 text-lg font-semibold">SERVING THE GREATER AUSTIN COMMUNITY FOR 15 YEARS</span>
-          <span className="inline-block px-8 text-lg font-semibold">SERVING THE GREATER AUSTIN COMMUNITY FOR 15 YEARS</span>
-          <span className="inline-block px-8 text-lg font-semibold">SERVING THE GREATER AUSTIN COMMUNITY FOR 15 YEARS</span>
-          <span className="inline-block px-8 text-lg font-semibold">SERVING THE GREATER AUSTIN COMMUNITY FOR 15 YEARS</span>
+          <span className="inline-block px-8 text-lg font-semibold">★ CHAMPS TILE - SERVING AUSTIN FOR 15 YEARS ★</span>
+          <span className="inline-block px-8 text-lg font-semibold">★ EXPERT TILE INSTALLATION ★</span>
+          <span className="inline-block px-8 text-lg font-semibold">★ LICENSED & INSURED ★</span>
+          <span className="inline-block px-8 text-lg font-semibold">★ CHAMPS TILE - SERVING AUSTIN FOR 15 YEARS ★</span>
+          <span className="inline-block px-8 text-lg font-semibold">★ EXPERT TILE INSTALLATION ★</span>
+          <span className="inline-block px-8 text-lg font-semibold">★ LICENSED & INSURED ★</span>
         </div>
       </section>
 
       {/* === WHY CHOOSE US SECTION === */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-amber-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              WHY CHOOSE PREMIER BATHROOM REMODEL AUSTIN?
+              WHY CHOOSE CHAMPS TILE AUSTIN?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Need a trusted bathroom remodeling company for renovations, walk-in baths, or premium flooring? Our experienced team delivers quality, integrity, and reliable results.
+              Need a trusted tile installation company for custom tile work, kitchen backsplashes, bathroom tiles, or premium flooring? Our experienced team delivers quality, integrity, and reliable results.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          {/* Features with Images Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
             
-            {/* Feature 1 */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
-            >
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
-                <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">LICENSED & INSURED</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Fully certified contractors with comprehensive insurance coverage and professional certifications. Your project is protected every step of the way.
-              </p>
-            </motion.div>
+            {/* Left: Feature Cards */}
+            <div className="space-y-6">
+              {/* Feature 1 */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg className="w-7 h-7 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">LICENSED & INSURED PROFESSIONALS</h3>
+                    <p className="text-gray-600 leading-relaxed">
+                      Fully certified tile installation contractors with comprehensive insurance coverage and professional certifications. Your project is protected every step of the way.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
 
-            {/* Feature 2 */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
-            >
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
-                <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">ROOTED IN THE COMMUNITY</h3>
-              <p className="text-gray-600 leading-relaxed">
-                For over 15 years, we've provided exceptional bathroom remodeling and flooring services, earning hundreds of five-star reviews from Austin homeowners.
-              </p>
-            </motion.div>
+              {/* Feature 2 */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg className="w-7 h-7 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">15+ YEARS SERVING AUSTIN</h3>
+                    <p className="text-gray-600 leading-relaxed">
+                      For over 15 years, we've provided exceptional tile installation and flooring services, earning hundreds of five-star reviews from Austin homeowners and businesses.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
 
-            {/* Feature 3 */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
-            >
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
-                <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">WE CARE ABOUT QUALITY</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Unlike other remodeling companies, we never reuse materials or cut corners. Each project features premium materials, meticulous craftsmanship, and lasting durability.
-              </p>
-            </motion.div>
+              {/* Feature 3 */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg className="w-7 h-7 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">PREMIUM MATERIALS & CRAFTSMANSHIP</h3>
+                    <p className="text-gray-600 leading-relaxed">
+                      We specialize in ceramic, porcelain, natural stone, glass, and mosaic tiles. Each project features premium materials, expert installation, and lasting durability.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Right: Image Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="relative h-64 rounded-xl overflow-hidden shadow-lg"
+              >
+                <Image
+                  src="/pexels-curtis-adams-1694007-7168080.jpg"
+                  alt="Professional Tile Installation"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                className="relative h-64 rounded-xl overflow-hidden shadow-lg mt-8"
+              >
+                <Image
+                  src="/pexels-vladimirsrajber-11806476.jpg"
+                  alt="Modern Bathroom Design"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+                className="relative h-64 rounded-xl overflow-hidden shadow-lg -mt-8"
+              >
+                <Image
+                  src="/pexels-vladimirsrajber-11806490.jpg"
+                  alt="Elegant Bathroom Fixture"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 }}
+                className="relative h-64 rounded-xl overflow-hidden shadow-lg"
+              >
+                <Image
+                  src="/IMG_6283 Ben.jpeg"
+                  alt="Bathroom Renovation"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                />
+              </motion.div>
+            </div>
           </div>
 
-          <div className="text-center">
+          <div className="text-center mt-8">
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="tel:512-706-9577"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg font-bold text-lg hover:from-blue-600 hover:to-cyan-700 transition-all shadow-lg"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-lg font-bold text-lg hover:from-amber-700 hover:to-amber-800 transition-all shadow-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -285,7 +374,7 @@ export default function Home() {
               </a>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-blue-500 text-blue-500 rounded-lg font-bold text-lg hover:bg-blue-50 transition-all"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-amber-600 text-amber-900 rounded-lg font-bold text-lg hover:bg-amber-50 transition-all"
               >
                 Free Instant Estimate
               </Link>
@@ -299,11 +388,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              OUR 3-STEP REMODELING PROCESS:<br/>
+              OUR 3-STEP TILE INSTALLATION PROCESS:<br/>
               FAST, TRANSPARENT, AND BUILT TO LAST
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Remodeling your bathroom shouldn't be complicated. At Premier Bathroom Remodel Austin, our process is straightforward, from your first call through final inspection. Quick turnaround, complete transparency, and no shortcuts.
+              Your tile project shouldn't be complicated. At Champs Tile, our process is straightforward, from your first call through final inspection. Expert installation, complete transparency, and no shortcuts.
             </p>
           </div>
 
@@ -317,13 +406,13 @@ export default function Home() {
               transition={{ delay: 0.1 }}
               className="relative"
             >
-              <div className="absolute -top-6 -left-6 w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
+              <div className="absolute -top-6 -left-6 w-16 h-16 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
                 01
               </div>
-              <div className="bg-gray-50 p-8 pt-12 rounded-xl border-2 border-gray-200 hover:border-blue-500 transition-colors">
+              <div className="bg-amber-50 p-8 pt-12 rounded-xl border-2 border-amber-200 hover:border-amber-500 transition-colors">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">STEP 1: GET IN TOUCH</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Dealing with outdated bathrooms, water damage, or accessibility concerns? Contact us by phone, email, or online. We're available for consultations and urgent issues.
+                  Ready for a tile upgrade? Contact us by phone, email, or online. We're available for consultations about kitchen backsplashes, bathroom tile, flooring projects, and custom tile work.
                 </p>
               </div>
             </motion.div>
@@ -336,13 +425,13 @@ export default function Home() {
               transition={{ delay: 0.2 }}
               className="relative"
             >
-              <div className="absolute -top-6 -left-6 w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
+              <div className="absolute -top-6 -left-6 w-16 h-16 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
                 02
               </div>
-              <div className="bg-gray-50 p-8 pt-12 rounded-xl border-2 border-gray-200 hover:border-blue-500 transition-colors">
+              <div className="bg-amber-50 p-8 pt-12 rounded-xl border-2 border-amber-200 hover:border-amber-500 transition-colors">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">STEP 2: GET A FAST, CUSTOMIZED QUOTE</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Our certified specialists inspect your space, discuss your vision, and provide clear options. You'll get a detailed plan, including materials, timelines, and accurate pricing, with no pressure or surprises.
+                  Our tile experts inspect your space, discuss your design vision, and provide clear options. You'll get a detailed plan, including tile selection, materials, timelines, and accurate pricing.
                 </p>
               </div>
             </motion.div>
@@ -355,13 +444,13 @@ export default function Home() {
               transition={{ delay: 0.3 }}
               className="relative"
             >
-              <div className="absolute -top-6 -left-6 w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
+              <div className="absolute -top-6 -left-6 w-16 h-16 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
                 03
               </div>
-              <div className="bg-gray-50 p-8 pt-12 rounded-xl border-2 border-gray-200 hover:border-blue-500 transition-colors">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">STEP 3: INSTALL WITH CONFIDENCE</h3>
+              <div className="bg-amber-50 p-8 pt-12 rounded-xl border-2 border-amber-200 hover:border-amber-500 transition-colors">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">STEP 3: PROFESSIONAL INSTALLATION</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  After approval, we begin your bathroom remodel using premium materials and expert craftsmanship. Your new bathroom includes quality warranties, installed by a team dedicated to excellence.
+                  After approval, we begin your tile installation using premium materials and expert craftsmanship. Your beautiful new tiles include quality warranties, installed by certified professionals.
                 </p>
               </div>
             </motion.div>
@@ -371,7 +460,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="tel:512-706-9577"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg font-bold text-lg hover:from-blue-600 hover:to-cyan-700 transition-all shadow-lg"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-lg font-bold text-lg hover:from-amber-700 hover:to-amber-800 transition-all shadow-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -380,7 +469,7 @@ export default function Home() {
               </a>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-blue-500 text-blue-500 rounded-lg font-bold text-lg hover:bg-blue-50 transition-all"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-amber-600 text-amber-900 rounded-lg font-bold text-lg hover:bg-amber-50 transition-all"
               >
                 Request Your Free Estimate
               </Link>
@@ -390,124 +479,181 @@ export default function Home() {
       </section>
 
       {/* === SERVICES SECTION === */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-amber-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           
           {/* Section Header */}
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-800 bg-slate-900/50 backdrop-blur-sm mb-6">
-              <span className="text-xs font-medium text-slate-400 uppercase tracking-widest">Our Services</span>
-            </div>
-            <h2 className="text-4xl md:text-6xl font-light text-slate-100 mb-6">
-              Bathroom & Flooring Solutions
+          <div className="text-center mb-16">
+            <span className="text-sm font-semibold text-amber-800 uppercase tracking-widest mb-4 block">Our Services</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Expert Tile Installation & Flooring Solutions
             </h2>
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-              Comprehensive Remodeling | Custom Design | Quality Installation
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Custom Tile Work | Beautiful Designs | Professional Installation
             </p>
           </div>
 
-          {/* Services Grid - 3 Columns */}
+          {/* Services Grid with Photos - 3 Columns */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             
-            {/* Service Card 1 - Bathroom Remodel */}
-            <div className="group relative p-8 rounded-2xl bg-slate-900/50 border border-slate-800 hover:border-slate-700 hover:bg-slate-900/70 transition-all duration-300">
-              {/* Icon */}
-              <div className="w-14 h-14 mb-6 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/10 border border-blue-500/20 flex items-center justify-center">
-                <svg className="w-7 h-7 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                </svg>
+            {/* Service Card 1 - Kitchen Backsplash */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300"
+            >
+              {/* Image */}
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/pexels-curtis-adams-1694007-7168080.jpg"
+                  alt="Kitchen Backsplash Installation"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               </div>
 
               {/* Content */}
-              <h3 className="text-2xl font-semibold text-slate-100 mb-4">Bathroom Remodeling</h3>
-              <p className="text-slate-400 mb-6 leading-relaxed">
-                Complete bathroom transformations from design to installation. Custom showers, tubs, vanities, and fixtures.
-              </p>
+              <div className="p-8">
+                <div className="w-14 h-14 -mt-20 mb-6 rounded-xl bg-amber-700 flex items-center justify-center shadow-xl relative z-10">
+                  <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                  </svg>
+                </div>
+                
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Kitchen Backsplash</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Transform your kitchen with stunning custom backsplash designs. From subway tile to intricate mosaics.
+                </p>
 
-              {/* Feature List */}
-              <ul className="space-y-2 mb-6">
-                {['Custom Showers', 'Tub Installation', 'Vanity Design', 'Tile Work'].map((feature, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm text-slate-500">
-                    <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
+                {/* Feature List */}
+                <ul className="space-y-2 mb-6">
+                  {['Custom Patterns', 'Ceramic & Porcelain', 'Glass Tile', 'Natural Stone'].map((feature, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
+                      <svg className="w-4 h-4 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
 
-              {/* Link */}
-              <Link href="/services" className="inline-flex items-center gap-2 text-blue-500 font-medium hover:gap-3 transition-all">
-                Learn More
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </Link>
-            </div>
+                {/* Link */}
+                <Link href="/services" className="inline-flex items-center gap-2 text-amber-700 font-semibold hover:gap-3 transition-all">
+                  Learn More
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Link>
+              </div>
+            </motion.div>
 
-            {/* Service Card 2 - Walk-in Baths */}
-            <div className="group relative p-8 rounded-2xl bg-slate-900/50 border border-slate-800 hover:border-slate-700 hover:bg-slate-900/70 transition-all duration-300">
-              <div className="w-14 h-14 mb-6 rounded-xl bg-gradient-to-br from-cyan-500/20 to-cyan-600/10 border border-cyan-500/20 flex items-center justify-center">
-                <svg className="w-7 h-7 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                </svg>
+            {/* Service Card 2 - Bathroom Tile */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300"
+            >
+              {/* Image */}
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/pexels-vladimirsrajber-11806476.jpg"
+                  alt="Bathroom Tile Installation"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               </div>
 
-              <h3 className="text-2xl font-semibold text-slate-100 mb-4">Walk-in Baths</h3>
-              <p className="text-slate-400 mb-6 leading-relaxed">
-                Safe and accessible walk-in bath solutions for enhanced mobility and independence with premium features.
-              </p>
+              <div className="p-8">
+                <div className="w-14 h-14 -mt-20 mb-6 rounded-xl bg-amber-800 flex items-center justify-center shadow-xl relative z-10">
+                  <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                </div>
 
-              <ul className="space-y-2 mb-6">
-                {['Low Threshold Entry', 'Safety Features', 'Therapeutic Options', 'ADA Compliant'].map((feature, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm text-slate-500">
-                    <svg className="w-4 h-4 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Bathroom Tile</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Beautiful, water-resistant bathroom tile for showers, floors, walls, and tub surrounds.
+                </p>
 
-              <Link href="/services" className="inline-flex items-center gap-2 text-cyan-500 font-medium hover:gap-3 transition-all">
-                Explore Options
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </Link>
-            </div>
+                <ul className="space-y-2 mb-6">
+                  {['Shower Walls', 'Floor Tile', 'Tub Surrounds', 'Decorative Accents'].map((feature, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
+                      <svg className="w-4 h-4 text-amber-800" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
 
-            {/* Service Card 3 - Flooring */}
-            <div className="group relative p-8 rounded-2xl bg-slate-900/50 border border-slate-800 hover:border-slate-700 hover:bg-slate-900/70 transition-all duration-300">
-              <div className="w-14 h-14 mb-6 rounded-xl bg-gradient-to-br from-blue-400/20 to-blue-500/10 border border-blue-400/20 flex items-center justify-center">
-                <svg className="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" />
-                </svg>
+                <Link href="/services" className="inline-flex items-center gap-2 text-amber-800 font-semibold hover:gap-3 transition-all">
+                  Explore Options
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Service Card 3 - Premium Flooring */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300"
+            >
+              {/* Image */}
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/pexels-vladimirsrajber-11806490.jpg"
+                  alt="Premium Flooring Installation"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               </div>
 
-              <h3 className="text-2xl font-semibold text-slate-100 mb-4">Premium Flooring</h3>
-              <p className="text-slate-400 mb-6 leading-relaxed">
-                High-quality flooring solutions including tile, hardwood, vinyl, and luxury options for every room.
-              </p>
+              <div className="p-8">
+                <div className="w-14 h-14 -mt-20 mb-6 rounded-xl bg-amber-900 flex items-center justify-center shadow-xl relative z-10">
+                  <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                  </svg>
+                </div>
 
-              <ul className="space-y-2 mb-6">
-                {['Tile Installation', 'Hardwood Floors', 'Luxury Vinyl', 'Custom Designs'].map((feature, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm text-slate-500">
-                    <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Premium Flooring</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Durable, beautiful floors for every room. Expert installation of tile, LVP, and natural stone.
+                </p>
 
-              <Link href="/services" className="inline-flex items-center gap-2 text-blue-400 font-medium hover:gap-3 transition-all">
-                View Flooring
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </Link>
-            </div>
+                <ul className="space-y-2 mb-6">
+                  {['Tile Flooring', 'Luxury Vinyl Plank', 'Natural Stone', 'Wood-Look Tile'].map((feature, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
+                      <svg className="w-4 h-4 text-amber-900" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                <Link href="/services" className="inline-flex items-center gap-2 text-amber-900 font-semibold hover:gap-3 transition-all">
+                  View Services
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Link>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -521,31 +667,31 @@ export default function Home() {
             
             {/* Left Column - Content */}
             <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-800 bg-slate-900/50 backdrop-blur-sm">
-                <span className="text-xs font-medium text-slate-400 uppercase tracking-widest">Why Choose Us</span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amber-800 bg-amber-900/50 backdrop-blur-sm">
+                <span className="text-xs font-medium text-amber-400 uppercase tracking-widest">Why Choose Us</span>
               </div>
 
               <h2 className="text-4xl md:text-5xl font-light text-slate-100">
                 Austin's Trusted
                 <br />
-                <span className="bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">Remodeling Experts</span>
+                <span className="bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">Tile Installation Experts</span>
               </h2>
 
               <p className="text-lg text-slate-400 leading-relaxed">
-                At Premier Bathroom Remodel Austin, we combine superior craftsmanship with personalized service to bring your vision to life. Our experienced team is dedicated to quality, attention to detail, and customer satisfaction.
+                At Champs Tile, we combine superior craftsmanship with personalized service to bring your vision to life. Our experienced team specializes in custom tile work, creating stunning spaces that last.
               </p>
 
               {/* Feature List with Icons */}
               <div className="space-y-4">
                 {[
-                  { title: 'Expert Craftsmanship', desc: '15+ years of remodeling experience' },
-                  { title: 'Custom Designs', desc: 'Tailored solutions for your unique needs' },
+                  { title: 'Expert Craftsmanship', desc: '15+ years of tile installation experience' },
+                  { title: 'Custom Designs', desc: 'Tailored tile solutions for your unique style' },
                   { title: 'Quality Materials', desc: 'Premium products built to last' },
                   { title: 'Licensed & Insured', desc: 'Fully certified and bonded contractors' }
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-4 p-4 rounded-xl bg-slate-900/30 border border-slate-800/50">
-                    <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
-                      <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                    <div className="w-10 h-10 rounded-lg bg-stone-500/10 border border-stone-500/20 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-5 h-5 text-stone-400" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
                     </div>
@@ -577,7 +723,7 @@ export default function Home() {
                       <p className="text-xs text-slate-500">19 Google reviews</p>
                     </div>
                   </div>
-                  <p className="text-slate-400 mt-4">Trusted by Austin homeowners for quality bathroom remodeling</p>
+                  <p className="text-slate-400 mt-4">Trusted by Austin homeowners for quality tile installation</p>
                 </div>
               </div>
 
@@ -629,6 +775,85 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* === GALLERY SECTION === */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-block"
+            >
+              <span className="text-sm font-semibold text-amber-600 uppercase tracking-widest mb-2 block">Our Work</span>
+            </motion.div>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              RECENT TILE INSTALLATION PROJECTS
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Take a look at our stunning tile transformations. From kitchen backsplashes to bathroom remodels and floor installations, see the quality craftsmanship that sets us apart.
+            </p>
+          </div>
+
+          {/* Gallery Grid - Masonry Style */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { src: '/IMG_0387 Ben.jpeg', span: 'lg:row-span-2' },
+              { src: '/IMG_1412 Ben.jpeg', span: '' },
+              { src: '/IMG_1551 Ben.jpeg', span: '' },
+              { src: '/IMG_2305 Ben.jpeg', span: '' },
+              { src: '/IMG_2324 Ben.jpeg', span: 'lg:row-span-2' },
+              { src: '/IMG_2329 Ben.jpeg', span: '' },
+              { src: '/IMG_2596 Ben.jpeg', span: '' },
+              { src: '/IMG_5970 Ben.jpeg', span: '' },
+              { src: '/IMG_6283 Ben.jpeg', span: 'lg:row-span-2' },
+              { src: '/IMG_7767 Ben.jpeg', span: '' },
+              { src: '/IMG_8122 Ben.jpeg', span: '' },
+            ].map((image, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+                className={`group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ${image.span}`}
+              >
+                <div className="relative aspect-square overflow-hidden">
+                  <Image
+                    src={image.src}
+                    alt={`Bathroom Remodeling Project ${index + 1}`}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                  {/* Overlay on Hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-blue-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <div className="text-white">
+                      <p className="font-semibold text-lg mb-1">Bathroom Remodeling</p>
+                      <p className="text-sm text-blue-200">Austin, TX</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* CTA Button */}
+          <div className="text-center mt-12">
+            <Link
+              href="/gallery"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg font-bold text-lg hover:from-blue-600 hover:to-cyan-700 transition-all shadow-lg"
+            >
+              View Full Gallery
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
           </div>
         </div>
       </section>
@@ -771,24 +996,24 @@ export default function Home() {
 
       {/* === FINAL CTA SECTION === */}
       <section className="relative py-32 bg-gradient-to-b from-black to-slate-950 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(251,191,36,0.1),transparent_50%)]" />
         
         <div className="relative max-w-5xl mx-auto px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-6xl font-light text-slate-100 mb-6">
             Ready to Transform
             <br />
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">Your Bathroom?</span>
+            <span className="bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">Your Space with Tile?</span>
           </h2>
           
           <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto">
-            Take the first step in transforming your space. Contact Premier Bathroom Remodel Austin today for a free consultation and quote.
+            Take the first step in transforming your space. Contact Champs Tile today for a free consultation and quote.
           </p>
 
           {/* CTA Buttons Row */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="tel:512-706-9577"
-              className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-lg font-semibold text-lg text-white hover:shadow-2xl hover:shadow-blue-600/40 transition-all duration-300"
+              className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-gradient-to-r from-amber-500 to-amber-700 rounded-lg font-semibold text-lg text-white hover:shadow-2xl hover:shadow-amber-600/40 transition-all duration-300"
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -798,7 +1023,7 @@ export default function Home() {
             
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-slate-900/50 border-2 border-slate-800 rounded-lg font-semibold text-lg text-slate-300 hover:bg-slate-800/50 hover:border-slate-700 backdrop-blur-sm transition-all duration-300"
+              className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-slate-900/50 border-2 border-amber-800 rounded-lg font-semibold text-lg text-slate-300 hover:bg-slate-800/50 hover:border-amber-700 backdrop-blur-sm transition-all duration-300"
             >
               Get Free Quote
             </Link>
@@ -807,7 +1032,7 @@ export default function Home() {
           {/* Contact Info */}
           <div className="mt-16 pt-8 border-t border-slate-800">
             <p className="text-slate-500 flex items-center justify-center gap-2">
-              <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
               </svg>
               Serving Austin, TX & Surrounding Areas
