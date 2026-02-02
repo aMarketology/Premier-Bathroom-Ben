@@ -3,31 +3,50 @@
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function Contact() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    message: ''
+    message: '',
+    smsConsent: false
   })
-  const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
+    const { name, value, type } = e.target
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
     }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Send form data to server
-    console.log('Form submitted:', formData)
-    setSubmitted(true)
-    setFormData({ name: '', email: '', phone: '', message: '' })
-    setTimeout(() => setSubmitted(false), 5000)
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
+        router.push('/thank-you')
+      } else {
+        throw new Error('Failed to send')
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      alert('There was an error submitting your request. Please call us at 512-706-9577.')
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -138,12 +157,6 @@ export default function Contact() {
           {/* Contact Form */}
           <div>
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Request a Free Quote</h2>
-            
-            {submitted && (
-              <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded">
-                Thank you for your message! We will contact you soon.
-              </div>
-            )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -203,17 +216,33 @@ export default function Contact() {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Tell us about your bathroom remodel or flooring project..."
+                  placeholder="Tell us about your tile or flooring project..."
                   rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none text-gray-900"
                 ></textarea>
+              </div>
+
+              <div className="flex items-start">
+                <input
+                  type="checkbox"
+                  id="smsConsent"
+                  name="smsConsent"
+                  checked={formData.smsConsent}
+                  onChange={handleChange}
+                  className="mt-1 h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
+                />
+                <label htmlFor="smsConsent" className="ml-2 text-xs text-gray-600">
+                  By checking this box, you agree to receive SMS messages about your appointment/job from Champs Tile. 
+                  You may reply STOP to opt-out at any time.
+                </label>
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded transition transform hover:-translate-y-1"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-bold py-3 px-6 rounded transition transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Request Free Quote
+                {isSubmitting ? 'Submitting...' : 'Request Free Quote'}
               </button>
             </form>
           </div>

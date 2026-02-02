@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -7,6 +9,48 @@ import Navigation from './components/Navigation'
 import Footer from './components/Footer'
 
 export default function Home() {
+  const router = useRouter()
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    service: '',
+    smsConsent: false
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
+        router.push('/thank-you')
+      } else {
+        throw new Error('Failed to send')
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      alert('There was an error submitting your request. Please call us at 512-706-9577.')
+      setIsSubmitting(false)
+    }
+  }
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -106,7 +150,7 @@ export default function Home() {
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">REQUEST AN APPOINTMENT ONLINE</h3>
                 <p className="text-sm text-gray-600 mb-6">Get your free quote today!</p>
                 
-                <form className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                       Your Name *
@@ -115,8 +159,10 @@ export default function Home() {
                       type="text"
                       id="name"
                       name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition text-gray-900"
                       placeholder="Enter your name"
                     />
                   </div>
@@ -129,8 +175,10 @@ export default function Home() {
                       type="tel"
                       id="phone"
                       name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition text-gray-900"
                       placeholder="(512) 555-1234"
                     />
                   </div>
@@ -143,8 +191,10 @@ export default function Home() {
                       type="email"
                       id="email"
                       name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition text-gray-900"
                       placeholder="your@email.com"
                     />
                   </div>
@@ -156,10 +206,13 @@ export default function Home() {
                     <select
                       id="service"
                       name="service"
+                      value={formData.service}
+                      onChange={handleInputChange}
+                      style={{ color: formData.service ? '#111827' : '#9CA3AF' }}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition bg-white"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition bg-white text-gray-900"
                     >
-                      <option value="">Select a service...</option>
+                      <option value="" disabled>Select a service...</option>
                       <option value="tile-installation">Custom Tile Installation</option>
                       <option value="kitchen-backsplash">Kitchen Backsplash</option>
                       <option value="bathroom-tile">Bathroom Tile</option>
@@ -175,7 +228,9 @@ export default function Home() {
                     <input
                       type="checkbox"
                       id="sms-consent"
-                      name="sms-consent"
+                      name="smsConsent"
+                      checked={formData.smsConsent}
+                      onChange={handleInputChange}
                       className="mt-1 h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
                     />
                     <label htmlFor="sms-consent" className="ml-2 text-xs text-gray-600">
@@ -186,9 +241,10 @@ export default function Home() {
 
                   <button
                     type="submit"
-                    className="w-full px-6 py-4 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-bold rounded-lg hover:from-amber-700 hover:to-amber-800 transition-all duration-300 shadow-lg"
+                    disabled={isSubmitting}
+                    className="w-full px-6 py-4 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-bold rounded-lg hover:from-amber-700 hover:to-amber-800 transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Submit Request
+                    {isSubmitting ? 'Submitting...' : 'Submit Request'}
                   </button>
                 </form>
               </motion.div>
