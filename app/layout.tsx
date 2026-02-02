@@ -44,6 +44,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-45B5X6PQ1F"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-45B5X6PQ1F');
+            `,
+          }}
+        />
+        
         {/* JSON-LD Structured Data for SEO */}
         <script
           type="application/ld+json"

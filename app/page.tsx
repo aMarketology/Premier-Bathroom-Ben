@@ -3,20 +3,88 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useState } from 'react'
 import Navigation from './components/Navigation'
 import Footer from './components/Footer'
 
 export default function Home() {
+  const [heroFormData, setHeroFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    service: '',
+    smsConsent: false
+  })
+  const [heroLoading, setHeroLoading] = useState(false)
+  const [heroSubmitted, setHeroSubmitted] = useState(false)
+  const [heroError, setHeroError] = useState('')
+
+  const handleHeroChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const target = e.target
+    const value = target.type === 'checkbox' ? (target as HTMLInputElement).checked : target.value
+    const name = target.name
+
+    setHeroFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleHeroSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setHeroLoading(true)
+    setHeroError('')
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(heroFormData),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong')
+      }
+
+      setHeroSubmitted(true)
+      setHeroFormData({
+        name: '',
+        phone: '',
+        email: '',
+        service: '',
+        smsConsent: false
+      })
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setHeroSubmitted(false)
+      }, 5000)
+    } catch (error) {
+      console.error('Form submission error:', error)
+      setHeroError(error instanceof Error ? error.message : 'Failed to send message. Please try again.')
+    } finally {
+      setHeroLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
 
       {/* === HERO SECTION === */}
-      <section className="relative bg-gradient-to-br from-blue-500 via-cyan-500 to-blue-600 text-white overflow-hidden">
-        {/* Background Pattern */}
+      <section className="relative bg-gradient-to-br from-purple-900 via-purple-800 to-purple-950 text-white overflow-hidden">
+        {/* Geometric Background Pattern */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(-45deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(-45deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:30px_30px]" />
         </div>
+        
+        {/* Decorative Elements */}
+        <div className="absolute top-20 right-10 w-72 h-72 bg-accent-gold/10 blur-3xl rounded-full" />
+        <div className="absolute bottom-20 left-10 w-96 h-96 bg-purple-600/20 blur-3xl rounded-full" />
         
         {/* Content Container */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-32">
@@ -24,18 +92,15 @@ export default function Home() {
             
             {/* Left Column - Text Content */}
             <div className="space-y-8">
-              {/* Trust Badge */}
+              {/* Badge */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20"
               >
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
-                  <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <span className="text-sm font-semibold text-white">4.6★ Rated on Google | 19 Reviews</span>
-                </div>
+                <div className="w-2 h-2 bg-accent-gold animate-pulse" />
+                <span className="text-xs font-bold text-white uppercase tracking-[0.2em]">15+ YEARS SERVING AUSTIN</span>
               </motion.div>
 
               {/* Main Headline */}
@@ -45,8 +110,9 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="space-y-4"
               >
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                  TRUSTED BATHROOM REMODELING COMPANY IN AUSTIN, TX
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold text-white leading-[1.1] uppercase tracking-tight">
+                  TRUSTED BATHROOM REMODELING
+                  <span className="block text-accent-gold mt-2">COMPANY IN AUSTIN</span>
                 </h1>
               </motion.div>
 
@@ -55,9 +121,9 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.35 }}
-                className="text-xl md:text-2xl text-white/90 font-normal leading-relaxed"
+                className="text-xl md:text-2xl text-white/90 font-light leading-relaxed"
               >
-                Austin's trusted experts in bathroom remodeling and premium flooring. Serving Austin, Round Rock, Cedar Park, Pflugerville, West Lake Hills, Bee Cave, and surrounding areas for over 15 years.
+                Austin's premier experts in bathroom remodeling and luxury flooring. Transform your space with quality craftsmanship and unmatched service.
               </motion.p>
 
               {/* CTA Buttons Row */}
@@ -69,19 +135,19 @@ export default function Home() {
               >
                 <a
                   href="tel:512-706-9577"
-                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-blue-600 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all duration-300 shadow-lg"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-accent-gold text-gray-900 font-bold text-lg hover:bg-accent-gold/90 transition-all duration-300 shadow-2xl hover:shadow-accent-gold/50 hover:-translate-y-1"
                 >
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                   </svg>
-                  Call Us Today: (512) 706-9577
+                  CALL: (512) 706-9577
                 </a>
                 
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-bold text-lg hover:bg-white hover:text-blue-500 transition-all duration-300"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border-2 border-white text-white font-bold text-lg hover:bg-white hover:text-purple-900 transition-all duration-300"
                 >
-                  Free Instant Estimate
+                  FREE ESTIMATE
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
@@ -95,63 +161,87 @@ export default function Home() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
-                className="p-8 rounded-xl bg-white/95 backdrop-blur-sm shadow-2xl"
+                className="p-8 bg-white shadow-2xl border-t-4 border-accent-gold"
               >
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">REQUEST AN APPOINTMENT ONLINE</h3>
-                <p className="text-sm text-gray-600 mb-6">Get your free quote today!</p>
+                <h3 className="text-2xl font-display font-extrabold text-gray-900 mb-2 uppercase">REQUEST FREE QUOTE</h3>
+                <p className="text-sm text-gray-600 mb-6 font-semibold">Get started on your dream bathroom today!</p>
                 
-                <form className="space-y-4">
+                {heroSubmitted && (
+                  <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
+                    Thank you for your request! We will contact you soon.
+                  </div>
+                )}
+
+                {heroError && (
+                  <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+                    {heroError}
+                  </div>
+                )}
+                
+                <form onSubmit={handleHeroSubmit} className="space-y-4">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="name" className="block text-sm font-bold text-gray-700 mb-1 uppercase tracking-wide">
                       Your Name *
                     </label>
                     <input
                       type="text"
                       id="name"
                       name="name"
+                      value={heroFormData.name}
+                      onChange={handleHeroChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                      disabled={heroLoading}
+                      className="w-full px-4 py-3 border-2 border-gray-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition disabled:bg-gray-100"
                       placeholder="Enter your name"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="phone" className="block text-sm font-bold text-gray-700 mb-1 uppercase tracking-wide">
                       Phone Number *
                     </label>
                     <input
                       type="tel"
                       id="phone"
                       name="phone"
+                      value={heroFormData.phone}
+                      onChange={handleHeroChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                      disabled={heroLoading}
+                      className="w-full px-4 py-3 border-2 border-gray-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition disabled:bg-gray-100"
                       placeholder="(512) 555-1234"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="email" className="block text-sm font-bold text-gray-700 mb-1 uppercase tracking-wide">
                       Email Address *
                     </label>
                     <input
                       type="email"
                       id="email"
                       name="email"
+                      value={heroFormData.email}
+                      onChange={handleHeroChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                      disabled={heroLoading}
+                      className="w-full px-4 py-3 border-2 border-gray-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition disabled:bg-gray-100"
                       placeholder="your@email.com"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-1">
-                      What type of service do you need? *
+                    <label htmlFor="service" className="block text-sm font-bold text-gray-700 mb-1 uppercase tracking-wide">
+                      Service Needed *
                     </label>
                     <select
                       id="service"
                       name="service"
+                      value={heroFormData.service}
+                      onChange={handleHeroChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition bg-white"
+                      disabled={heroLoading}
+                      className="w-full px-4 py-3 border-2 border-gray-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition bg-white disabled:bg-gray-100"
                     >
                       <option value="">Select a service...</option>
                       <option value="bathroom-remodel">Bathroom Remodeling</option>
@@ -169,8 +259,11 @@ export default function Home() {
                     <input
                       type="checkbox"
                       id="sms-consent"
-                      name="sms-consent"
-                      className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      name="smsConsent"
+                      checked={heroFormData.smsConsent}
+                      onChange={handleHeroChange}
+                      disabled={heroLoading}
+                      className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
                     />
                     <label htmlFor="sms-consent" className="ml-2 text-xs text-gray-600">
                       By checking this box, you agree to receive SMS messages about your appointment/job from Premier Bathroom Remodel. 
@@ -180,9 +273,10 @@ export default function Home() {
 
                   <button
                     type="submit"
-                    className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-cyan-600 text-white font-bold rounded-lg hover:from-blue-600 hover:to-cyan-700 transition-all duration-300 shadow-lg"
+                    disabled={heroLoading}
+                    className="w-full px-6 py-4 bg-gradient-to-r from-purple-700 to-purple-900 text-white font-bold uppercase tracking-wider hover:from-purple-600 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-2xl hover:-translate-y-1 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    Submit Request
+                    {heroLoading ? 'SUBMITTING...' : 'GET FREE QUOTE →'}
                   </button>
                 </form>
               </motion.div>
@@ -192,23 +286,35 @@ export default function Home() {
       </section>
 
       {/* === SCROLLING BANNER === */}
-      <section className="bg-gradient-to-r from-blue-500 to-cyan-600 text-white py-4 overflow-hidden">
+      <section className="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 text-white py-6 overflow-hidden border-y-4 border-accent-gold">
         <div className="whitespace-nowrap animate-scroll">
-          <span className="inline-block px-8 text-lg font-semibold">SERVING THE GREATER AUSTIN COMMUNITY FOR 15 YEARS</span>
-          <span className="inline-block px-8 text-lg font-semibold">SERVING THE GREATER AUSTIN COMMUNITY FOR 15 YEARS</span>
-          <span className="inline-block px-8 text-lg font-semibold">SERVING THE GREATER AUSTIN COMMUNITY FOR 15 YEARS</span>
-          <span className="inline-block px-8 text-lg font-semibold">SERVING THE GREATER AUSTIN COMMUNITY FOR 15 YEARS</span>
+          <span className="inline-block px-8 text-lg font-bold uppercase tracking-widest">★ SERVING AUSTIN FOR 15+ YEARS ★</span>
+          <span className="inline-block px-8 text-lg font-bold uppercase tracking-widest">★ LICENSED & INSURED ★</span>
+          <span className="inline-block px-8 text-lg font-bold uppercase tracking-widest">★ 100% SATISFACTION GUARANTEED ★</span>
+          <span className="inline-block px-8 text-lg font-bold uppercase tracking-widest">★ SERVING AUSTIN FOR 15+ YEARS ★</span>
+          <span className="inline-block px-8 text-lg font-bold uppercase tracking-widest">★ LICENSED & INSURED ★</span>
+          <span className="inline-block px-8 text-lg font-bold uppercase tracking-widest">★ 100% SATISFACTION GUARANTEED ★</span>
         </div>
       </section>
 
       {/* === WHY CHOOSE US SECTION === */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              WHY CHOOSE PREMIER BATHROOM REMODEL AUSTIN?
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 border-2 border-purple-900 mb-6"
+            >
+              <span className="text-xs font-bold text-purple-900 uppercase tracking-[0.2em]">Why Choose Us</span>
+            </motion.div>
+            
+            <h2 className="text-5xl md:text-6xl font-display font-extrabold text-gray-900 mb-6 uppercase leading-tight">
+              AUSTIN'S PREMIER<br/>
+              <span className="text-purple-800">REMODELING EXPERTS</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
               Need a trusted bathroom remodeling company for renovations, walk-in baths, or premium flooring? Our experienced team delivers quality, integrity, and reliable results.
             </p>
           </div>
@@ -224,17 +330,17 @@ export default function Home() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 }}
-                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+                className="bg-gradient-to-br from-purple-50 to-white p-8 border-l-4 border-purple-800 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg className="w-7 h-7 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                  <div className="w-16 h-16 bg-purple-800 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">LICENSED & INSURED</h3>
-                    <p className="text-gray-600 leading-relaxed">
+                    <h3 className="text-2xl font-display font-extrabold text-gray-900 mb-3 uppercase">LICENSED & INSURED</h3>
+                    <p className="text-gray-700 leading-relaxed font-medium">
                       Fully certified contractors with comprehensive insurance coverage and professional certifications. Your project is protected every step of the way.
                     </p>
                   </div>
@@ -247,17 +353,17 @@ export default function Home() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
-                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+                className="bg-gradient-to-br from-accent-gold/10 to-white p-8 border-l-4 border-accent-gold shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg className="w-7 h-7 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                  <div className="w-16 h-16 bg-accent-gold flex items-center justify-center flex-shrink-0">
+                    <svg className="w-8 h-8 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">ROOTED IN THE COMMUNITY</h3>
-                    <p className="text-gray-600 leading-relaxed">
+                    <h3 className="text-2xl font-display font-extrabold text-gray-900 mb-3 uppercase">15+ YEARS EXPERIENCE</h3>
+                    <p className="text-gray-700 leading-relaxed font-medium">
                       For over 15 years, we've provided exceptional bathroom remodeling and flooring services, earning hundreds of five-star reviews from Austin homeowners.
                     </p>
                   </div>
@@ -270,17 +376,17 @@ export default function Home() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 }}
-                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+                className="bg-gradient-to-br from-purple-50 to-white p-8 border-l-4 border-purple-800 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg className="w-7 h-7 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                  <div className="w-16 h-16 bg-purple-800 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">WE CARE ABOUT QUALITY</h3>
-                    <p className="text-gray-600 leading-relaxed">
+                    <h3 className="text-2xl font-display font-extrabold text-gray-900 mb-3 uppercase">PREMIUM QUALITY</h3>
+                    <p className="text-gray-700 leading-relaxed font-medium">
                       Unlike other remodeling companies, we never reuse materials or cut corners. Each project features premium materials, meticulous craftsmanship, and lasting durability.
                     </p>
                   </div>

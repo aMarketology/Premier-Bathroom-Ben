@@ -30,11 +30,7 @@ export default function Navigation() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-white/90 backdrop-blur-lg shadow-lg'
-          : 'bg-transparent'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white shadow-lg`}
     >
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
@@ -43,8 +39,8 @@ export default function Navigation() {
               whileHover={{ scale: 1.05 }}
               className="flex items-center"
             >
-              <div className={`text-2xl font-bold ${scrolled ? 'text-slate-900' : 'text-white'}`}>
-                <span className={scrolled ? 'text-blue-600' : 'text-blue-400'}>Premier Bathroom</span> Remodel Austin
+              <div className="text-2xl font-bold text-slate-900">
+                <span className="text-blue-600">Premier Bathroom</span> Remodel Austin
               </div>
             </motion.div>
           </Link>
@@ -58,11 +54,7 @@ export default function Navigation() {
             >
               <Link
                 href="/"
-                className={`font-medium transition-colors relative group ${
-                  scrolled
-                    ? 'text-gray-700 hover:text-blue-600'
-                    : 'text-white hover:text-blue-400'
-                }`}
+                className="font-medium transition-colors relative group text-gray-700 hover:text-blue-600"
               >
                 Home
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full" />
@@ -79,11 +71,7 @@ export default function Navigation() {
               onMouseLeave={() => setServicesOpen(false)}
             >
               <button
-                className={`font-medium transition-colors relative group flex items-center gap-1 ${
-                  scrolled
-                    ? 'text-gray-700 hover:text-blue-600'
-                    : 'text-white hover:text-blue-400'
-                }`}
+                className="font-medium transition-colors relative group flex items-center gap-1 text-gray-700 hover:text-blue-600"
               >
                 Services
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -124,11 +112,7 @@ export default function Navigation() {
               >
                 <Link
                   href={`/${item.toLowerCase()}`}
-                  className={`font-medium transition-colors relative group ${
-                    scrolled
-                      ? 'text-gray-700 hover:text-blue-600'
-                      : 'text-white hover:text-blue-400'
-                  }`}
+                  className="font-medium transition-colors relative group text-gray-700 hover:text-blue-600"
                 >
                   {item}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full" />
@@ -137,11 +121,7 @@ export default function Navigation() {
             ))}
             <Link
               href="/contact"
-              className={`font-semibold px-6 py-2 rounded-lg transition-all ${
-                scrolled
-                  ? 'bg-blue-600 text-white hover:bg-blue-700'
-                  : 'bg-blue-500 text-white hover:bg-blue-600'
-              }`}
+              className="font-semibold px-6 py-2 rounded-lg transition-all bg-blue-600 text-white hover:bg-blue-700"
             >
               Free Quote
             </Link>
@@ -154,26 +134,20 @@ export default function Navigation() {
             whileTap={{ scale: 0.9 }}
           >
             <motion.div
-              className={`w-6 h-0.5 transition-all ${
-                scrolled ? 'bg-gray-900' : 'bg-white'
-              }`}
+              className="w-6 h-0.5 transition-all bg-gray-900"
               animate={{
                 rotate: mobileMenuOpen ? 45 : 0,
                 y: mobileMenuOpen ? 8 : 0,
               }}
             />
             <motion.div
-              className={`w-6 h-0.5 transition-all ${
-                scrolled ? 'bg-gray-900' : 'bg-white'
-              }`}
+              className="w-6 h-0.5 transition-all bg-gray-900"
               animate={{
                 opacity: mobileMenuOpen ? 0 : 1,
               }}
             />
             <motion.div
-              className={`w-6 h-0.5 transition-all ${
-                scrolled ? 'bg-gray-900' : 'bg-white'
-              }`}
+              className="w-6 h-0.5 transition-all bg-gray-900"
               animate={{
                 rotate: mobileMenuOpen ? -45 : 0,
                 y: mobileMenuOpen ? -8 : 0,

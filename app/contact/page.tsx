@@ -12,6 +12,8 @@ export default function Contact() {
     message: ''
   })
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -23,11 +25,31 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Send form data to server
-    console.log('Form submitted:', formData)
-    setSubmitted(true)
-    setFormData({ name: '', email: '', phone: '', message: '' })
-    setTimeout(() => setSubmitted(false), 5000)
+    setLoading(true)
+    setError('')
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form')
+      }
+
+      setSubmitted(true)
+      setFormData({ name: '', email: '', phone: '', message: '' })
+      setTimeout(() => setSubmitted(false), 5000)
+    } catch (err) {
+      setError('Failed to submit form. Please try again or call us directly.')
+      console.error('Form submission error:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -145,6 +167,12 @@ export default function Contact() {
               </div>
             )}
 
+            {error && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded">
+                {error}
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
@@ -157,8 +185,9 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   required
+                  disabled={loading}
                   placeholder="John Doe"
-                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
                 />
               </div>
 
@@ -173,8 +202,9 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  disabled={loading}
                   placeholder="john@example.com"
-                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
                 />
               </div>
 
@@ -189,8 +219,9 @@ export default function Contact() {
                   value={formData.phone}
                   onChange={handleChange}
                   required
+                  disabled={loading}
                   placeholder="512-706-9577"
-                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
                 />
               </div>
 
@@ -203,17 +234,19 @@ export default function Contact() {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
+                  disabled={loading}
                   placeholder="Tell us about your bathroom remodel or flooring project..."
                   rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none disabled:bg-gray-100"
                 ></textarea>
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded transition transform hover:-translate-y-1"
+                disabled={loading}
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded transition transform hover:-translate-y-1 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none"
               >
-                Request Free Quote
+                {loading ? 'Sending...' : 'Request Free Quote'}
               </button>
             </form>
           </div>
