@@ -34,3 +34,33 @@ html {
   animation: scroll 20s linear infinite;
 }
 
+/* Flying Images Animations - 3 Rows */
+@keyframes slide-right {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slide-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-slide-right {
+  animation: slide-right 90s linear infinite;
+}
+
+.animate-slide-left {
+  animation: slide-left 100s linear infinite;
+}
+
+.animate-slide-right-slow {
+  animation: slide-right 110s linear infinite;
+}

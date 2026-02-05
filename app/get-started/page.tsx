@@ -1,56 +1,39 @@
 'use client'
 
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useRef, MouseEvent } from 'react'
-import Navigation from './components/Navigation'
-import Footer from './components/Footer'
+import { useState } from 'react'
+import Navigation from '../components/Navigation'
+import Footer from '../components/Footer'
 
-// Gallery images with project details
-const galleryImages = [
-  { src: '/IMG_0387 Ben.jpeg', title: 'Modern Bathroom Remodel', location: 'Austin, TX', type: 'Full Renovation' },
-  { src: '/IMG_1412 Ben.jpeg', title: 'Luxury Shower Installation', location: 'Round Rock, TX', type: 'Shower Remodel' },
-  { src: '/IMG_1551 Ben.jpeg', title: 'Custom Tile Work', location: 'Cedar Park, TX', type: 'Tile Design' },
-  { src: '/IMG_2305 Ben.jpeg', title: 'Contemporary Bathroom', location: 'Pflugerville, TX', type: 'Complete Remodel' },
-  { src: '/IMG_2324 Ben.jpeg', title: 'Walk-in Bath Installation', location: 'West Lake Hills, TX', type: 'Accessibility' },
-  { src: '/IMG_2329 Ben.jpeg', title: 'Premium Flooring', location: 'Austin, TX', type: 'Flooring Install' },
-  { src: '/IMG_2596 Ben.jpeg', title: 'Elegant Master Bath', location: 'Bee Cave, TX', type: 'Master Suite' },
-  { src: '/IMG_5970 Ben.jpeg', title: 'Spa-Style Shower', location: 'Lakeway, TX', type: 'Luxury Shower' },
-  { src: '/IMG_6283 Ben.jpeg', title: 'Modern Vanity Design', location: 'Georgetown, TX', type: 'Vanity Install' },
-  { src: '/IMG_7767 Ben.jpeg', title: 'Hardwood Flooring', location: 'Leander, TX', type: 'Premium Floors' },
-  { src: '/IMG_8122 Ben.jpeg', title: 'Bathroom Transformation', location: 'Kyle, TX', type: 'Full Remodel' },
-  { src: '/IMG_2849 Ben v.jpeg', title: 'Custom Bathroom', location: 'Dripping Springs, TX', type: 'Custom Design' },
-]
-
-// Quick Contact Form Component
-function QuickContactForm() {
-  const [formData, setFormData] = useState({
+export default function GetStarted() {
+  const [heroFormData, setHeroFormData] = useState({
     name: '',
     phone: '',
     email: '',
     service: '',
     smsConsent: false
   })
-  const [loading, setLoading] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
-  const [error, setError] = useState('')
+  const [heroLoading, setHeroLoading] = useState(false)
+  const [heroSubmitted, setHeroSubmitted] = useState(false)
+  const [heroError, setHeroError] = useState('')
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleHeroChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const target = e.target
     const value = target.type === 'checkbox' ? (target as HTMLInputElement).checked : target.value
     const name = target.name
 
-    setFormData(prev => ({
+    setHeroFormData(prev => ({
       ...prev,
       [name]: value
     }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleHeroSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
-    setError('')
+    setHeroLoading(true)
+    setHeroError('')
 
     try {
       const response = await fetch('/api/contact', {
@@ -59,7 +42,7 @@ function QuickContactForm() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...formData,
+          ...heroFormData,
           pageUrl: window.location.href
         }),
       })
@@ -70,8 +53,8 @@ function QuickContactForm() {
         throw new Error(data.error || 'Something went wrong')
       }
 
-      setSubmitted(true)
-      setFormData({
+      setHeroSubmitted(true)
+      setHeroFormData({
         name: '',
         phone: '',
         email: '',
@@ -79,395 +62,241 @@ function QuickContactForm() {
         smsConsent: false
       })
       
+      // Reset success message after 5 seconds
       setTimeout(() => {
-        setSubmitted(false)
+        setHeroSubmitted(false)
       }, 5000)
     } catch (error) {
       console.error('Form submission error:', error)
-      setError(error instanceof Error ? error.message : 'Failed to send message. Please try again.')
+      setHeroError(error instanceof Error ? error.message : 'Failed to send message. Please try again.')
     } finally {
-      setLoading(false)
+      setHeroLoading(false)
     }
   }
 
   return (
-    <section className="py-24 bg-gradient-to-br from-gray-900 via-blue-950 to-cyan-950">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          
-          {/* Left Side - Text Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-white space-y-6"
-          >
-            <div className="inline-block px-4 py-2 bg-blue-500/20 border border-blue-400/30 rounded-full">
-              <span className="text-sm font-bold uppercase tracking-wider">Get Started Today</span>
-            </div>
-            
-            <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-              Ready to Transform<br/>
-              <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                Your Bathroom?
-              </span>
-            </h2>
-            
-            <p className="text-xl text-gray-300">
-              Fill out the form and our expert team will contact you within 24 hours with a free, no-obligation quote.
-            </p>
-
-            <div className="space-y-4 pt-4">
-              {[
-                { icon: '✓', text: 'Free In-Home Consultation' },
-                { icon: '✓', text: 'Transparent Pricing' },
-                { icon: '✓', text: 'Licensed & Insured' },
-                { icon: '✓', text: 'Quality Guaranteed' },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400 font-bold">
-                    {item.icon}
-                  </div>
-                  <span className="text-lg">{item.text}</span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Right Side - Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl"
-          >
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Request Your Free Quote</h3>
-            <p className="text-gray-600 mb-6">Get started on your dream bathroom today!</p>
-            
-            {submitted && (
-              <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
-                Thank you! We'll contact you soon.
-              </div>
-            )}
-
-            {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
-                {error}
-              </div>
-            )}
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="form-name" className="block text-sm font-bold text-gray-700 mb-1">
-                  Your Name *
-                </label>
-                <input
-                  type="text"
-                  id="form-name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  disabled={loading}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition disabled:bg-gray-100"
-                  placeholder="Enter your name"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="form-phone" className="block text-sm font-bold text-gray-700 mb-1">
-                  Phone Number *
-                </label>
-                <input
-                  type="tel"
-                  id="form-phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  disabled={loading}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition disabled:bg-gray-100"
-                  placeholder="(512) 555-1234"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="form-email" className="block text-sm font-bold text-gray-700 mb-1">
-                  Email Address *
-                </label>
-                <input
-                  type="email"
-                  id="form-email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  disabled={loading}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition disabled:bg-gray-100"
-                  placeholder="your@email.com"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="form-service" className="block text-sm font-bold text-gray-700 mb-1">
-                  Service Needed *
-                </label>
-                <select
-                  id="form-service"
-                  name="service"
-                  value={formData.service}
-                  onChange={handleChange}
-                  required
-                  disabled={loading}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition bg-white disabled:bg-gray-100"
-                >
-                  <option value="">Select a service...</option>
-                  <option value="bathroom-remodel">Bathroom Remodeling</option>
-                  <option value="shower-remodel">Shower Remodel</option>
-                  <option value="walk-in-bath">Walk-in Bath</option>
-                  <option value="tub-conversion">Tub to Shower Conversion</option>
-                  <option value="flooring">Premium Flooring</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-
-              <div className="flex items-start">
-                <input
-                  type="checkbox"
-                  id="form-sms-consent"
-                  name="smsConsent"
-                  checked={formData.smsConsent}
-                  onChange={handleChange}
-                  disabled={loading}
-                  className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
-                />
-                <label htmlFor="form-sms-consent" className="ml-2 text-xs text-gray-600">
-                  I agree to receive SMS messages. Reply STOP to opt-out.
-                </label>
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold rounded-lg hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 shadow-lg hover:shadow-xl disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed"
-              >
-                {loading ? 'SUBMITTING...' : 'GET FREE QUOTE →'}
-              </button>
-            </form>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-export default function Home() {
-  const [activeImage, setActiveImage] = useState<number | null>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-  
-  const smoothMouseX = useSpring(mouseX, { damping: 30, stiffness: 200 })
-  const smoothMouseY = useSpring(mouseY, { damping: 30, stiffness: 200 })
-
-  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return
-    const rect = containerRef.current.getBoundingClientRect()
-    mouseX.set(e.clientX - rect.left)
-    mouseY.set(e.clientY - rect.top)
-  }
-
-  return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-white">
       <Navigation />
 
-      {/* === ADVANCED INTERACTIVE HERO SECTION === */}
-      <section 
-        ref={containerRef}
-        onMouseMove={handleMouseMove}
-        className="relative min-h-screen bg-gradient-to-br from-blue-950 via-blue-900 to-black text-white overflow-hidden"
-      >
-        {/* Flying Images Background - 3 Rows on Desktop, Hidden on Mobile */}
-        <div className="hidden md:block absolute inset-0 opacity-40">
-          {/* Row 1 - Moving Right */}
-          <div className="absolute top-[15%] md:top-[15%] left-0 flex gap-8 animate-slide-right group/row1">
-            {[...galleryImages, ...galleryImages].map((image, index) => (
-              <div key={`row1-${index}`} className="relative w-80 h-64 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:scale-110 hover:z-10 hover:[animation-play-state:paused] group-hover/row1:[animation-play-state:paused]">
-                <Image
-                  src={image.src}
-                  alt={image.title}
-                  fill
-                  className="object-cover"
-                  sizes="320px"
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Row 2 - Moving Left */}
-          <div className="absolute top-[55%] md:top-[45%] left-0 flex gap-8 animate-slide-left group/row2">
-            {[...galleryImages, ...galleryImages].slice().reverse().map((image, index) => (
-              <div key={`row2-${index}`} className="relative w-80 h-64 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:scale-110 hover:z-10 hover:[animation-play-state:paused] group-hover/row2:[animation-play-state:paused]">
-                <Image
-                  src={image.src}
-                  alt={image.title}
-                  fill
-                  className="object-cover"
-                  sizes="320px"
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Row 3 - Moving Right (Desktop Only) */}
-          <div className="absolute top-[75%] left-0 flex gap-8 animate-slide-right-slow group/row3">
-            {[...galleryImages, ...galleryImages].map((image, index) => (
-              <div key={`row3-${index}`} className="relative w-80 h-64 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:scale-110 hover:z-10 hover:[animation-play-state:paused] group-hover/row3:[animation-play-state:paused]">
-                <Image
-                  src={image.src}
-                  alt={image.title}
-                  fill
-                  className="object-cover"
-                  sizes="320px"
-                />
-              </div>
-            ))}
-          </div>
+      {/* === HERO SECTION === */}
+      <section className="relative bg-gradient-to-br from-purple-900 via-purple-800 to-purple-950 text-white overflow-hidden">
+        {/* Geometric Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(-45deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:30px_30px]" />
         </div>
-
-        {/* Gradient Overlay - Clear at 75% from left, darker on left */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-950/98 via-blue-900/80 via-75% to-transparent" />
         
-        {/* Animated gradient orbs - More Blue */}
-        <motion.div
-          style={{
-            x: useTransform(smoothMouseX, [0, 1000], [-50, 50]),
-            y: useTransform(smoothMouseY, [0, 1000], [-50, 50]),
-          }}
-          className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/30 blur-3xl rounded-full"
-        />
-        <motion.div
-          style={{
-            x: useTransform(smoothMouseX, [0, 1000], [50, -50]),
-            y: useTransform(smoothMouseY, [0, 1000], [50, -50]),
-          }}
-          className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-600/30 blur-3xl rounded-full"
-        />
+        {/* Decorative Elements */}
+        <div className="absolute top-20 right-10 w-72 h-72 bg-accent-gold/10 blur-3xl rounded-full" />
+        <div className="absolute bottom-20 left-10 w-96 h-96 bg-purple-600/20 blur-3xl rounded-full" />
         
-        {/* Main Content Container - Centered on Mobile, Left on Desktop */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-20">
-          
-          {/* Header Text - Centered on Mobile, Left on Desktop */}
-          <div className="text-center md:text-left max-w-2xl mx-auto md:mx-0">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="space-y-6"
-            >
-              <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full mb-6">
-                <div className="w-2 h-2 bg-accent-gold animate-pulse rounded-full" />
-                <span className="text-sm font-bold text-white uppercase tracking-[0.2em]">15+ Years Serving Texas</span>
-              </div>
-              
-              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-black text-white leading-[0.95] uppercase">
-                Premier Bathroom<br/>
-                <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                  Remodeling
-                </span>
-                <br/>
-                <span className="text-accent-gold">In Texas</span>
-              </h1>
-              
-              <p className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-xl mx-auto md:mx-0 font-light">
-                Transform your space with award-winning craftsmanship. Explore our latest projects.
-              </p>
-            </motion.div>
-          </div>
-
-          {/* CTA Buttons - Centered on Mobile, Left on Desktop */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 mt-12 justify-center md:justify-start"
-          >
-            <a
-              href="tel:512-706-9577"
-              className="inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold text-base sm:text-lg rounded-full hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 shadow-2xl hover:shadow-blue-500/50 hover:-translate-y-1"
-            >
-              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-              </svg>
-              CALL: (512) 706-9577
-            </a>
+        {/* Content Container */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-32">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-accent-gold text-gray-900 font-bold text-base sm:text-lg rounded-full hover:bg-accent-gold/90 transition-all duration-300 shadow-2xl hover:shadow-accent-gold/50 hover:-translate-y-1"
-            >
-              GET FREE ESTIMATE
-              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </Link>
-          </motion.div>
+            {/* Left Column - Text Content */}
+            <div className="space-y-8">
+              {/* Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20"
+              >
+                <div className="w-2 h-2 bg-accent-gold animate-pulse" />
+                <span className="text-xs font-bold text-white uppercase tracking-[0.2em]">15+ YEARS SERVING AUSTIN</span>
+              </motion.div>
 
-          {/* Featured Images - Mobile Only */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="md:hidden grid grid-cols-3 gap-4 mt-12 max-w-2xl mx-auto"
-          >
-            {galleryImages.slice(0, 3).map((image, index) => (
-              <div key={index} className="relative aspect-[4/5] rounded-xl overflow-hidden shadow-2xl">
-                <Image
-                  src={image.src}
-                  alt={image.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 33vw, 0px"
-                />
-              </div>
-            ))}
-          </motion.div>
-        </div>
+              {/* Main Headline */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="space-y-4"
+              >
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold text-white leading-[1.1] uppercase tracking-tight">
+                  TRUSTED BATHROOM REMODELING
+                  <span className="block text-accent-gold mt-2">COMPANY IN AUSTIN</span>
+                </h1>
+              </motion.div>
 
-        {/* Floating cursor follower for extra interactivity - Desktop Only */}
-        {activeImage !== null && (
-          <motion.div
-            style={{
-              x: smoothMouseX,
-              y: smoothMouseY,
-            }}
-            className="hidden md:block absolute pointer-events-none z-50 -translate-x-1/2 -translate-y-1/2"
-          >
-            <div className="w-32 h-32 rounded-full bg-blue-500/20 backdrop-blur-md border-2 border-blue-400/50 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">VIEW</span>
+              {/* Tagline */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.35 }}
+                className="text-xl md:text-2xl text-white/90 font-light leading-relaxed"
+              >
+                Austin's premier experts in bathroom remodeling and luxury flooring. Transform your space with quality craftsmanship and unmatched service.
+              </motion.p>
+
+              {/* CTA Buttons Row */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="flex flex-col sm:flex-row gap-4 pt-4"
+              >
+                <a
+                  href="tel:512-706-9577"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-accent-gold text-gray-900 font-bold text-lg hover:bg-accent-gold/90 transition-all duration-300 shadow-2xl hover:shadow-accent-gold/50 hover:-translate-y-1"
+                >
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                  </svg>
+                  CALL: (512) 706-9577
+                </a>
+                
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border-2 border-white text-white font-bold text-lg hover:bg-white hover:text-purple-900 transition-all duration-300"
+                >
+                  FREE ESTIMATE
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Link>
+              </motion.div>
             </div>
-          </motion.div>
-        )}
+
+            {/* Right Column - Contact Form */}
+            <div className="space-y-4">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+                className="p-8 bg-white shadow-2xl border-t-4 border-accent-gold"
+              >
+                <h3 className="text-2xl font-display font-extrabold text-gray-900 mb-2 uppercase">REQUEST FREE QUOTE</h3>
+                <p className="text-sm text-gray-600 mb-6 font-semibold">Get started on your dream bathroom today!</p>
+                
+                {heroSubmitted && (
+                  <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
+                    Thank you for your request! We will contact you soon.
+                  </div>
+                )}
+
+                {heroError && (
+                  <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+                    {heroError}
+                  </div>
+                )}
+                
+                <form onSubmit={handleHeroSubmit} className="space-y-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-bold text-gray-700 mb-1 uppercase tracking-wide">
+                      Your Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={heroFormData.name}
+                      onChange={handleHeroChange}
+                      required
+                      disabled={heroLoading}
+                      className="w-full px-4 py-3 border-2 border-gray-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition disabled:bg-gray-100"
+                      placeholder="Enter your name"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-bold text-gray-700 mb-1 uppercase tracking-wide">
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={heroFormData.phone}
+                      onChange={handleHeroChange}
+                      required
+                      disabled={heroLoading}
+                      className="w-full px-4 py-3 border-2 border-gray-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition disabled:bg-gray-100"
+                      placeholder="(512) 555-1234"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-bold text-gray-700 mb-1 uppercase tracking-wide">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={heroFormData.email}
+                      onChange={handleHeroChange}
+                      required
+                      disabled={heroLoading}
+                      className="w-full px-4 py-3 border-2 border-gray-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition disabled:bg-gray-100"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="service" className="block text-sm font-bold text-gray-700 mb-1 uppercase tracking-wide">
+                      Service Needed *
+                    </label>
+                    <select
+                      id="service"
+                      name="service"
+                      value={heroFormData.service}
+                      onChange={handleHeroChange}
+                      required
+                      disabled={heroLoading}
+                      className="w-full px-4 py-3 border-2 border-gray-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition bg-white disabled:bg-gray-100"
+                    >
+                      <option value="">Select a service...</option>
+                      <option value="bathroom-remodel">Bathroom Remodeling</option>
+                      <option value="shower-remodel">Shower Remodel</option>
+                      <option value="walk-in-bath">Walk-in Bath</option>
+                      <option value="tub-conversion">Tub to Shower Conversion</option>
+                      <option value="tub-shower-combo">Tub & Shower Combo</option>
+                      <option value="flooring">Premium Flooring</option>
+                      <option value="accessibility">Safety & Accessibility</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div className="flex items-start">
+                    <input
+                      type="checkbox"
+                      id="sms-consent"
+                      name="smsConsent"
+                      checked={heroFormData.smsConsent}
+                      onChange={handleHeroChange}
+                      disabled={heroLoading}
+                      className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
+                    />
+                    <label htmlFor="sms-consent" className="ml-2 text-xs text-gray-600">
+                      By checking this box, you agree to receive SMS messages about your appointment/job from Premier Bathroom Remodel. 
+                      You may reply STOP to opt-out at any time. Message frequency may vary.
+                    </label>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={heroLoading}
+                    className="w-full px-6 py-4 bg-gradient-to-r from-purple-700 to-purple-900 text-white font-bold uppercase tracking-wider hover:from-purple-600 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-2xl hover:-translate-y-1 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:transform-none"
+                  >
+                    {heroLoading ? 'SUBMITTING...' : 'GET FREE QUOTE →'}
+                  </button>
+                </form>
+              </motion.div>
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* === QUICK CONTACT FORM SECTION === */}
-      <QuickContactForm />
-
-      {/* === REVIEWS SECTION === */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
-              What Our Customers Say
-            </h2>
-            <p className="text-xl text-gray-600">
-              Real reviews from real customers
-            </p>
-          </div>
-          <div className="elfsight-app-395835fd-a621-4c6a-a692-0e93c62fcec9" data-elfsight-app-lazy></div>
+      {/* === SCROLLING BANNER === */}
+      <section className="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 text-white py-6 overflow-hidden border-y-4 border-accent-gold">
+        <div className="whitespace-nowrap animate-scroll">
+          <span className="inline-block px-8 text-lg font-bold uppercase tracking-widest">★ SERVING AUSTIN FOR 15+ YEARS ★</span>
+          <span className="inline-block px-8 text-lg font-bold uppercase tracking-widest">★ LICENSED & INSURED ★</span>
+          <span className="inline-block px-8 text-lg font-bold uppercase tracking-widest">★ 100% SATISFACTION GUARANTEED ★</span>
+          <span className="inline-block px-8 text-lg font-bold uppercase tracking-widest">★ SERVING AUSTIN FOR 15+ YEARS ★</span>
+          <span className="inline-block px-8 text-lg font-bold uppercase tracking-widest">★ LICENSED & INSURED ★</span>
+          <span className="inline-block px-8 text-lg font-bold uppercase tracking-widest">★ 100% SATISFACTION GUARANTEED ★</span>
         </div>
       </section>
 

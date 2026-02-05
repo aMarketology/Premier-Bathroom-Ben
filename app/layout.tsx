@@ -82,6 +82,8 @@ export default function RootLayout({
         <meta name="theme-color" content="#2563eb" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        {/* Elfsight All-in-One Reviews */}
+        <script src="https://elfsightcdn.com/platform.js" async></script>
       </head>
       <body>
         {children}
