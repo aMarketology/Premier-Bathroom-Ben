@@ -31,7 +31,7 @@ export default function Contact() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col font-sans">
       <Navigation />
 
       {/* Page Header */}
