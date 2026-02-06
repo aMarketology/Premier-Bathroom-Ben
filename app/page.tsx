@@ -4,23 +4,8 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useRef, useEffect, MouseEvent } from 'react'
-import dynamic from 'next/dynamic'
 import Navigation from './components/Navigation'
 import Footer from './components/Footer'
-
-// Dynamic import for client-only components
-const ReviewsWidget = dynamic(() => import('./components/ReviewsWidget'), {
-  ssr: false,
-  loading: () => (
-    <div className="py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center">
-          <div className="text-gray-500">Loading reviews...</div>
-        </div>
-      </div>
-    </div>
-  )
-})
 
 // Gallery images with project details
 const galleryImages = [
@@ -470,9 +455,6 @@ export default function Home() {
 
       {/* === QUICK CONTACT FORM SECTION === */}
       <QuickContactForm />
-
-      {/* === REVIEWS SECTION === */}
-      <ReviewsWidget />
 
       {/* === WHY CHOOSE US SECTION === */}
       <section className="py-24 bg-white">

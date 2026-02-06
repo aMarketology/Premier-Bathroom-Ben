@@ -36,7 +36,7 @@ export default function Navigation() {
                 whileHover={{ scale: 1.05 }}
                 className="flex items-center"
               >
-                <div className={`text-2xl font-bold ${scrolled ? 'text-slate-900' : 'text-white'}`}>
+                <div className={`text-lg font-bold ${scrolled ? 'text-slate-900' : 'text-white'}`}>
                   <span className={scrolled ? 'text-blue-600' : 'text-blue-400'}>Premier Bathroom</span>
                   <span className={scrolled ? 'text-black' : 'text-white'}> Remodel Austin</span>
                 </div>
@@ -69,8 +69,8 @@ export default function Navigation() {
                 href="/contact"
                 className={`font-semibold px-6 py-2 rounded-lg transition-all ${
                   scrolled
-                    ? 'bg-purple-600 text-white hover:bg-purple-700'
-                    : 'bg-purple-500 text-white hover:bg-purple-600'
+                    ? 'bg-gray-300 text-gray-800 hover:bg-gray-400'
+                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
                 }`}
               >
                 Free Quote
@@ -92,7 +92,7 @@ export default function Navigation() {
                 whileHover={{ scale: 1.05 }}
                 className="flex items-center"
               >
-                <div className="text-2xl font-bold text-slate-900">
+                <div className="text-lg font-bold text-slate-900">
                   <span className="text-blue-600">Premier Bathroom</span>
                   <span className="text-black"> Remodel Austin</span>
                 </div>
@@ -159,7 +159,7 @@ export default function Navigation() {
               <div className="px-4 pt-2">
                 <Link
                   href="/contact"
-                  className="block w-full bg-purple-600 hover:bg-purple-700 text-white text-center font-semibold px-6 py-3 rounded-lg transition"
+                  className="block w-full bg-gray-300 hover:bg-gray-400 text-gray-800 text-center font-semibold px-6 py-3 rounded-lg transition"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Free Quote
