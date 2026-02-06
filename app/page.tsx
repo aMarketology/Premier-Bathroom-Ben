@@ -3,9 +3,24 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useRef, MouseEvent } from 'react'
+import { useState, useRef, useEffect, MouseEvent } from 'react'
+import dynamic from 'next/dynamic'
 import Navigation from './components/Navigation'
 import Footer from './components/Footer'
+
+// Dynamic import for client-only components
+const ReviewsWidget = dynamic(() => import('./components/ReviewsWidget'), {
+  ssr: false,
+  loading: () => (
+    <div className="py-16 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="text-center">
+          <div className="text-gray-500">Loading reviews...</div>
+        </div>
+      </div>
+    </div>
+  )
+})
 
 // Gallery images with project details
 const galleryImages = [
@@ -407,7 +422,7 @@ export default function Home() {
             
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-accent-gold text-gray-900 font-bold text-base sm:text-lg rounded-full hover:bg-accent-gold/90 transition-all duration-300 shadow-2xl hover:shadow-accent-gold/50 hover:-translate-y-1"
+              className="inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-white text-blue-600 font-bold text-base sm:text-lg rounded-full hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:shadow-white/50 hover:-translate-y-1"
             >
               GET FREE ESTIMATE
               <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -457,19 +472,7 @@ export default function Home() {
       <QuickContactForm />
 
       {/* === REVIEWS SECTION === */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
-              What Our Customers Say
-            </h2>
-            <p className="text-xl text-gray-600">
-              Real reviews from real customers
-            </p>
-          </div>
-          <div className="elfsight-app-395835fd-a621-4c6a-a692-0e93c62fcec9" data-elfsight-app-lazy></div>
-        </div>
-      </section>
+      <ReviewsWidget />
 
       {/* === WHY CHOOSE US SECTION === */}
       <section className="py-24 bg-white">
