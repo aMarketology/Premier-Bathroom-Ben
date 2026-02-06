@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
         Messages: [
           {
             From: {
-              Email: notificationEmail2,
+              Email: "info@amarketology.com",
               Name: "Champs Tile Website"
             },
             To: [
