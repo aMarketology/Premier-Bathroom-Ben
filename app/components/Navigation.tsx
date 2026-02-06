@@ -19,15 +19,11 @@ export default function Navigation() {
 
   return (
     <>
-      {/* Desktop Navigation - Only shows on scroll */}
+      {/* Desktop Navigation - Always visible with transparent background */}
       <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: scrolled ? 0 : -100 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 hidden md:block ${
-          scrolled
-            ? 'bg-white/90 backdrop-blur-lg shadow-lg'
-            : 'bg-transparent'
-        }`}
+        initial={{ y: 0 }}
+        animate={{ y: 0 }}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 hidden md:block"
       >
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
@@ -36,9 +32,9 @@ export default function Navigation() {
                 whileHover={{ scale: 1.05 }}
                 className="flex items-center"
               >
-                <div className={`text-lg font-bold ${scrolled ? 'text-slate-900' : 'text-white'}`}>
-                  <span className={scrolled ? 'text-blue-600' : 'text-blue-400'}>Premier Bathroom</span>
-                  <span className={scrolled ? 'text-black' : 'text-white'}> Remodel Austin</span>
+                <div className="text-lg font-bold">
+                  <span className="text-blue-400">Premier Bathroom</span>
+                  <span className="text-white"> Remodel Austin</span>
                 </div>
               </motion.div>
             </Link>
@@ -54,24 +50,16 @@ export default function Navigation() {
                 >
                   <Link
                     href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-                    className={`font-medium transition-colors relative group ${
-                      scrolled
-                        ? 'text-gray-700 hover:text-purple-600'
-                        : 'text-white hover:text-purple-400'
-                    }`}
+                    className="font-medium text-white hover:text-blue-400 transition-colors relative group"
                   >
                     {item}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-500 transition-all group-hover:w-full" />
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-400 transition-all group-hover:w-full" />
                   </Link>
                 </motion.div>
               ))}
               <Link
                 href="/contact"
-                className={`font-semibold px-6 py-2 rounded-lg transition-all ${
-                  scrolled
-                    ? 'bg-gray-300 text-gray-800 hover:bg-gray-400'
-                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                }`}
+                className="font-semibold px-6 py-2 bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-lg transition-all"
               >
                 Free Quote
               </Link>

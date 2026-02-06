@@ -37,7 +37,7 @@ html {
 /* Flying Images Animations - 3 Rows */
 @keyframes slide-right {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
   100% {
     transform: translateX(0%);
@@ -46,7 +46,7 @@ html {
 
 @keyframes slide-left {
   0% {
-    transform: translateX(0%);
+    transform: translateX(-50%);
   }
   100% {
     transform: translateX(-100%);

@@ -293,8 +293,8 @@ export default function Home() {
         {/* Flying Images Background - 3 Rows on Desktop, Hidden on Mobile */}
         <div className="hidden md:block absolute inset-0 opacity-40">
           {/* Row 1 - Moving Right */}
-          <div className="absolute top-[15%] md:top-[15%] left-0 flex gap-8 animate-slide-right group/row1">
-            {[...galleryImages, ...galleryImages].map((image, index) => (
+          <div className="absolute top-[3%] md:top-[3%] left-0 flex gap-8 animate-slide-right group/row1">
+            {[...galleryImages, ...galleryImages, ...galleryImages, ...galleryImages].map((image, index) => (
               <div key={`row1-${index}`} className="relative w-80 h-64 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:scale-110 hover:z-10 hover:[animation-play-state:paused] group-hover/row1:[animation-play-state:paused]">
                 <Image
                   src={image.src}
@@ -308,8 +308,8 @@ export default function Home() {
           </div>
 
           {/* Row 2 - Moving Left */}
-          <div className="absolute top-[55%] md:top-[45%] left-0 flex gap-8 animate-slide-left group/row2">
-            {[...galleryImages, ...galleryImages].slice().reverse().map((image, index) => (
+          <div className="absolute top-[36%] md:top-[36%] left-0 flex gap-8 animate-slide-left group/row2">
+            {[...galleryImages, ...galleryImages, ...galleryImages, ...galleryImages].slice().reverse().map((image, index) => (
               <div key={`row2-${index}`} className="relative w-80 h-64 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:scale-110 hover:z-10 hover:[animation-play-state:paused] group-hover/row2:[animation-play-state:paused]">
                 <Image
                   src={image.src}
@@ -323,8 +323,8 @@ export default function Home() {
           </div>
 
           {/* Row 3 - Moving Right (Desktop Only) */}
-          <div className="absolute top-[75%] left-0 flex gap-8 animate-slide-right-slow group/row3">
-            {[...galleryImages, ...galleryImages].map((image, index) => (
+          <div className="absolute top-[69%] left-0 flex gap-8 animate-slide-right-slow group/row3">
+            {[...galleryImages, ...galleryImages, ...galleryImages, ...galleryImages].map((image, index) => (
               <div key={`row3-${index}`} className="relative w-80 h-64 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:scale-110 hover:z-10 hover:[animation-play-state:paused] group-hover/row3:[animation-play-state:paused]">
                 <Image
                   src={image.src}
@@ -373,7 +373,22 @@ export default function Home() {
                 <span className="text-sm font-bold text-white uppercase tracking-[0.2em]">15+ Years Serving Texas</span>
               </div>
               
-              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-black text-white leading-[0.95] uppercase">
+              {/* Mobile Heading */}
+              <h1 className="md:hidden text-5xl sm:text-6xl font-display font-black text-white leading-[0.95] uppercase">
+                Award winning<br/>
+                <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                  Bathroom design
+                </span>
+                <br/>
+                <span className="text-white">and</span>
+                <br/>
+                <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                  Remodeling
+                </span>
+              </h1>
+              
+              {/* Desktop Heading */}
+              <h1 className="hidden md:block text-7xl lg:text-8xl font-display font-black text-white leading-[0.95] uppercase">
                 Premier Bathroom<br/>
                 <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
                   Remodeling
@@ -455,6 +470,13 @@ export default function Home() {
 
       {/* === QUICK CONTACT FORM SECTION === */}
       <QuickContactForm />
+
+      {/* === REVIEWS SECTION === */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="elfsight-app-395835fd-a621-4c6a-a692-0e93c62fcec9" data-elfsight-app-lazy></div>
+        </div>
+      </section>
 
       {/* === WHY CHOOSE US SECTION === */}
       <section className="py-24 bg-white">
