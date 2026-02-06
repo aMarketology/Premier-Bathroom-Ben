@@ -115,7 +115,7 @@ export default function Services() {
               <div className="relative">
                 <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
                   <Image 
-                    src="/IMG_0387 Ben.jpeg" 
+                    src="/pexels-curtis-adams-1694007-7168080.jpg" 
                     alt="Beautiful bathroom remodeling in Austin" 
                     fill
                     className="object-cover"
@@ -138,7 +138,7 @@ export default function Services() {
               <div className="order-2 lg:order-1 relative">
                 <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
                   <Image 
-                    src="/IMG_2324 Ben.jpeg" 
+                    src="/pexels-vladimirsrajber-11806476.jpg" 
                     alt="Walk-in bath installation in Austin" 
                     fill
                     className="object-cover"
@@ -271,7 +271,7 @@ export default function Services() {
               <div className="relative">
                 <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
                   <Image 
-                    src="/IMG_7767 Ben.jpeg" 
+                    src="/pexels-vladimirsrajber-11806490.jpg" 
                     alt="Modern shower remodel in Austin" 
                     fill
                     className="object-cover"

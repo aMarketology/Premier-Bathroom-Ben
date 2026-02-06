@@ -407,7 +407,7 @@ export default function Home() {
                 className="relative h-64 rounded-xl overflow-hidden shadow-lg"
               >
                 <Image
-                  src="/IMG_6283 Ben.jpeg"
+                  src="/pexels-curtis-adams-1694007-7168080.jpg"
                   alt="Bathroom Renovation"
                   fill
                   className="object-cover"
@@ -859,17 +859,17 @@ export default function Home() {
           {/* Gallery Grid - Masonry Style */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { src: '/IMG_0387 Ben.jpeg', span: 'lg:row-span-2' },
-              { src: '/IMG_1412 Ben.jpeg', span: '' },
-              { src: '/IMG_1551 Ben.jpeg', span: '' },
-              { src: '/IMG_2305 Ben.jpeg', span: '' },
-              { src: '/IMG_2324 Ben.jpeg', span: 'lg:row-span-2' },
-              { src: '/IMG_2329 Ben.jpeg', span: '' },
-              { src: '/IMG_2596 Ben.jpeg', span: '' },
-              { src: '/IMG_5970 Ben.jpeg', span: '' },
-              { src: '/IMG_6283 Ben.jpeg', span: 'lg:row-span-2' },
-              { src: '/IMG_7767 Ben.jpeg', span: '' },
-              { src: '/IMG_8122 Ben.jpeg', span: '' },
+              { src: '/pexels-curtis-adams-1694007-7168080.jpg', span: 'lg:row-span-2' },
+              { src: '/pexels-vladimirsrajber-11806476.jpg', span: '' },
+              { src: '/pexels-vladimirsrajber-11806490.jpg', span: '' },
+              { src: '/pexels-curtis-adams-1694007-7168080.jpg', span: '' },
+              { src: '/pexels-vladimirsrajber-11806476.jpg', span: 'lg:row-span-2' },
+              { src: '/pexels-vladimirsrajber-11806490.jpg', span: '' },
+              { src: '/pexels-curtis-adams-1694007-7168080.jpg', span: '' },
+              { src: '/pexels-vladimirsrajber-11806476.jpg', span: '' },
+              { src: '/pexels-vladimirsrajber-11806490.jpg', span: 'lg:row-span-2' },
+              { src: '/pexels-curtis-adams-1694007-7168080.jpg', span: '' },
+              { src: '/pexels-vladimirsrajber-11806476.jpg', span: '' },
             ].map((image, index) => (
               <motion.div
                 key={index}

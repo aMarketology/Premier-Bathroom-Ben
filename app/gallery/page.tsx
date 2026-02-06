@@ -8,17 +8,17 @@ import Footer from '../components/Footer'
 
 export default function Gallery() {
   const galleryImages = [
-    { src: '/IMG_0387 Ben.jpeg', title: 'Modern Bathroom Remodel', category: 'Complete Remodel' },
-    { src: '/IMG_1412 Ben.jpeg', title: 'Luxury Shower Installation', category: 'Shower Remodel' },
-    { src: '/IMG_1551 Ben.jpeg', title: 'Contemporary Bathroom Design', category: 'Complete Remodel' },
-    { src: '/IMG_2305 Ben.jpeg', title: 'Custom Tile Work', category: 'Tile Installation' },
-    { src: '/IMG_2324 Ben.jpeg', title: 'Premium Bathroom Renovation', category: 'Complete Remodel' },
-    { src: '/IMG_2329 Ben.jpeg', title: 'Elegant Vanity Installation', category: 'Vanity & Fixtures' },
-    { src: '/IMG_2596 Ben.jpeg', title: 'Designer Bathroom Upgrade', category: 'Complete Remodel' },
-    { src: '/IMG_5970 Ben.jpeg', title: 'Walk-in Shower Conversion', category: 'Shower Remodel' },
-    { src: '/IMG_6283 Ben.jpeg', title: 'Spa-Style Bathroom', category: 'Luxury Remodel' },
-    { src: '/IMG_7767 Ben.jpeg', title: 'Master Bath Transformation', category: 'Complete Remodel' },
-    { src: '/IMG_8122 Ben.jpeg', title: 'Modern Fixtures & Lighting', category: 'Bathroom Update' },
+    { src: '/pexels-curtis-adams-1694007-7168080.jpg', title: 'Modern Bathroom Remodel', category: 'Complete Remodel' },
+    { src: '/pexels-vladimirsrajber-11806476.jpg', title: 'Luxury Shower Installation', category: 'Shower Remodel' },
+    { src: '/pexels-vladimirsrajber-11806490.jpg', title: 'Contemporary Bathroom Design', category: 'Complete Remodel' },
+    { src: '/pexels-curtis-adams-1694007-7168080.jpg', title: 'Custom Tile Work', category: 'Tile Installation' },
+    { src: '/pexels-vladimirsrajber-11806476.jpg', title: 'Premium Bathroom Renovation', category: 'Complete Remodel' },
+    { src: '/pexels-vladimirsrajber-11806490.jpg', title: 'Elegant Vanity Installation', category: 'Vanity & Fixtures' },
+    { src: '/pexels-curtis-adams-1694007-7168080.jpg', title: 'Designer Bathroom Upgrade', category: 'Complete Remodel' },
+    { src: '/pexels-vladimirsrajber-11806476.jpg', title: 'Walk-in Shower Conversion', category: 'Shower Remodel' },
+    { src: '/pexels-vladimirsrajber-11806490.jpg', title: 'Spa-Style Bathroom', category: 'Luxury Remodel' },
+    { src: '/pexels-curtis-adams-1694007-7168080.jpg', title: 'Master Bath Transformation', category: 'Complete Remodel' },
+    { src: '/pexels-vladimirsrajber-11806476.jpg', title: 'Modern Fixtures & Lighting', category: 'Bathroom Update' },
   ]
 
   return (
