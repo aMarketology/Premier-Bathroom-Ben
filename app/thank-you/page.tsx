@@ -2,12 +2,13 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
 
 export default function ThankYou() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-100 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 flex flex-col">
       <Navigation />
       
       <main className="flex-1 flex items-center justify-center px-4 py-16">
@@ -18,21 +19,21 @@ export default function ThankYou() {
           className="max-w-2xl w-full"
         >
           {/* Success Card */}
-          <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-blue-100">
             {/* Header with gradient */}
-            <div className="bg-gradient-to-r from-purple-600 to-purple-800 p-8 text-center">
+            <div className="bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-700 p-8 text-center">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-4"
+                className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
               >
                 <svg className="w-12 h-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               </motion.div>
-              <h1 className="text-4xl font-bold text-white mb-2">Thank You!</h1>
-              <p className="text-xl text-purple-100">Your request has been received</p>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">Thank You!</h1>
+              <p className="text-xl text-blue-100">Your request has been received</p>
             </div>
 
             {/* Content */}
@@ -56,35 +57,35 @@ export default function ThankYou() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="bg-purple-50 rounded-lg p-6 mb-8"
+                className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 mb-8 border border-blue-100"
               >
-                <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">What Happens Next?</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">What Happens Next?</h2>
                 <div className="space-y-4">
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
+                  <div className="flex gap-4 items-start">
+                    <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md">
                       1
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-900">We Review Your Request</h3>
-                      <p className="text-gray-600 text-sm">Our team will review your project details and requirements.</p>
+                      <h3 className="font-bold text-gray-900 mb-1">We Review Your Request</h3>
+                      <p className="text-gray-600 text-sm">Our team will review your project details and requirements within 24 hours.</p>
                     </div>
                   </div>
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
+                  <div className="flex gap-4 items-start">
+                    <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md">
                       2
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-900">Personal Consultation</h3>
-                      <p className="text-gray-600 text-sm">We'll contact you to schedule a free in-home consultation.</p>
+                      <h3 className="font-bold text-gray-900 mb-1">Personal Consultation</h3>
+                      <p className="text-gray-600 text-sm">We'll contact you to schedule a free in-home consultation at your convenience.</p>
                     </div>
                   </div>
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
+                  <div className="flex gap-4 items-start">
+                    <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md">
                       3
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-900">Custom Quote</h3>
-                      <p className="text-gray-600 text-sm">Receive a detailed, no-obligation quote for your project.</p>
+                      <h3 className="font-bold text-gray-900 mb-1">Custom Quote</h3>
+                      <p className="text-gray-600 text-sm">Receive a detailed, no-obligation quote tailored to your specific project.</p>
                     </div>
                   </div>
                 </div>
@@ -104,17 +105,17 @@ export default function ThankYou() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <a
                     href="tel:512-706-9577"
-                    className="flex-1 inline-flex items-center justify-center gap-3 px-6 py-4 bg-purple-600 text-white font-bold text-lg rounded-lg hover:bg-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                    className="flex-1 inline-flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold text-lg rounded-lg hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-300"
                   >
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                     </svg>
-                    Call Us Now
+                    Call (512) 706-9577
                   </a>
                   
                   <Link
                     href="/"
-                    className="flex-1 inline-flex items-center justify-center gap-3 px-6 py-4 bg-white border-2 border-purple-600 text-purple-600 font-bold text-lg rounded-lg hover:bg-purple-50 transition-all duration-300"
+                    className="flex-1 inline-flex items-center justify-center gap-3 px-6 py-4 bg-white border-2 border-blue-600 text-blue-600 font-bold text-lg rounded-lg hover:bg-blue-50 transition-all duration-300"
                   >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -126,9 +127,12 @@ export default function ThankYou() {
                 <div className="text-center pt-6">
                   <Link 
                     href="/gallery" 
-                    className="text-purple-600 hover:text-purple-800 font-semibold underline"
+                    className="text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center gap-2"
                   >
-                    View Our Portfolio →
+                    View Our Portfolio
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
                   </Link>
                 </div>
               </motion.div>

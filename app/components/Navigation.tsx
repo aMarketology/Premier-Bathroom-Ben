@@ -27,17 +27,28 @@ export default function Navigation() {
       >
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            <Link href="/" className="flex-shrink-0">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="flex items-center"
-              >
-                <div className="text-lg font-bold">
-                  <span className="text-blue-400">Premier Bathroom</span>
-                  <span className="text-white"> Remodel Austin</span>
-                </div>
-              </motion.div>
-            </Link>
+            <motion.div
+              initial={{ opacity: 1 }}
+              animate={{ opacity: scrolled ? 0 : 1 }}
+              transition={{ duration: 0.3 }}
+              className="flex-shrink-0"
+            >
+              <Link href="/">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="flex items-center"
+                >
+                  <Image
+                    src="/Premier Bathroom Remodel  (1).png"
+                    alt="Premier Bathroom Remodel Austin"
+                    width={350}
+                    height={84}
+                    className="h-16 w-auto"
+                    priority
+                  />
+                </motion.div>
+              </Link>
+            </motion.div>
 
             {/* Desktop Menu */}
             <div className="flex gap-8 items-center">
@@ -71,7 +82,7 @@ export default function Navigation() {
       {/* Mobile Navigation - Always visible */}
       <motion.nav
         initial={{ y: 0 }}
-        className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg shadow-lg"
+        className="md:hidden fixed top-0 left-0 right-0 z-50 bg-transparent"
       >
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
@@ -80,10 +91,14 @@ export default function Navigation() {
                 whileHover={{ scale: 1.05 }}
                 className="flex items-center"
               >
-                <div className="text-lg font-bold text-slate-900">
-                  <span className="text-blue-600">Premier Bathroom</span>
-                  <span className="text-black"> Remodel Austin</span>
-                </div>
+                <Image
+                  src="/pbr logo (1).png"
+                  alt="Premier Bathroom Remodel Austin"
+                  width={150}
+                  height={50}
+                  className="h-10 w-auto"
+                  priority
+                />
               </motion.div>
             </Link>
 
@@ -94,20 +109,20 @@ export default function Navigation() {
               whileTap={{ scale: 0.9 }}
             >
               <motion.div
-                className="w-6 h-0.5 bg-gray-900"
+                className="w-6 h-0.5 bg-blue-600"
                 animate={{
                   rotate: mobileMenuOpen ? 45 : 0,
                   y: mobileMenuOpen ? 8 : 0,
                 }}
               />
               <motion.div
-                className="w-6 h-0.5 bg-gray-900"
+                className="w-6 h-0.5 bg-blue-600"
                 animate={{
                   opacity: mobileMenuOpen ? 0 : 1,
                 }}
               />
               <motion.div
-                className="w-6 h-0.5 bg-gray-900"
+                className="w-6 h-0.5 bg-blue-600"
                 animate={{
                   rotate: mobileMenuOpen ? -45 : 0,
                   y: mobileMenuOpen ? -8 : 0,
@@ -127,7 +142,7 @@ export default function Navigation() {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden overflow-hidden fixed top-16 left-0 right-0 z-40"
           >
-            <div className="py-4 space-y-1 bg-white/95 backdrop-blur-lg mx-4 rounded-lg shadow-xl">
+            <div className="py-4 space-y-1 bg-gradient-to-br from-blue-600/95 via-cyan-500/95 to-blue-700/95 backdrop-blur-lg mx-4 rounded-lg shadow-xl border border-blue-400/30">
               {['Home', 'Services', 'Gallery', 'About', 'Contact'].map((item, index) => (
                 <motion.div
                   key={item}
@@ -137,7 +152,7 @@ export default function Navigation() {
                 >
                   <Link
                     href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-                    className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition font-medium rounded"
+                    className="block px-4 py-3 text-white hover:bg-white/20 transition font-medium rounded"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item}
@@ -147,7 +162,7 @@ export default function Navigation() {
               <div className="px-4 pt-2">
                 <Link
                   href="/contact"
-                  className="block w-full bg-gray-300 hover:bg-gray-400 text-gray-800 text-center font-semibold px-6 py-3 rounded-lg transition"
+                  className="block w-full bg-white hover:bg-white/90 text-blue-600 text-center font-semibold px-6 py-3 rounded-lg transition"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Free Quote

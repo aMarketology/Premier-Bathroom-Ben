@@ -53,19 +53,8 @@ export default function GetStarted() {
         throw new Error(data.error || 'Something went wrong')
       }
 
-      setHeroSubmitted(true)
-      setHeroFormData({
-        name: '',
-        phone: '',
-        email: '',
-        service: '',
-        smsConsent: false
-      })
-      
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        setHeroSubmitted(false)
-      }, 5000)
+      // Redirect to thank you page
+      window.location.href = '/thank-you'
     } catch (error) {
       console.error('Form submission error:', error)
       setHeroError(error instanceof Error ? error.message : 'Failed to send message. Please try again.')

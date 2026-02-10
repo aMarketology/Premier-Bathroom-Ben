@@ -2,6 +2,13 @@ import type { Metadata } from 'next'
 import { organizationSchema, servicesSchema, reviewSchema } from '@/lib/schema'
 import './globals.css'
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+}
+
 export const metadata: Metadata = {
   title: 'Premier Bathroom Remodel Austin | Expert Bathroom Renovation Services',
   description: 'Premier bathroom remodeling services in Austin, TX. Specializing in bathroom renovations, walk-in baths, shower remodels, and tub to shower conversions. Licensed, insured, 15+ years experience. Call 512-706-9577 for free quote.',

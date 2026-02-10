@@ -33,7 +33,6 @@ function QuickContactForm() {
     smsConsent: false
   })
   const [loading, setLoading] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -70,18 +69,8 @@ function QuickContactForm() {
         throw new Error(data.error || 'Something went wrong')
       }
 
-      setSubmitted(true)
-      setFormData({
-        name: '',
-        phone: '',
-        email: '',
-        service: '',
-        smsConsent: false
-      })
-      
-      setTimeout(() => {
-        setSubmitted(false)
-      }, 5000)
+      // Redirect to thank you page
+      window.location.href = '/thank-you'
     } catch (error) {
       console.error('Form submission error:', error)
       setError(error instanceof Error ? error.message : 'Failed to send message. Please try again.')
@@ -92,15 +81,15 @@ function QuickContactForm() {
 
   return (
     <section className="py-24 bg-gradient-to-br from-gray-900 via-blue-950 to-cyan-950">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="max-w-3xl mx-auto px-6 lg:px-8">
+        <div className="text-center space-y-8">
           
-          {/* Left Side - Text Content */}
+          {/* Header Content */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
             className="text-white space-y-6"
           >
             <div className="inline-block px-4 py-2 bg-blue-500/20 border border-blue-400/30 rounded-full">
@@ -118,122 +107,98 @@ function QuickContactForm() {
               Fill out the form and our expert team will contact you within 24 hours with a free, no-obligation quote.
             </p>
 
-            <div className="space-y-4 pt-4">
+            {/* Features */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
               {[
                 { icon: '✓', text: 'Free In-Home Consultation' },
                 { icon: '✓', text: 'Transparent Pricing' },
                 { icon: '✓', text: 'Licensed & Insured' },
                 { icon: '✓', text: 'Quality Guaranteed' },
               ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400 font-bold">
+                <div key={i} className="flex flex-col items-center gap-2">
+                  <div className="w-10 h-10 rounded-full bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400 font-bold text-lg">
                     {item.icon}
                   </div>
-                  <span className="text-lg">{item.text}</span>
+                  <span className="text-sm text-center">{item.text}</span>
                 </div>
               ))}
             </div>
           </motion.div>
 
-          {/* Right Side - Form */}
+          {/* Form */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="pt-8"
           >
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Request Your Free Quote</h3>
-            <p className="text-gray-600 mb-6">Get started on your dream bathroom today!</p>
-            
-            {submitted && (
-              <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
-                Thank you! We'll contact you soon.
-              </div>
-            )}
-
             {error && (
               <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
                 {error}
               </div>
             )}
             
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="form-name" className="block text-sm font-bold text-gray-700 mb-1">
-                  Your Name *
-                </label>
                 <input
                   type="text"
-                  id="form-name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
                   required
                   disabled={loading}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition disabled:bg-gray-100"
-                  placeholder="Enter your name"
+                  className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/20 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition text-white placeholder-white/60 disabled:opacity-50"
+                  placeholder="Your Name *"
                 />
               </div>
 
               <div>
-                <label htmlFor="form-phone" className="block text-sm font-bold text-gray-700 mb-1">
-                  Phone Number *
-                </label>
                 <input
                   type="tel"
-                  id="form-phone"
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
                   required
                   disabled={loading}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition disabled:bg-gray-100"
-                  placeholder="(512) 555-1234"
+                  className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/20 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition text-white placeholder-white/60 disabled:opacity-50"
+                  placeholder="Phone Number *"
                 />
               </div>
 
               <div>
-                <label htmlFor="form-email" className="block text-sm font-bold text-gray-700 mb-1">
-                  Email Address *
-                </label>
                 <input
                   type="email"
-                  id="form-email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
                   required
                   disabled={loading}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition disabled:bg-gray-100"
-                  placeholder="your@email.com"
+                  className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/20 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition text-white placeholder-white/60 disabled:opacity-50"
+                  placeholder="Email Address *"
                 />
               </div>
 
               <div>
-                <label htmlFor="form-service" className="block text-sm font-bold text-gray-700 mb-1">
-                  Service Needed *
-                </label>
                 <select
-                  id="form-service"
                   name="service"
                   value={formData.service}
                   onChange={handleChange}
                   required
                   disabled={loading}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition bg-white disabled:bg-gray-100"
+                  className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/20 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition text-white disabled:opacity-50"
                 >
-                  <option value="">Select a service...</option>
-                  <option value="bathroom-remodel">Bathroom Remodeling</option>
-                  <option value="shower-remodel">Shower Remodel</option>
-                  <option value="walk-in-bath">Walk-in Bath</option>
-                  <option value="tub-conversion">Tub to Shower Conversion</option>
-                  <option value="flooring">Premium Flooring</option>
-                  <option value="other">Other</option>
+                  <option value="" className="text-gray-900">Select a service...</option>
+                  <option value="bathroom-remodel" className="text-gray-900">Bathroom Remodeling</option>
+                  <option value="shower-remodel" className="text-gray-900">Shower Remodel</option>
+                  <option value="walk-in-bath" className="text-gray-900">Walk-in Bath</option>
+                  <option value="tub-conversion" className="text-gray-900">Tub to Shower Conversion</option>
+                  <option value="flooring" className="text-gray-900">Premium Flooring</option>
+                  <option value="other" className="text-gray-900">Other</option>
                 </select>
               </div>
 
-              <div className="flex items-start">
+              <div className="flex items-start justify-center">
                 <input
                   type="checkbox"
                   id="form-sms-consent"
@@ -241,9 +206,9 @@ function QuickContactForm() {
                   checked={formData.smsConsent}
                   onChange={handleChange}
                   disabled={loading}
-                  className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:bg-gray-100"
+                  className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:opacity-50"
                 />
-                <label htmlFor="form-sms-consent" className="ml-2 text-xs text-gray-600">
+                <label htmlFor="form-sms-consent" className="ml-2 text-sm text-white/80">
                   I agree to receive SMS messages. Reply STOP to opt-out.
                 </label>
               </div>
@@ -251,7 +216,7 @@ function QuickContactForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold rounded-lg hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 shadow-lg hover:shadow-xl disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed"
+                className="w-full px-8 py-5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold text-lg rounded-lg hover:from-blue-400 hover:to-cyan-400 transition-all duration-300 shadow-lg hover:shadow-2xl disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transform hover:scale-105"
               >
                 {loading ? 'SUBMITTING...' : 'GET FREE QUOTE →'}
               </button>
@@ -358,7 +323,7 @@ export default function Home() {
         />
         
         {/* Main Content Container - Centered on Mobile, Left on Desktop */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-20 md:pt-32 pb-20">
           
           {/* Header Text - Centered on Mobile, Left on Desktop */}
           <div className="text-center md:text-left max-w-2xl mx-auto md:mx-0">
@@ -422,7 +387,7 @@ export default function Home() {
             
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-white text-blue-600 font-bold text-base sm:text-lg rounded-full hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:shadow-white/50 hover:-translate-y-1"
+              className="hidden md:inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-white text-blue-600 font-bold text-base sm:text-lg rounded-full hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:shadow-white/50 hover:-translate-y-1"
             >
               GET FREE ESTIMATE
               <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -432,23 +397,85 @@ export default function Home() {
           </motion.div>
 
           {/* Featured Images - Mobile Only */}
+          {/* Mobile Gallery Carousel - Single Row Auto-Scroll */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="md:hidden grid grid-cols-3 gap-4 mt-12 max-w-2xl mx-auto"
+            className="md:hidden mt-12 overflow-hidden"
           >
-            {galleryImages.slice(0, 3).map((image, index) => (
-              <div key={index} className="relative aspect-[4/5] rounded-xl overflow-hidden shadow-2xl">
-                <Image
-                  src={image.src}
-                  alt={image.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 33vw, 0px"
-                />
-              </div>
-            ))}
+            <motion.div
+              animate={{
+                x: [0, -2400],
+              }}
+              transition={{
+                x: {
+                  duration: 40,
+                  repeat: Infinity,
+                  ease: "linear",
+                },
+              }}
+              className="flex gap-4"
+            >
+              {/* First set of images */}
+              {[
+                '/IMG_0387 Ben.jpeg',
+                '/IMG_1412 Ben.jpeg',
+                '/IMG_1551 Ben.jpeg',
+                '/IMG_2305 Ben.jpeg',
+                '/IMG_2324 Ben.jpeg',
+                '/IMG_2329 Ben.jpeg',
+                '/IMG_2596 Ben.jpeg',
+                '/IMG_2849 Ben v.jpeg',
+                '/IMG_5970 Ben.jpeg',
+                '/IMG_6283 Ben.jpeg',
+                '/IMG_6673 Ben v.jpeg',
+                '/IMG_6844 Ben v.jpeg',
+                '/IMG_6956 Ben v.jpeg',
+                '/IMG_7767 Ben.jpeg',
+                '/IMG_8122 Ben.jpeg',
+                '/IMG_2305 Ben v.jpeg',
+              ].map((src, index) => (
+                <div key={`first-${index}`} className="relative w-48 h-64 rounded-xl overflow-hidden shadow-2xl flex-shrink-0">
+                  <Image
+                    src={src}
+                    alt={`Bathroom project ${index + 1}`}
+                    fill
+                    className="object-cover"
+                    sizes="192px"
+                  />
+                </div>
+              ))}
+              {/* Duplicate set for seamless loop */}
+              {[
+                '/IMG_0387 Ben.jpeg',
+                '/IMG_1412 Ben.jpeg',
+                '/IMG_1551 Ben.jpeg',
+                '/IMG_2305 Ben.jpeg',
+                '/IMG_2324 Ben.jpeg',
+                '/IMG_2329 Ben.jpeg',
+                '/IMG_2596 Ben.jpeg',
+                '/IMG_2849 Ben v.jpeg',
+                '/IMG_5970 Ben.jpeg',
+                '/IMG_6283 Ben.jpeg',
+                '/IMG_6673 Ben v.jpeg',
+                '/IMG_6844 Ben v.jpeg',
+                '/IMG_6956 Ben v.jpeg',
+                '/IMG_7767 Ben.jpeg',
+                '/IMG_8122 Ben.jpeg',
+                '/IMG_2305 Ben v.jpeg',
+              ].map((src, index) => (
+                <div key={`second-${index}`} className="relative w-48 h-64 rounded-xl overflow-hidden shadow-2xl flex-shrink-0">
+                  <Image
+                    src={src}
+                    alt={`Bathroom project ${index + 1}`}
+                    fill
+                    className="object-cover"
+                    sizes="192px"
+                  />
+                </div>
+              ))}
+            </motion.div>
           </motion.div>
         </div>
 
@@ -475,190 +502,6 @@ export default function Home() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="elfsight-app-395835fd-a621-4c6a-a692-0e93c62fcec9" data-elfsight-app-lazy></div>
-        </div>
-      </section>
-
-      {/* === WHY CHOOSE US SECTION === */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 border-2 border-purple-900 mb-6"
-            >
-              <span className="text-xs font-bold text-purple-900 uppercase tracking-[0.2em]">Why Choose Us</span>
-            </motion.div>
-            
-            <h2 className="text-5xl md:text-6xl font-display font-extrabold text-gray-900 mb-6 uppercase leading-tight">
-              AUSTIN'S PREMIER<br/>
-              <span className="text-purple-800">REMODELING EXPERTS</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
-              Need a trusted bathroom remodeling company for renovations, walk-in baths, or premium flooring? Our experienced team delivers quality, integrity, and reliable results.
-            </p>
-          </div>
-
-          {/* Features with Images Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
-            
-            {/* Left: Feature Cards */}
-            <div className="space-y-6">
-              {/* Feature 1 */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                className="bg-gradient-to-br from-purple-50 to-white p-8 border-l-4 border-purple-800 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="w-16 h-16 bg-purple-800 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-display font-extrabold text-gray-900 mb-3 uppercase">LICENSED & INSURED</h3>
-                    <p className="text-gray-700 leading-relaxed font-medium">
-                      Fully certified contractors with comprehensive insurance coverage and professional certifications. Your project is protected every step of the way.
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Feature 2 */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="bg-gradient-to-br from-accent-gold/10 to-white p-8 border-l-4 border-accent-gold shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="w-16 h-16 bg-accent-gold flex items-center justify-center flex-shrink-0">
-                    <svg className="w-8 h-8 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-display font-extrabold text-gray-900 mb-3 uppercase">15+ YEARS EXPERIENCE</h3>
-                    <p className="text-gray-700 leading-relaxed font-medium">
-                      For over 15 years, we've provided exceptional bathroom remodeling and flooring services, earning hundreds of five-star reviews from Austin homeowners.
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Feature 3 */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-                className="bg-gradient-to-br from-purple-50 to-white p-8 border-l-4 border-purple-800 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="w-16 h-16 bg-purple-800 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-display font-extrabold text-gray-900 mb-3 uppercase">PREMIUM QUALITY</h3>
-                    <p className="text-gray-700 leading-relaxed font-medium">
-                      Unlike other remodeling companies, we never reuse materials or cut corners. Each project features premium materials, meticulous craftsmanship, and lasting durability.
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Right: Image Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="relative h-64 rounded-xl overflow-hidden shadow-lg"
-              >
-                <Image
-                  src="/IMG_1412 Ben.jpeg"
-                  alt="Luxury Bathroom Remodel"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-                className="relative h-64 rounded-xl overflow-hidden shadow-lg mt-8"
-              >
-                <Image
-                  src="/IMG_2305 Ben.jpeg"
-                  alt="Custom Tile Installation"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4 }}
-                className="relative h-64 rounded-xl overflow-hidden shadow-lg -mt-8"
-              >
-                <Image
-                  src="/IMG_5970 Ben.jpeg"
-                  alt="Modern Shower Design"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5 }}
-                className="relative h-64 rounded-xl overflow-hidden shadow-lg"
-              >
-                <Image
-                  src="/IMG_6283 Ben.jpeg"
-                  alt="Bathroom Renovation"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                />
-              </motion.div>
-            </div>
-          </div>
-
-          <div className="text-center mt-8">
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="tel:512-706-9577"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg font-bold text-lg hover:from-blue-600 hover:to-cyan-700 transition-all shadow-lg"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                </svg>
-                Call Us Today: (512) 706-9577
-              </a>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-blue-500 text-blue-500 rounded-lg font-bold text-lg hover:bg-blue-50 transition-all"
-              >
-                Free Instant Estimate
-              </Link>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -933,91 +776,6 @@ export default function Home() {
                 </Link>
               </div>
             </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* === WHY CHOOSE US SECTION === */}
-      <section className="relative py-32 bg-gradient-to-b from-black to-slate-950">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          
-          {/* Two Column Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            
-            {/* Left Column - Content */}
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-800 bg-slate-900/50 backdrop-blur-sm">
-                <span className="text-xs font-medium text-slate-400 uppercase tracking-widest">Why Choose Us</span>
-              </div>
-
-              <h2 className="text-4xl md:text-5xl font-light text-slate-100">
-                Austin's Trusted
-                <br />
-                <span className="bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">Remodeling Experts</span>
-              </h2>
-
-              <p className="text-lg text-slate-400 leading-relaxed">
-                At Premier Bathroom Remodel Austin, we combine superior craftsmanship with personalized service to bring your vision to life. Our experienced team is dedicated to quality, attention to detail, and customer satisfaction.
-              </p>
-
-              {/* Feature List with Icons */}
-              <div className="space-y-4">
-                {[
-                  { title: 'Expert Craftsmanship', desc: '15+ years of remodeling experience' },
-                  { title: 'Custom Designs', desc: 'Tailored solutions for your unique needs' },
-                  { title: 'Quality Materials', desc: 'Premium products built to last' },
-                  { title: 'Licensed & Insured', desc: 'Fully certified and bonded contractors' }
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-4 p-4 rounded-xl bg-slate-900/30 border border-slate-800/50">
-                    <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
-                      <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 className="text-slate-100 font-semibold mb-1">{item.title}</h4>
-                      <p className="text-sm text-slate-500">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Column - Image Placeholder / Stats */}
-            <div className="space-y-6">
-              {/* Large Feature Card */}
-              <div className="relative p-8 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl" />
-                <div className="relative">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="text-6xl font-bold text-blue-500">4.6</div>
-                    <div className="text-left">
-                      <div className="flex gap-0.5 mb-1">
-                        {[...Array(5)].map((_, i) => (
-                          <svg key={i} className={`w-5 h-5 ${i < 4 ? 'text-yellow-400' : 'text-yellow-400/50'}`} fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        ))}
-                      </div>
-                      <p className="text-xs text-slate-500">19 Google reviews</p>
-                    </div>
-                  </div>
-                  <p className="text-slate-400 mt-4">Trusted by Austin homeowners for quality bathroom remodeling</p>
-                </div>
-              </div>
-
-              {/* Stats Row */}
-              <div className="grid grid-cols-2 gap-6">
-                <div className="p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
-                  <div className="text-3xl font-bold text-blue-500 mb-1">Free</div>
-                  <div className="text-sm text-slate-400">Consultations</div>
-                </div>
-                <div className="p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
-                  <div className="text-3xl font-bold text-cyan-500 mb-1">Licensed</div>
-                  <div className="text-sm text-slate-400">& Insured</div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -1321,6 +1079,18 @@ export default function Home() {
       </section>
 
       <Footer />
+
+      {/* Floating Email Icon */}
+      <Link
+        href="/contact"
+        className="fixed bottom-6 left-6 z-50 flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-full shadow-2xl hover:shadow-blue-500/50 hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 hover:scale-110"
+        aria-label="Contact Us"
+      >
+        <svg className="w-7 h-7 sm:w-8 sm:h-8" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+          <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+        </svg>
+      </Link>
     </div>
   )
 }

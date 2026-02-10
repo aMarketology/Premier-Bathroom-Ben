@@ -23,7 +23,19 @@ export default function Footer() {
   ]
 
   const serviceAreas = [
-    'Austin', 'Round Rock', 'Cedar Park', 'Pflugerville', 'West Lake Hills', 'Bee Cave', 'Rollingwood', 'Manchaca'
+    { name: 'Austin', slug: 'austin' },
+    { name: 'Round Rock', slug: 'round-rock' },
+    { name: 'Cedar Park', slug: 'cedar-park' },
+    { name: 'Pflugerville', slug: 'pflugerville' },
+    { name: 'West Lake Hills', slug: 'west-lake-hills' },
+    { name: 'Bee Cave', slug: 'bee-cave' },
+    { name: 'Rollingwood', slug: 'rollingwood' },
+    { name: 'Manchaca', slug: 'manchaca' },
+    { name: 'Georgetown', slug: 'georgetown' },
+    { name: 'Lakeway', slug: 'lakeway' },
+    { name: 'Dripping Springs', slug: 'dripping-springs' },
+    { name: 'Leander', slug: 'leander' },
+    { name: 'Kyle', slug: 'kyle' }
   ]
 
   return (
@@ -163,12 +175,26 @@ export default function Footer() {
 
         {/* Service Areas Bar */}
         <div className="py-6 border-t border-white/10">
-          <p className="text-center text-gray-400 text-sm mb-3">Service Areas:</p>
+          <div className="text-center mb-4">
+            <Link 
+              href="/service-area" 
+              className="text-gray-400 text-sm hover:text-blue-500 transition inline-flex items-center gap-2"
+            >
+              Service Areas
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          </div>
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm">
             {serviceAreas.map((area, index) => (
-              <span key={index} className="text-gray-500">
-                {area}{index < serviceAreas.length - 1 ? ' •' : ''}
-              </span>
+              <Link 
+                key={index} 
+                href={`/service-area/${area.slug}`}
+                className="text-gray-500 hover:text-blue-500 transition"
+              >
+                {area.name}{index < serviceAreas.length - 1 ? ' •' : ''}
+              </Link>
             ))}
           </div>
         </div>
