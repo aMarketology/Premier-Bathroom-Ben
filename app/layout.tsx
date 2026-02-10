@@ -64,6 +64,19 @@ export default function RootLayout({
           }}
         />
         
+        {/* Google Ads */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17861557264"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17861557264');
+            `,
+          }}
+        />
+        
         {/* JSON-LD Structured Data for SEO */}
         <script
           type="application/ld+json"
