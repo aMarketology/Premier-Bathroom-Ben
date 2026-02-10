@@ -48,8 +48,12 @@ export default function Contact() {
         throw new Error('Failed to submit form')
       }
 
-      // Redirect to thank you page
-      window.location.href = '/thank-you'
+      // Redirect to thank you page with conversion tracking
+      if (typeof window !== 'undefined' && (window as any).gtagSendEvent) {
+        (window as any).gtagSendEvent('/thank-you')
+      } else {
+        window.location.href = '/thank-you'
+      }
     } catch (err) {
       setError('Failed to submit form. Please try again or call us directly.')
       console.error('Form submission error:', err)

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { organizationSchema, servicesSchema, reviewSchema } from '@/lib/schema'
+import FloatingContactButton from './components/FloatingContactButton'
 import './globals.css'
 
 export const viewport = {
@@ -77,6 +78,26 @@ export default function RootLayout({
           }}
         />
         
+        {/* Google Ads Conversion Tracking Helper */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              function gtagSendEvent(url) {
+                var callback = function () {
+                  if (typeof url === 'string') {
+                    window.location = url;
+                  }
+                };
+                gtag('event', 'ads_conversion_Contact_Us_1', {
+                  'event_callback': callback,
+                  'event_timeout': 2000,
+                });
+                return false;
+              }
+            `,
+          }}
+        />
+        
         {/* JSON-LD Structured Data for SEO */}
         <script
           type="application/ld+json"
@@ -107,6 +128,7 @@ export default function RootLayout({
       </head>
       <body>
         {children}
+        <FloatingContactButton />
       </body>
     </html>
   )

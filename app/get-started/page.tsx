@@ -53,8 +53,12 @@ export default function GetStarted() {
         throw new Error(data.error || 'Something went wrong')
       }
 
-      // Redirect to thank you page
-      window.location.href = '/thank-you'
+      // Redirect to thank you page with conversion tracking
+      if (typeof window !== 'undefined' && (window as any).gtagSendEvent) {
+        (window as any).gtagSendEvent('/thank-you')
+      } else {
+        window.location.href = '/thank-you'
+      }
     } catch (error) {
       console.error('Form submission error:', error)
       setHeroError(error instanceof Error ? error.message : 'Failed to send message. Please try again.')
