@@ -163,27 +163,27 @@ export default function Gallery() {
       {/* Image Modal/Lightbox */}
       {selectedImage !== null && (
         <div 
-          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-0 md:p-4"
           onClick={() => setSelectedImage(null)}
         >
           <button
             onClick={() => setSelectedImage(null)}
-            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+            className="absolute top-2 right-2 md:top-4 md:right-4 text-white hover:text-gray-300 transition-colors z-10 bg-black/50 rounded-full p-2"
             aria-label="Close"
           >
-            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
 
-          {/* Previous Button */}
+          {/* Previous Button - Hidden on mobile, shown on desktop */}
           {selectedImage > 0 && (
             <button
               onClick={(e) => {
                 e.stopPropagation()
                 setSelectedImage(selectedImage - 1)
               }}
-              className="absolute left-4 text-white hover:text-gray-300 transition-colors"
+              className="hidden md:block absolute left-4 text-white hover:text-gray-300 transition-colors z-10"
               aria-label="Previous"
             >
               <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -192,14 +192,14 @@ export default function Gallery() {
             </button>
           )}
 
-          {/* Next Button */}
+          {/* Next Button - Hidden on mobile, shown on desktop */}
           {selectedImage < galleryImages.length - 1 && (
             <button
               onClick={(e) => {
                 e.stopPropagation()
                 setSelectedImage(selectedImage + 1)
               }}
-              className="absolute right-4 text-white hover:text-gray-300 transition-colors"
+              className="hidden md:block absolute right-4 text-white hover:text-gray-300 transition-colors z-10"
               aria-label="Next"
             >
               <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -208,8 +208,30 @@ export default function Gallery() {
             </button>
           )}
 
-          <div className="max-w-6xl w-full" onClick={(e) => e.stopPropagation()}>
-            <div className="relative aspect-[4/3] mb-4">
+          <motion.div 
+            className="w-full h-full md:max-w-6xl md:w-full md:h-auto flex flex-col justify-center"
+            onClick={(e) => e.stopPropagation()}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipeThreshold = 50
+              const swipeVelocityThreshold = 500
+
+              if (offset.x > swipeThreshold || velocity.x > swipeVelocityThreshold) {
+                // Swiped right - go to previous image
+                if (selectedImage > 0) {
+                  setSelectedImage(selectedImage - 1)
+                }
+              } else if (offset.x < -swipeThreshold || velocity.x < -swipeVelocityThreshold) {
+                // Swiped left - go to next image
+                if (selectedImage < galleryImages.length - 1) {
+                  setSelectedImage(selectedImage + 1)
+                }
+              }
+            }}
+          >
+            <div className="relative w-full h-[70vh] md:h-auto md:aspect-[4/3] mb-0 md:mb-4">
               <Image
                 src={galleryImages[selectedImage].src}
                 alt={galleryImages[selectedImage].title}
@@ -219,12 +241,15 @@ export default function Gallery() {
                 priority
               />
             </div>
-            <div className="text-white text-center">
-              <h3 className="text-2xl font-bold mb-2">{galleryImages[selectedImage].title}</h3>
-              <p className="text-blue-300 mb-2">{galleryImages[selectedImage].category}</p>
-              <p className="text-gray-300">{galleryImages[selectedImage].description}</p>
+            <div className="text-white text-center p-4 md:p-0 bg-black/50 md:bg-transparent">
+              <h3 className="text-xl md:text-2xl font-bold mb-2">{galleryImages[selectedImage].title}</h3>
+              <p className="text-blue-300 mb-1 md:mb-2 text-sm md:text-base">{galleryImages[selectedImage].category}</p>
+              <p className="text-gray-300 text-sm md:text-base">{galleryImages[selectedImage].description}</p>
+              <p className="text-gray-400 text-xs md:text-sm mt-3 md:hidden">
+                Swipe left or right to navigate • {selectedImage + 1} / {galleryImages.length}
+              </p>
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { organizationSchema, servicesSchema, reviewSchema } from '@/lib/schema'
 import FloatingContactButton from './components/FloatingContactButton'
+import AnalyticsProvider from './components/AnalyticsProvider'
 import './globals.css'
 
 export const viewport = {
@@ -127,8 +128,10 @@ export default function RootLayout({
         <script src="https://elfsightcdn.com/platform.js" async></script>
       </head>
       <body>
-        {children}
-        <FloatingContactButton />
+        <AnalyticsProvider>
+          {children}
+          <FloatingContactButton />
+        </AnalyticsProvider>
       </body>
     </html>
   )

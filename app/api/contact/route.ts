@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Mailjet from 'node-mailjet'
+import { trackFormSubmission } from '@/lib/ga4-tracking'
 
 // Initialize Mailjet client lazily to avoid build-time errors
 function getMailjetClient() {
@@ -19,7 +20,7 @@ function getMailjetClient() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, email, phone, message, service, smsConsent, pageUrl } = body
+    const { name, email, phone, message, service, smsConsent, pageUrl, clientId, sessionId } = body
 
     // Validate required fields
     if (!name || !email || !phone) {
@@ -135,6 +136,20 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
 
     // Wait for all emails to be sent
     await Promise.all(emailPromises)
+
+    // Track form submission in GA4 (server-side)
+    // Note: We don't await this to avoid delaying the response
+    trackFormSubmission({
+      formName: pageUrl?.includes('/contact') ? 'Contact Page Form' : 'Homepage Form',
+      formLocation: pageUrl || 'Unknown',
+      service,
+      name,
+      email,
+      phone,
+      smsConsent,
+      clientId,
+      sessionId
+    }).catch(err => console.error('GA4 tracking error:', err))
 
     return NextResponse.json(
       { success: true, message: 'Form submitted successfully' },

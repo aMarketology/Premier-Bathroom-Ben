@@ -3,6 +3,7 @@
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
 import { useState } from 'react'
+import { getGA4ClientId, getGA4SessionId } from '@/lib/ga4-client'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -33,6 +34,12 @@ export default function Contact() {
     setError('')
 
     try {
+      // Get GA4 identifiers for enhanced tracking
+      const [clientId, sessionId] = await Promise.all([
+        getGA4ClientId(),
+        getGA4SessionId()
+      ])
+
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -40,7 +47,9 @@ export default function Contact() {
         },
         body: JSON.stringify({
           ...formData,
-          pageUrl: window.location.href
+          pageUrl: window.location.href,
+          clientId,
+          sessionId
         }),
       })
 

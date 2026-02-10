@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { trackPhoneClick, trackEmailClick } from '@/lib/ga4-client'
 
 export default function Footer() {
   const services = [
@@ -134,6 +135,7 @@ export default function Footer() {
               <li>
                 <a
                   href="tel:512-706-9577"
+                  onClick={() => trackPhoneClick('512-706-9577', 'Footer')}
                   className="text-blue-500 hover:text-blue-400 transition font-semibold flex items-center gap-2"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -145,6 +147,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/contact"
+                  onClick={() => trackEmailClick('Footer Contact Link')}
                   className="text-blue-500 hover:text-blue-400 transition font-semibold flex items-center gap-2"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { useState, useRef, useEffect, MouseEvent } from 'react'
 import Navigation from './components/Navigation'
 import Footer from './components/Footer'
+import { getGA4ClientId, getGA4SessionId } from '@/lib/ga4-client'
 
 // Gallery images with project details
 const galleryImages = [
@@ -52,6 +53,12 @@ function QuickContactForm() {
     setError('')
 
     try {
+      // Get GA4 identifiers for enhanced tracking
+      const [clientId, sessionId] = await Promise.all([
+        getGA4ClientId(),
+        getGA4SessionId()
+      ])
+
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -59,7 +66,9 @@ function QuickContactForm() {
         },
         body: JSON.stringify({
           ...formData,
-          pageUrl: window.location.href
+          pageUrl: window.location.href,
+          clientId,
+          sessionId
         }),
       })
 
