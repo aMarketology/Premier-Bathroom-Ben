@@ -14,11 +14,36 @@ export default function Services() {
     service: '',
     smsConsent: false
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
-    // Add form submission logic here
+    setIsSubmitting(true)
+    setError('')
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send email')
+      }
+
+      // Redirect to thank you page on success
+      window.location.href = '/thank-you'
+    } catch (err) {
+      console.error('Error submitting form:', err)
+      setError(err instanceof Error ? err.message : 'Failed to submit form. Please try again.')
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -100,6 +125,12 @@ export default function Services() {
                 <h3 className="text-2xl font-semibold text-gray-900 mb-2">REQUEST AN APPOINTMENT ONLINE</h3>
                 <p className="text-gray-600">Get your free quote today!</p>
               </div>
+
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+                  {error}
+                </div>
+              )}
 
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
@@ -184,9 +215,10 @@ export default function Services() {
 
                 <button
                   type="submit"
-                  className="w-full py-4 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl"
+                  disabled={isSubmitting}
+                  className="w-full py-4 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Submit Request
+                  {isSubmitting ? 'Sending...' : 'Submit Request'}
                 </button>
               </form>
             </motion.div>

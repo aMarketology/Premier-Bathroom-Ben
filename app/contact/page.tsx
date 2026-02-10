@@ -11,7 +11,8 @@ export default function Contact() {
     phone: '',
     message: ''
   })
-  const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -23,11 +24,31 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Send form data to server
-    console.log('Form submitted:', formData)
-    setSubmitted(true)
-    setFormData({ name: '', email: '', phone: '', message: '' })
-    setTimeout(() => setSubmitted(false), 5000)
+    setIsSubmitting(true)
+    setError('')
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send email')
+      }
+
+      // Redirect to thank you page on success
+      window.location.href = '/thank-you'
+    } catch (err) {
+      console.error('Error submitting form:', err)
+      setError(err instanceof Error ? err.message : 'Failed to submit form. Please try again.')
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -139,9 +160,9 @@ export default function Contact() {
           <div>
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Request a Free Quote</h2>
             
-            {submitted && (
-              <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded">
-                Thank you for your message! We will contact you soon.
+            {error && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded">
+                {error}
               </div>
             )}
 
@@ -211,9 +232,10 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded transition transform hover:-translate-y-1"
+                disabled={isSubmitting}
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded transition transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
-                Request Free Quote
+                {isSubmitting ? 'Sending...' : 'Request Free Quote'}
               </button>
             </form>
           </div>
