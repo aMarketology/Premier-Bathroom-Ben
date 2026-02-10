@@ -11,7 +11,7 @@ export default function About() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-600 via-cyan-600 to-blue-700 text-white py-24 px-4 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white py-24 px-4 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(-45deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]" />
         </div>
@@ -22,9 +22,9 @@ export default function About() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-sm font-semibold uppercase tracking-widest mb-4 block text-blue-100">About Us</span>
+            <span className="text-sm font-semibold uppercase tracking-widest mb-4 block text-cyan-400">About Us</span>
             <h1 className="text-5xl md:text-6xl font-bold mb-6">Premier Bathroom Remodel Austin</h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Austin's trusted experts in bathroom remodeling and premium flooring solutions since 2008
             </p>
           </motion.div>
@@ -41,7 +41,7 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <span className="text-sm font-semibold text-blue-600 uppercase tracking-widest mb-4 block">Our Story</span>
+              <span className="text-sm font-semibold text-cyan-600 uppercase tracking-widest mb-4 block">Our Story</span>
               <h2 className="text-4xl font-bold text-gray-900 mb-6">
                 Building Trust Through Quality Craftsmanship
               </h2>
@@ -53,15 +53,15 @@ export default function About() {
               </p>
               <div className="flex items-center gap-8 pt-4">
                 <div>
-                  <div className="text-4xl font-bold text-blue-600">15+</div>
+                  <div className="text-4xl font-bold text-cyan-600">15+</div>
                   <div className="text-sm text-gray-600">Years Experience</div>
                 </div>
                 <div>
-                  <div className="text-4xl font-bold text-blue-600">500+</div>
+                  <div className="text-4xl font-bold text-cyan-600">500+</div>
                   <div className="text-sm text-gray-600">Projects Completed</div>
                 </div>
                 <div>
-                  <div className="text-4xl font-bold text-blue-600">4.6★</div>
+                  <div className="text-4xl font-bold text-cyan-600">4.8★</div>
                   <div className="text-sm text-gray-600">Google Rating</div>
                 </div>
               </div>
@@ -74,8 +74,8 @@ export default function About() {
               transition={{ duration: 0.6 }}
               className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-600 opacity-10" />
-              <div className="absolute inset-0 flex items-center justify-center text-blue-600">
+              <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-blue-900 opacity-10" />
+              <div className="absolute inset-0 flex items-center justify-center text-cyan-600">
                 <svg className="w-32 h-32" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
                 </svg>
@@ -94,7 +94,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <span className="text-sm font-semibold text-blue-600 uppercase tracking-widest mb-4 block">Our Mission</span>
+              <span className="text-sm font-semibold text-cyan-600 uppercase tracking-widest mb-4 block">Our Mission</span>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
                 Transforming Homes, Enhancing Lives
               </h2>
@@ -152,7 +152,7 @@ export default function About() {
                 transition={{ delay: index * 0.1 }}
                 className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
               >
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 text-blue-600">
+                <div className="w-16 h-16 bg-cyan-100 rounded-full flex items-center justify-center mb-6 text-cyan-600">
                   {value.icon}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
@@ -164,7 +164,7 @@ export default function About() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-blue-600 to-cyan-700 text-center">
+      <section className="py-20 px-4 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-center">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -174,13 +174,13 @@ export default function About() {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Ready to Start Your Project?
             </h2>
-            <p className="text-xl text-blue-100 mb-8">
+            <p className="text-xl text-gray-300 mb-8">
               Let's discuss your bathroom remodeling or flooring needs. Contact us today for a free consultation.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
                 href="tel:512-706-9577" 
-                className="inline-flex items-center justify-center gap-2 bg-white text-blue-600 font-bold py-4 px-8 rounded-lg hover:bg-gray-100 transition-all shadow-lg text-lg"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-4 px-8 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all shadow-lg text-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -189,7 +189,7 @@ export default function About() {
               </a>
               <Link 
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-transparent border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-blue-600 transition-all text-lg"
+                className="inline-flex items-center justify-center gap-2 bg-transparent border-2 border-cyan-400 text-white font-bold py-4 px-8 rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all text-lg"
               >
                 Get Free Estimate
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -206,7 +206,7 @@ export default function About() {
             </p>
             <a 
               href="tel:512-706-9577" 
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded inline-block transition"
+              className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-3 px-8 rounded-lg inline-block transition shadow-lg"
             >
               Call 512-706-9577
             </a>
