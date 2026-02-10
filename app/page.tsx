@@ -30,8 +30,7 @@ function QuickContactForm() {
     name: '',
     phone: '',
     email: '',
-    service: '',
-    smsConsent: false
+    service: ''
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -209,21 +208,6 @@ function QuickContactForm() {
                   <option value="flooring" className="text-gray-900">Premium Flooring</option>
                   <option value="other" className="text-gray-900">Other</option>
                 </select>
-              </div>
-
-              <div className="flex items-start justify-center">
-                <input
-                  type="checkbox"
-                  id="form-sms-consent"
-                  name="smsConsent"
-                  checked={formData.smsConsent}
-                  onChange={handleChange}
-                  disabled={loading}
-                  className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:opacity-50"
-                />
-                <label htmlFor="form-sms-consent" className="ml-2 text-sm text-white/80">
-                  I agree to receive SMS messages. Reply STOP to opt-out.
-                </label>
               </div>
 
               <button
@@ -513,8 +497,23 @@ export default function Home() {
 
       {/* === REVIEWS SECTION === */}
       <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="elfsight-app-395835fd-a621-4c6a-a692-0e93c62fcec9" data-elfsight-app-lazy></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4"
+            >
+              What Our Customers Say
+            </motion.h2>
+            <p className="text-lg md:text-xl text-gray-600">
+              Real reviews from real customers in Austin
+            </p>
+          </div>
+          <div className="w-full min-h-[400px]">
+            <div className="elfsight-app-395835fd-a621-4c6a-a692-0e93c62fcec9" data-elfsight-app-lazy></div>
+          </div>
         </div>
       </section>
 

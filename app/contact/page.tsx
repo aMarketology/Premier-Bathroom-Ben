@@ -11,8 +11,7 @@ export default function Contact() {
     email: '',
     phone: '',
     message: '',
-    service: '',
-    smsConsent: false
+    service: ''
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -188,21 +187,6 @@ export default function Contact() {
                   rows={4}
                   className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/20 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition text-white placeholder-white/60 resize-none disabled:opacity-50"
                 ></textarea>
-              </div>
-
-              <div className="flex items-start">
-                <input
-                  type="checkbox"
-                  id="sms-consent"
-                  name="smsConsent"
-                  checked={formData.smsConsent}
-                  onChange={handleChange}
-                  disabled={loading}
-                  className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:opacity-50"
-                />
-                <label htmlFor="sms-consent" className="ml-2 text-sm text-white/80">
-                  I agree to receive SMS messages. Reply STOP to opt-out.
-                </label>
               </div>
 
               <button
