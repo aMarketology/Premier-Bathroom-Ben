@@ -33,7 +33,7 @@ export default function Gallery() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {galleryImages.map((image) => (
               <div key={image.id} className="group relative overflow-hidden rounded-lg shadow-lg bg-gray-300 h-64">
-                <div className="w-full h-full bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center text-white font-bold group-hover:from-orange-400 group-hover:to-orange-500 transition">
+                <div className="w-full h-full bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center text-white font-bold group-hover:from-blue-400 group-hover:to-blue-500 transition">
                   {image.title}
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4 text-white opacity-0 group-hover:opacity-100 transition">
@@ -51,7 +51,7 @@ export default function Gallery() {
         <h2 className="text-3xl font-bold text-gray-900 mb-6">Ready to see your project here?</h2>
         <a 
           href="tel:(727) 743-7242" 
-          className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded inline-block transition"
+          className="bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-8 rounded inline-block transition"
         >
           Call Now
         </a>

@@ -35,7 +35,7 @@ export default function Navigation() {
               className="flex items-center"
             >
               <div className={`text-2xl font-bold ${scrolled ? 'text-slate-900' : 'text-white'}`}>
-                <span className={scrolled ? 'text-blue-600' : 'text-blue-400'}>Premier Bathroom</span> Remodel Austin
+                <span className={scrolled ? 'text-blue-600' : 'text-blue-400'}>Tile Pros</span> Austin
               </div>
             </motion.div>
           </Link>

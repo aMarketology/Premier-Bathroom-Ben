@@ -73,7 +73,7 @@ export default function RootLayout({
         {/* Google Search Console Verification */}
         <meta name="google-site-verification" content="your-google-verification" />
         {/* Additional Meta Tags */}
-        <meta name="theme-color" content="#ff8c00" />
+        <meta name="theme-color" content="#1e3a8a" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>

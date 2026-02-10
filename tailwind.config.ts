@@ -12,7 +12,7 @@ const config: Config = {
         sans: ['var(--font-inter)', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif'],
       },
       colors: {
-        primary: '#ff8c00',
+        primary: '#1e3a8a',
         dark: '#1a1a1a',
         darkAlt: '#2d2d2d',
         light: '#f8f9fa',

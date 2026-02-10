@@ -820,7 +820,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light text-slate-100 mb-4">
-              Why Choose <span className="text-blue-500">Premier Bathroom Remodel Austin</span>
+              Why Choose <span className="text-blue-500">Tile Pros Austin</span>
             </h2>
             <p className="text-xl text-slate-400 max-w-2xl mx-auto">
               Experience the difference of working with Austin's trusted remodeling experts
@@ -897,7 +897,7 @@ export default function Home() {
           </h2>
           
           <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto">
-            Contact Premier Bathroom Remodel Austin today for a free consultation. Let's bring your vision to life!
+            Contact Tile Pros Austin today for a free consultation. Let's bring your vision to life!
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

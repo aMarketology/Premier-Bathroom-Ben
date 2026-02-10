@@ -103,14 +103,14 @@ export const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
             }}
             className="absolute w-full"
           >
-            <div className="bg-white rounded-lg shadow-lg p-8 border-l-4 border-orange-500">
+            <div className="bg-white rounded-lg shadow-lg p-8 border-l-4 border-blue-900">
               <div className="flex items-start gap-4 mb-4">
                 <div className="text-5xl">{currentTestimonial.image}</div>
                 <div>
                   <h4 className="font-bold text-xl text-gray-900">
                     {currentTestimonial.name}
                   </h4>
-                  <p className="text-sm text-orange-500 font-semibold">
+                  <p className="text-sm text-blue-900 font-semibold">
                     {currentTestimonial.role}
                   </p>
                 </div>
@@ -132,7 +132,7 @@ export const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
         {/* Navigation Buttons */}
         <button
           onClick={() => paginate(-1)}
-          className="absolute left-0 z-10 -translate-x-12 md:-translate-x-16 w-10 h-10 bg-orange-500 hover:bg-orange-600 text-white rounded-full flex items-center justify-center transition shadow-lg"
+          className="absolute left-0 z-10 -translate-x-12 md:-translate-x-16 w-10 h-10 bg-blue-900 hover:bg-blue-800 text-white rounded-full flex items-center justify-center transition shadow-lg"
         >
           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -141,7 +141,7 @@ export const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
 
         <button
           onClick={() => paginate(1)}
-          className="absolute right-0 z-10 translate-x-12 md:translate-x-16 w-10 h-10 bg-orange-500 hover:bg-orange-600 text-white rounded-full flex items-center justify-center transition shadow-lg"
+          className="absolute right-0 z-10 translate-x-12 md:translate-x-16 w-10 h-10 bg-blue-900 hover:bg-blue-800 text-white rounded-full flex items-center justify-center transition shadow-lg"
         >
           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
@@ -159,7 +159,7 @@ export const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
               setCurrentIndex(index)
             }}
             className={`w-3 h-3 rounded-full transition ${
-              index === currentIndex ? 'bg-orange-500' : 'bg-gray-300'
+              index === currentIndex ? 'bg-blue-900' : 'bg-gray-300'
             }`}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}
