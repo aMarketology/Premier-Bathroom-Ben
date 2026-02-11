@@ -61,7 +61,7 @@ export default function About() {
                   <div className="text-sm text-gray-600">Projects Completed</div>
                 </div>
                 <div>
-                  <div className="text-4xl font-bold text-cyan-600">4.8★</div>
+                  <div className="text-4xl font-bold text-cyan-600">4.8â˜…</div>
                   <div className="text-sm text-gray-600">Google Rating</div>
                 </div>
               </div>
@@ -179,13 +179,13 @@ export default function About() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
-                href="tel:512-706-9577" 
+                href="tel:512-492-2321" 
                 className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-4 px-8 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all shadow-lg text-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                Call (512) 706-9577
+                Call (512) 492-2321
               </a>
               <Link 
                 href="/contact"
@@ -205,10 +205,10 @@ export default function About() {
               Ready to transform your bathroom or upgrade your flooring? Get in touch today for a free consultation and quote.
             </p>
             <a 
-              href="tel:512-706-9577" 
+              href="tel:512-492-2321" 
               className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-3 px-8 rounded-lg inline-block transition shadow-lg"
             >
-              Call 512-706-9577
+              Call 512-492-2321
             </a>
           </div>
         </div>
@@ -218,3 +218,4 @@ export default function About() {
     </div>
   )
 }
+

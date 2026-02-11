@@ -9,42 +9,42 @@ import Image from 'next/image'
 export default function TubToShowerConversionAustin() {
   const benefits = [
     {
-      icon: '⚡',
+      icon: 'âš¡',
       title: 'One-Day Installation',
       description: 'Most conversions completed in just 24 hours with minimal disruption'
     },
     {
-      icon: '📏',
+      icon: 'ðŸ“',
       title: 'Increased Space',
       description: 'Remove bulky tub to create a more spacious, open bathroom'
     },
     {
-      icon: '🛡️',
+      icon: 'ðŸ›¡ï¸',
       title: 'Enhanced Safety',
       description: 'Low or no threshold entry reduces fall risk for all ages'
     },
     {
-      icon: '🌟',
+      icon: 'ðŸŒŸ',
       title: 'Low Maintenance',
       description: 'Modern materials resist mold, mildew, and staining'
     },
     {
-      icon: '🎨',
+      icon: 'ðŸŽ¨',
       title: 'Custom Designs',
       description: 'Choose from hundreds of tile, fixture, and layout options'
     },
     {
-      icon: '💰',
+      icon: 'ðŸ’°',
       title: 'Increased Value',
       description: 'Modern showers are highly desirable to homebuyers'
     },
     {
-      icon: '💧',
+      icon: 'ðŸ’§',
       title: 'Water Efficiency',
       description: 'Low-flow fixtures save water and reduce utility bills'
     },
     {
-      icon: '✅',
+      icon: 'âœ…',
       title: 'Warranty Included',
       description: 'Full warranty on materials and workmanship'
     }
@@ -182,7 +182,7 @@ export default function TubToShowerConversionAustin() {
 
               <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl p-6 border border-cyan-100">
                 <div className="flex items-center gap-4 mb-3">
-                  <div className="text-4xl">⚡</div>
+                  <div className="text-4xl">âš¡</div>
                   <div>
                     <div className="text-2xl font-bold text-cyan-600">1-Day Install</div>
                     <div className="text-sm text-gray-600">Most conversions completed in 24 hours</div>
@@ -192,13 +192,13 @@ export default function TubToShowerConversionAustin() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
-                  href="tel:512-706-9577"
+                  href="tel:512-492-2321"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-lg font-medium text-white hover:shadow-lg hover:shadow-cyan-500/40 transition-all text-lg"
                 >
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                   </svg>
-                  Call 512-706-9577
+                  Call 512-492-2321
                 </a>
                 <Link
                   href="/contact"
@@ -380,7 +380,7 @@ export default function TubToShowerConversionAustin() {
                   <div className="text-5xl font-bold text-cyan-200 mb-4">{item.step}</div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">{item.title}</h3>
                   <p className="text-gray-600 text-sm mb-3">{item.description}</p>
-                  <div className="text-xs text-cyan-600 font-medium">⏱️ {item.duration}</div>
+                  <div className="text-xs text-cyan-600 font-medium">â±ï¸ {item.duration}</div>
                 </div>
               </motion.div>
             ))}
@@ -477,13 +477,13 @@ export default function TubToShowerConversionAustin() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:512-706-9577"
+                href="tel:512-492-2321"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white rounded-lg font-medium text-cyan-600 hover:bg-cyan-50 transition-all text-lg shadow-xl"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                Call 512-706-9577
+                Call 512-492-2321
               </a>
               <Link
                 href="/contact"
@@ -524,3 +524,4 @@ export default function TubToShowerConversionAustin() {
     </div>
   )
 }
+

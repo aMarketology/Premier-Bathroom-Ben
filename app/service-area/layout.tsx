@@ -18,3 +18,4 @@ export default function ServiceAreaRootLayout({
 }) {
   return <>{children}</>
 }
+

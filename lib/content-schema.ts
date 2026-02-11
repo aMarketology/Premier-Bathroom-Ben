@@ -105,8 +105,8 @@ export const defaultContent: PageContent = {
     heading2: 'Concrete Coatings',
     description: 'Precision-engineered epoxy, metallic resin, and polished concrete solutions for discerning clients.',
     ctaPrimary: {
-      text: '(727) 743-7242',
-      phone: '(727) 743-7242'
+      text: '(512) 492-2321',
+      phone: '(512) 492-2321'
     },
     ctaSecondary: {
       text: 'Schedule Consultation',
@@ -177,7 +177,7 @@ export const defaultContent: PageContent = {
     id: 'service-areas-1',
     badge: 'Service Areas',
     heading: 'Serving Tampa Bay',
-    subheading: 'Tampa • St. Petersburg • Clearwater • Brandon • Riverview & More',
+    subheading: 'Tampa â€¢ St. Petersburg â€¢ Clearwater â€¢ Brandon â€¢ Riverview & More',
     cities: ['Tampa', 'St. Petersburg', 'Clearwater', 'Brandon', 'Riverview', 'Lutz', 'Carrollwood', "Land O' Lakes", 'Temple Terrace', 'Plant City']
   },
   cta: {
@@ -186,8 +186,8 @@ export const defaultContent: PageContent = {
     headingHighlight: 'Your Space?',
     description: 'Get a free consultation and quote today. Let our experts bring your vision to life.',
     ctaPrimary: {
-      text: '(727) 743-7242',
-      phone: '(727) 743-7242'
+      text: '(512) 492-2321',
+      phone: '(512) 492-2321'
     },
     ctaSecondary: {
       text: 'Request Free Quote',
@@ -201,3 +201,4 @@ export const defaultContent: PageContent = {
     keywords: ['concrete coatings tampa', 'epoxy floors', 'metallic resin', 'polished concrete', 'garage floors tampa']
   }
 }
+

@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Bathroom Remodeling Austin TX | Expert Renovation Services | Premier Bathroom',
-  description: 'Premier Bathroom Remodel Austin offers expert bathroom renovation services in Austin, TX. Custom designs, quality craftsmanship, and complete remodeling solutions. Call 512-706-9577 for a free quote.',
+  description: 'Premier Bathroom Remodel Austin offers expert bathroom renovation services in Austin, TX. Custom designs, quality craftsmanship, and complete remodeling solutions. Call 512-492-2321 for a free quote.',
   keywords: 'bathroom remodeling Austin, bathroom renovation Austin TX, bathroom remodel near me, Austin bathroom contractors, custom bathroom design Austin',
   openGraph: {
     title: 'Professional Bathroom Remodeling in Austin, TX',
@@ -18,3 +18,4 @@ export default function BathroomRemodelingAustinLayout({
 }) {
   return <>{children}</>
 }
+

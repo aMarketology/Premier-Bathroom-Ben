@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Bathroom Vanity Installation Austin TX | Custom Vanities',
-  description: 'Expert bathroom vanity installation in Austin, TX. Single & double sink vanities, floating designs, premium countertops. Free quotes. Licensed & insured. Call (512) 706-9577.',
+  description: 'Expert bathroom vanity installation in Austin, TX. Single & double sink vanities, floating designs, premium countertops. Free quotes. Licensed & insured. Call (512) 492-2321.',
   keywords: 'bathroom vanity installation Austin, custom bathroom vanity Austin TX, vanity replacement Austin, double sink vanity Austin, floating vanity installation Austin',
   openGraph: {
     title: 'Bathroom Vanity Installation Austin TX | Premier Bathroom Remodel',
@@ -14,3 +14,4 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return children
 }
+

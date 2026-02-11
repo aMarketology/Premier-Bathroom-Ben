@@ -98,10 +98,10 @@ export default function Contact() {
             {/* Features */}
             <div className="grid grid-cols-2 gap-4 pt-4">
               {[
-                { icon: '✓', text: 'Free In-Home Consultation' },
-                { icon: '✓', text: 'Transparent Pricing' },
-                { icon: '✓', text: 'Licensed & Insured' },
-                { icon: '✓', text: 'Quality Guaranteed' },
+                { icon: 'âœ“', text: 'Free In-Home Consultation' },
+                { icon: 'âœ“', text: 'Transparent Pricing' },
+                { icon: 'âœ“', text: 'Licensed & Insured' },
+                { icon: 'âœ“', text: 'Quality Guaranteed' },
               ].map((item, i) => (
                 <div key={i} className="flex flex-col items-center gap-2">
                   <div className="w-10 h-10 rounded-full bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400 font-bold text-lg">
@@ -194,7 +194,7 @@ export default function Contact() {
                 disabled={loading}
                 className="w-full px-8 py-5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold text-lg rounded-lg hover:from-blue-400 hover:to-cyan-400 transition-all duration-300 shadow-lg hover:shadow-2xl disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transform hover:scale-105"
               >
-                {loading ? 'SUBMITTING...' : 'GET FREE QUOTE →'}
+                {loading ? 'SUBMITTING...' : 'GET FREE QUOTE â†’'}
               </button>
             </form>
           </div>
@@ -209,18 +209,18 @@ export default function Contact() {
             <div className="space-y-8">
               {/* Phone */}
               <div className="flex gap-4">
-                <div className="text-3xl">📞</div>
+                <div className="text-3xl">ðŸ“ž</div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Phone</h3>
-                  <a href="tel:512-706-9577" className="text-cyan-400 font-bold hover:text-cyan-300 text-2xl">
-                    512-706-9577
+                  <a href="tel:512-492-2321" className="text-cyan-400 font-bold hover:text-cyan-300 text-2xl">
+                    512-492-2321
                   </a>
                 </div>
               </div>
 
               {/* Email */}
               <div className="flex gap-4">
-                <div className="text-3xl">✉️</div>
+                <div className="text-3xl">âœ‰ï¸</div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Email</h3>
                   <a href="mailto:info@premierbathroomremodel.com" className="text-cyan-400 font-bold hover:text-cyan-300">
@@ -231,7 +231,7 @@ export default function Contact() {
 
               {/* Address */}
               <div className="flex gap-4">
-                <div className="text-3xl">📍</div>
+                <div className="text-3xl">ðŸ“</div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Address</h3>
                   <p className="text-gray-300">
@@ -243,7 +243,7 @@ export default function Contact() {
 
               {/* Service Area */}
               <div className="flex gap-4">
-                <div className="text-3xl">🗺️</div>
+                <div className="text-3xl">ðŸ—ºï¸</div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Service Area</h3>
                   <p className="text-gray-300">
@@ -257,7 +257,7 @@ export default function Contact() {
 
               {/* Hours */}
               <div className="flex gap-4">
-                <div className="text-3xl">🕒</div>
+                <div className="text-3xl">ðŸ•’</div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Hours</h3>
                   <p className="text-gray-300">
@@ -276,3 +276,4 @@ export default function Contact() {
     </div>
   )
 }
+

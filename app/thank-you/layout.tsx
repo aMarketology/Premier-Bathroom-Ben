@@ -13,3 +13,4 @@ export default function ThankYouLayout({
 }) {
   return <>{children}</>
 }
+

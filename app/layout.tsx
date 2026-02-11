@@ -13,7 +13,7 @@ export const viewport = {
 
 export const metadata: Metadata = {
   title: 'Premier Bathroom Remodel Austin | Expert Bathroom Renovation Services',
-  description: 'Premier bathroom remodeling services in Austin, TX. Specializing in bathroom renovations, walk-in baths, shower remodels, and tub to shower conversions. Licensed, insured, 15+ years experience. Call 512-706-9577 for free quote.',
+  description: 'Premier bathroom remodeling services in Austin, TX. Specializing in bathroom renovations, walk-in baths, shower remodels, and tub to shower conversions. Licensed, insured, 15+ years experience. Call 512-492-2321 for free quote.',
   keywords: 'bathroom remodeling Austin, bathroom renovation Austin TX, walk-in bath Austin, shower remodel Austin, tub to shower conversion, Austin bathroom contractors, bathroom design Austin',
   metadataBase: new URL('https://premierbathroomremodelaustin.com'),
   openGraph: {
@@ -136,3 +136,4 @@ export default function RootLayout({
     </html>
   )
 }
+

@@ -47,19 +47,19 @@ export async function POST(request: NextRequest) {
     // Prepare email content
     const serviceText = service ? `\nService Requested: ${service}` : ''
     const messageText = message ? `\n\nMessage:\n${message}` : ''
-    const smsConsentText = smsConsent ? '\n\n✓ Customer agreed to receive SMS messages' : ''
+    const smsConsentText = smsConsent ? '\n\nâœ“ Customer agreed to receive SMS messages' : ''
     const pageUrlText = pageUrl ? `\nSubmitted from: ${pageUrl}` : ''
 
     const emailContent = `
 New Contact Form Submission - Premier Bathroom Remodel Austin
 
 Customer Information:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 Name: ${name}
 Email: ${email}
 Phone: ${phone}${serviceText}${messageText}${smsConsentText}${pageUrlText}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })}
     `.trim()
 
@@ -112,7 +112,7 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
                     
                     ${smsConsent ? `
                     <div style="background: #d6f5d6; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #48bb78;">
-                      <p style="margin: 0; color: #22543d;"><strong>✓ SMS Consent:</strong> Customer agreed to receive SMS messages</p>
+                      <p style="margin: 0; color: #22543d;"><strong>âœ“ SMS Consent:</strong> Customer agreed to receive SMS messages</p>
                     </div>
                     ` : ''}
                     
@@ -125,7 +125,7 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
                   
                   <div style="background: #2d3748; color: white; padding: 20px; text-align: center; font-size: 14px;">
                     <p style="margin: 0;">Premier Bathroom Remodel Austin - Austin, TX</p>
-                    <p style="margin: 5px 0 0 0;">(512) 706-9577</p>
+                    <p style="margin: 5px 0 0 0;">(512) 492-2321</p>
                   </div>
                 </div>
               `
@@ -163,3 +163,4 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
     )
   }
 }
+

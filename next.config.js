@@ -2,7 +2,7 @@
 const nextConfig = {
   async redirects() {
     return [
-      // Location-specific bathroom remodel pages → main bathroom remodeling service
+      // Location-specific bathroom remodel pages â†’ main bathroom remodeling service
       {
         source: '/bathroom-remodel-round-rock',
         destination: '/services/bathroom-remodeling-austin',
@@ -85,7 +85,7 @@ const nextConfig = {
         permanent: true,
       },
       
-      // Blog posts → Home page (no blog currently exists)
+      // Blog posts â†’ Home page (no blog currently exists)
       {
         source: '/blog',
         destination: '/',
@@ -106,3 +106,4 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
+

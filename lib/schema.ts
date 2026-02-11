@@ -7,7 +7,7 @@ export const organizationSchema = {
   image: 'https://premierbathroomremodelaustin.com/og-image.jpg',
   description: 'Expert bathroom remodeling, walk-in baths, shower renovations, and tub to shower conversions in Austin, TX. Licensed and insured with 15+ years experience.',
   url: 'https://premierbathroomremodelaustin.com',
-  telephone: '+1-512-706-9577',
+  telephone: '+1-512-492-2321',
   email: 'info@premierbathroomremodelaustin.com',
   address: {
     '@type': 'PostalAddress',
@@ -205,3 +205,4 @@ export const reviewSchema = {
     worstRating: '1',
   },
 };
+

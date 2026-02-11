@@ -12,25 +12,25 @@ A modern Next.js 13+ website built with React and TypeScript for Tampa Bay Concr
 ## Project Structure
 ```
 app/
-├── layout.tsx                 # Root layout with metadata
-├── page.tsx                   # Homepage
-├── globals.css               # Global Tailwind styles
-├── components/
-│   ├── Navigation.tsx        # Header with responsive menu
-│   └── Footer.tsx            # Footer with links and social
-├── services/
-│   └── page.tsx              # Services detail page
-├── contact/
-│   └── page.tsx              # Contact form and info
-├── gallery/
-│   └── page.tsx              # Photo gallery
-└── about/
-    └── page.tsx              # About the company
+â”œâ”€â”€ layout.tsx                 # Root layout with metadata
+â”œâ”€â”€ page.tsx                   # Homepage
+â”œâ”€â”€ globals.css               # Global Tailwind styles
+â”œâ”€â”€ components/
+â”‚   â”œâ”€â”€ Navigation.tsx        # Header with responsive menu
+â”‚   â””â”€â”€ Footer.tsx            # Footer with links and social
+â”œâ”€â”€ services/
+â”‚   â””â”€â”€ page.tsx              # Services detail page
+â”œâ”€â”€ contact/
+â”‚   â””â”€â”€ page.tsx              # Contact form and info
+â”œâ”€â”€ gallery/
+â”‚   â””â”€â”€ page.tsx              # Photo gallery
+â””â”€â”€ about/
+    â””â”€â”€ page.tsx              # About the company
 
 public/
-├── css/
-├── js/
-└── images/
+â”œâ”€â”€ css/
+â”œâ”€â”€ js/
+â””â”€â”€ images/
 ```
 
 ## Pages
@@ -40,7 +40,7 @@ public/
 - About section
 - Services overview (Epoxy Garage Floors, Metallic Resin Floors, Concrete Polishing)
 - Service areas list (Tampa Bay & Surrounding Areas)
-- Contact information: (727) 743-7242
+- Contact information: (512) 492-2321
 - Image gallery
 - Final CTA
 
@@ -72,15 +72,15 @@ public/
 - Why choose us section
 
 ## Features
-- ✅ Fully responsive design (mobile, tablet, desktop)
-- ✅ Dark theme with orange accents (#ff8c00)
-- ✅ Fast performance with Next.js
-- ✅ SEO-friendly structure
-- ✅ Contact form with validation
-- ✅ Mobile menu navigation
-- ✅ Service navigation links
-- ✅ Social media links
-- ✅ Smooth scrolling
+- âœ… Fully responsive design (mobile, tablet, desktop)
+- âœ… Dark theme with orange accents (#ff8c00)
+- âœ… Fast performance with Next.js
+- âœ… SEO-friendly structure
+- âœ… Contact form with validation
+- âœ… Mobile menu navigation
+- âœ… Service navigation links
+- âœ… Social media links
+- âœ… Smooth scrolling
 
 ## Color Scheme
 - **Primary Orange**: #ff8c00
@@ -111,7 +111,7 @@ The development server will start at `http://localhost:3000`
 
 ## Business Information
 - **Company**: Tampa Bay Concrete Coatings
-- **Phone**: (727) 743-7242
+- **Phone**: (512) 492-2321
 - **Address**: 386 Tavernier Cir, Oldsmar, FL 34677
 - **Service Areas**: Tampa Bay, Florida
 
@@ -138,3 +138,4 @@ vercel
 - SVG icons for social media
 - Form validation on contact page
 - Mobile-first responsive design
+

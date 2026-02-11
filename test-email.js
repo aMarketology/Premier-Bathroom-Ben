@@ -3,7 +3,7 @@ require('dotenv').config({ path: '.env.local' })
 const Mailjet = require('node-mailjet')
 
 async function testEmail() {
-  console.log('🧪 Testing Mailjet Email Configuration...\n')
+  console.log('ðŸ§ª Testing Mailjet Email Configuration...\n')
 
   // Check environment variables
   const apiKey = process.env.MAILJET_API_KEY
@@ -11,14 +11,14 @@ async function testEmail() {
   const email1 = process.env.NOTIFICATION_EMAIL_1
   const email2 = process.env.NOTIFICATION_EMAIL_2
 
-  console.log('✓ API Key:', apiKey ? `${apiKey.substring(0, 10)}...` : '❌ Missing')
-  console.log('✓ API Secret:', apiSecret ? `${apiSecret.substring(0, 10)}...` : '❌ Missing')
-  console.log('✓ Email 1:', email1 || '❌ Missing')
-  console.log('✓ Email 2:', email2 || '❌ Missing')
+  console.log('âœ“ API Key:', apiKey ? `${apiKey.substring(0, 10)}...` : 'âŒ Missing')
+  console.log('âœ“ API Secret:', apiSecret ? `${apiSecret.substring(0, 10)}...` : 'âŒ Missing')
+  console.log('âœ“ Email 1:', email1 || 'âŒ Missing')
+  console.log('âœ“ Email 2:', email2 || 'âŒ Missing')
   console.log('')
 
   if (!apiKey || !apiSecret || !email1) {
-    console.error('❌ Missing required environment variables')
+    console.error('âŒ Missing required environment variables')
     process.exit(1)
   }
 
@@ -31,7 +31,7 @@ async function testEmail() {
   const recipients = [email1, email2].filter(Boolean)
 
   try {
-    console.log('📧 Sending test email to:', recipients.join(', '))
+    console.log('ðŸ“§ Sending test email to:', recipients.join(', '))
     console.log('')
 
     const testPageUrl = 'http://localhost:3000/test'
@@ -57,17 +57,17 @@ async function testEmail() {
 TEST Contact Form Submission - Premier Bathroom Remodel Austin
 
 Customer Information:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 Name: Test User
 Email: test@example.com
-Phone: (512) 555-1234
+Phone: (512) 492-2321
 Service Requested: Bathroom Remodeling
 Submitted from: ${testPageUrl}
 
 Message:
 This is a test email to verify the Mailjet configuration is working correctly.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })}
               `.trim(),
               HTMLPart: `
@@ -83,7 +83,7 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
                     <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #3b82f6;">
                       <p style="margin: 0 0 10px 0;"><strong style="color: #2563eb;">Name:</strong> Test User</p>
                       <p style="margin: 0 0 10px 0;"><strong style="color: #2563eb;">Email:</strong> <a href="mailto:test@example.com" style="color: #1e40af;">test@example.com</a></p>
-                      <p style="margin: 0 0 10px 0;"><strong style="color: #2563eb;">Phone:</strong> <a href="tel:5125551234" style="color: #1e40af;">(512) 555-1234</a></p>
+                      <p style="margin: 0 0 10px 0;"><strong style="color: #2563eb;">Phone:</strong> <a href="tel:5124922321" style="color: #1e40af;">(512) 492-2321</a></p>
                       <p style="margin: 0 0 10px 0;"><strong style="color: #2563eb;">Service:</strong> Bathroom Remodeling</p>
                       <p style="margin: 0;"><strong style="color: #2563eb;">Page URL:</strong> <a href="${testPageUrl}" style="color: #1e40af; word-break: break-all;">${testPageUrl}</a></p>
                     </div>
@@ -94,7 +94,7 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
                     </div>
                     
                     <div style="background: #fef3c7; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #f59e0b;">
-                      <p style="margin: 0; color: #92400e;"><strong>⚠️ This is a TEST email</strong> - Please disregard</p>
+                      <p style="margin: 0; color: #92400e;"><strong>âš ï¸ This is a TEST email</strong> - Please disregard</p>
                     </div>
                     
                     <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
@@ -106,7 +106,7 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
                   
                   <div style="background: #2d3748; color: white; padding: 20px; text-align: center; font-size: 14px;">
                     <p style="margin: 0;">Premier Bathroom Remodel Austin - Austin, TX</p>
-                    <p style="margin: 5px 0 0 0;">(512) 706-9577</p>
+                    <p style="margin: 5px 0 0 0;">(512) 492-2321</p>
                   </div>
                 </div>
               `
@@ -114,21 +114,22 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
           ]
         })
 
-      console.log(`✅ Test email sent successfully to: ${recipientEmail}`)
+      console.log(`âœ… Test email sent successfully to: ${recipientEmail}`)
       console.log(`   Message ID: ${result.body.Messages[0].To[0].MessageID}`)
     }
 
     console.log('')
-    console.log('🎉 All test emails sent successfully!')
-    console.log('📬 Please check your inbox at:')
+    console.log('ðŸŽ‰ All test emails sent successfully!')
+    console.log('ðŸ“¬ Please check your inbox at:')
     recipients.forEach(email => console.log(`   - ${email}`))
     
   } catch (error) {
     console.error('')
-    console.error('❌ Error sending test email:')
+    console.error('âŒ Error sending test email:')
     console.error(error.response ? error.response.body : error.message)
     process.exit(1)
   }
 }
 
 testEmail()
+

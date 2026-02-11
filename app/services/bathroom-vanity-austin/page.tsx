@@ -42,13 +42,13 @@ export default function BathroomVanityAustin() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <a
-                href="tel:512-706-9577"
+                href="tel:512-492-2321"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold rounded-lg hover:from-blue-500 hover:to-cyan-500 transition-all shadow-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                Call (512) 706-9577
+                Call (512) 492-2321
               </a>
               <Link
                 href="/contact"
@@ -78,7 +78,7 @@ export default function BathroomVanityAustin() {
                 Transform Your Bathroom with a Custom Vanity
               </h2>
               <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                Your bathroom vanity is more than just storage—it's the centerpiece of your bathroom design. Premier Bathroom Remodel Austin specializes in custom vanity installation that combines style, functionality, and quality craftsmanship.
+                Your bathroom vanity is more than just storageâ€”it's the centerpiece of your bathroom design. Premier Bathroom Remodel Austin specializes in custom vanity installation that combines style, functionality, and quality craftsmanship.
               </p>
               <p className="text-lg text-gray-700 mb-6 leading-relaxed">
                 From modern floating vanities to traditional double-sink designs, we offer a wide range of options to match your style and maximize your space. Our expert installers ensure precise measurements, proper plumbing connections, and flawless finishing.
@@ -161,12 +161,12 @@ export default function BathroomVanityAustin() {
             <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">Why Upgrade Your Bathroom Vanity?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
-                { icon: '📦', title: 'Increased Storage', desc: 'Maximize space with organized drawers and cabinets' },
-                { icon: '✨', title: 'Enhanced Style', desc: 'Update your bathroom\'s look and feel instantly' },
-                { icon: '💰', title: 'Better ROI', desc: 'One of the best bathroom upgrades for home value' },
-                { icon: '🔧', title: 'Improved Function', desc: 'Better lighting, outlets, and accessibility' },
-                { icon: '💎', title: 'Quality Materials', desc: 'Durable countertops and premium finishes' },
-                { icon: '⚡', title: 'Quick Installation', desc: 'Professional install in 1-2 days typically' }
+                { icon: 'ðŸ“¦', title: 'Increased Storage', desc: 'Maximize space with organized drawers and cabinets' },
+                { icon: 'âœ¨', title: 'Enhanced Style', desc: 'Update your bathroom\'s look and feel instantly' },
+                { icon: 'ðŸ’°', title: 'Better ROI', desc: 'One of the best bathroom upgrades for home value' },
+                { icon: 'ðŸ”§', title: 'Improved Function', desc: 'Better lighting, outlets, and accessibility' },
+                { icon: 'ðŸ’Ž', title: 'Quality Materials', desc: 'Durable countertops and premium finishes' },
+                { icon: 'âš¡', title: 'Quick Installation', desc: 'Professional install in 1-2 days typically' }
               ].map((benefit, i) => (
                 <motion.div
                   key={i}
@@ -216,13 +216,13 @@ export default function BathroomVanityAustin() {
             <p className="text-xl mb-8 text-blue-100">Get expert bathroom vanity installation from Austin's trusted remodeling professionals</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:512-706-9577"
+                href="tel:512-492-2321"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-gray-100 transition-all shadow-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                Call (512) 706-9577
+                Call (512) 492-2321
               </a>
               <Link
                 href="/contact"
@@ -239,3 +239,4 @@ export default function BathroomVanityAustin() {
     </div>
   )
 }
+

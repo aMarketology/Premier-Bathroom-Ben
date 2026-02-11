@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Full Bathroom Remodel Austin TX | Complete Renovation Services',
-  description: 'Professional full bathroom remodeling in Austin, TX. Complete renovation services including design, demolition, installation & finishing. Free consultation. Licensed & insured. Call (512) 706-9577.',
+  description: 'Professional full bathroom remodeling in Austin, TX. Complete renovation services including design, demolition, installation & finishing. Free consultation. Licensed & insured. Call (512) 492-2321.',
   keywords: 'full bathroom remodel Austin, complete bathroom renovation Austin TX, bathroom remodeling services Austin, custom bathroom design Austin, bathroom renovation contractors Austin',
   openGraph: {
     title: 'Full Bathroom Remodel Austin TX | Premier Bathroom Remodel',
@@ -14,3 +14,4 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return children
 }
+
