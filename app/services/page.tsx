@@ -1,13 +1,14 @@
-'use client'
+﻿'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
 import Link from 'next/link'
 
 export default function Services() {
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-white">
       <Navigation />
 
       {/* === HERO SECTION === */}
@@ -26,18 +27,18 @@ export default function Services() {
             transition={{ duration: 0.6 }}
             className="text-center space-y-6"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-800 bg-slate-900/50 backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 bg-slate-900/50 backdrop-blur-sm">
               <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-              <span className="text-xs font-medium text-slate-400 uppercase tracking-widest">Our Services</span>
+              <span className="text-xs font-medium text-slate-600 uppercase tracking-widest">Our Services</span>
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-light text-slate-100 tracking-tight">
+            <h1 className="text-5xl md:text-7xl font-light text-slate-900 tracking-tight">
               Bathroom
               <br />
               <span className="bg-gradient-to-r from-blue-400 via-cyan-500 to-blue-600 bg-clip-text text-transparent">Remodeling Services</span>
             </h1>
 
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               Expert bathroom renovation and transformation serving Austin, Rollingwood, Manchaca, Pflugerville, and surrounding areas
             </p>
           </motion.div>
@@ -45,7 +46,7 @@ export default function Services() {
       </section>
 
       {/* === MAIN SERVICES SECTION === */}
-      <section className="relative py-24 bg-black">
+      <section className="relative py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           
           {/* Service 1: Bathroom Remodeling Austin */}
@@ -57,20 +58,20 @@ export default function Services() {
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-800 bg-blue-900/20">
-                  <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">Featured Service</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50">
+                  <span className="text-xs font-medium text-blue-600 uppercase tracking-widest">Featured Service</span>
                 </div>
                 
-                <h2 className="text-4xl md:text-5xl font-light text-slate-100">
+                <h2 className="text-4xl md:text-5xl font-light text-slate-900">
                   Bathroom Remodeling <span className="text-cyan-500">Austin</span>
                 </h2>
 
-                <p className="text-lg text-slate-400 leading-relaxed">
+                <p className="text-lg text-slate-600 leading-relaxed">
                   When you're looking for a bathroom remodel in Austin, TX, make sure to call the experts at Premier Bathroom Remodel Austin. We take pride in transforming ordinary bathrooms into stunning, functional spaces that exceed expectations.
                 </p>
 
                 <div className="space-y-3">
-                  <h3 className="text-xl font-semibold text-slate-200">Our Comprehensive Services Include:</h3>
+                  <h3 className="text-xl font-semibold text-slate-800">Our Comprehensive Services Include:</h3>
                   <ul className="space-y-3">
                     {[
                       'Complete bathroom renovations',
@@ -103,7 +104,7 @@ export default function Services() {
                   </a>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-900/50 border border-slate-800 rounded-lg font-medium text-slate-300 hover:bg-slate-800/50 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-300 rounded-lg font-medium text-slate-700 hover:bg-slate-800/50 transition-all"
                   >
                     Get Free Quote
                   </Link>
@@ -111,11 +112,17 @@ export default function Services() {
               </div>
 
               <div className="relative">
-                <div className="aspect-square rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 p-8 flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <div className="text-6xl font-bold text-cyan-500">15+</div>
-                    <div className="text-xl text-slate-300">Years Experience</div>
-                    <div className="text-sm text-slate-500">in Austin Bathroom Remodeling</div>
+                <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-2xl shadow-blue-900/20">
+                  <Image
+                    src="/IMG_0387 Ben.jpeg"
+                    alt="Modern Bathroom Remodel Austin"
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <span className="inline-block px-3 py-1 bg-blue-500/80 backdrop-blur-sm rounded-full text-xs font-semibold text-white uppercase tracking-wider">Complete Remodel</span>
                   </div>
                 </div>
               </div>
@@ -131,32 +138,36 @@ export default function Services() {
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative">
-                <div className="aspect-square rounded-2xl bg-gradient-to-br from-blue-950 to-slate-950 border border-slate-800 p-8 flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <svg className="w-24 h-24 mx-auto text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                    </svg>
-                    <div className="text-2xl font-bold text-cyan-400">Safe & Accessible</div>
-                    <div className="text-sm text-slate-400">Walk-in Bath Solutions</div>
+                <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-2xl shadow-blue-900/20">
+                  <Image
+                    src="/IMG_2324 Ben.jpeg"
+                    alt="Walk-in Bath Installation Austin"
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <span className="inline-block px-3 py-1 bg-cyan-500/80 backdrop-blur-sm rounded-full text-xs font-semibold text-white uppercase tracking-wider">Walk-in Bath</span>
                   </div>
                 </div>
               </div>
 
               <div className="order-1 lg:order-2 space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-800 bg-blue-900/20">
-                  <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">Safety & Comfort</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50">
+                  <span className="text-xs font-medium text-blue-600 uppercase tracking-widest">Safety & Comfort</span>
                 </div>
                 
-                <h2 className="text-4xl md:text-5xl font-light text-slate-100">
+                <h2 className="text-4xl md:text-5xl font-light text-slate-900">
                   Walk-in Bath <span className="text-cyan-500">Austin</span>
                 </h2>
 
-                <p className="text-lg text-slate-400 leading-relaxed">
+                <p className="text-lg text-slate-600 leading-relaxed">
                   Experience enhanced safety, accessibility, and independence with our premium walk-in bath installations. Perfect for seniors and individuals with mobility concerns, our walk-in baths combine safety features with luxurious comfort.
                 </p>
 
                 <div className="space-y-3">
-                  <h3 className="text-xl font-semibold text-slate-200">Key Features:</h3>
+                  <h3 className="text-xl font-semibold text-slate-800">Key Features:</h3>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {[
                       'Low threshold entry',
@@ -190,7 +201,7 @@ export default function Services() {
                   </a>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-900/50 border border-slate-800 rounded-lg font-medium text-slate-300 hover:bg-slate-800/50 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-300 rounded-lg font-medium text-slate-700 hover:bg-slate-800/50 transition-all"
                   >
                     Learn More
                   </Link>
@@ -208,20 +219,20 @@ export default function Services() {
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-800 bg-blue-900/20">
-                  <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">Modern Designs</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50">
+                  <span className="text-xs font-medium text-blue-600 uppercase tracking-widest">Modern Designs</span>
                 </div>
                 
-                <h2 className="text-4xl md:text-5xl font-light text-slate-100">
+                <h2 className="text-4xl md:text-5xl font-light text-slate-900">
                   Shower Remodel <span className="text-cyan-500">Austin</span>
                 </h2>
 
-                <p className="text-lg text-slate-400 leading-relaxed">
+                <p className="text-lg text-slate-600 leading-relaxed">
                   Premier Bathroom Remodel Austin specializes in reimagining ordinary bathrooms as relaxing, spa-inspired spaces designed for both comfort and everyday functionality. From luxurious walk-in showers to soothing rainfall shower systems, every detail is carefully considered to create your perfect bathroom retreat.
                 </p>
 
                 <div className="space-y-3">
-                  <h3 className="text-xl font-semibold text-slate-200">Shower Features:</h3>
+                  <h3 className="text-xl font-semibold text-slate-800">Shower Features:</h3>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {[
                       'Walk-in showers',
@@ -255,7 +266,7 @@ export default function Services() {
                   </a>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-900/50 border border-slate-800 rounded-lg font-medium text-slate-300 hover:bg-slate-800/50 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-300 rounded-lg font-medium text-slate-700 hover:bg-slate-800/50 transition-all"
                   >
                     Get Free Quote
                   </Link>
@@ -263,12 +274,17 @@ export default function Services() {
               </div>
 
               <div className="relative">
-                <div className="aspect-square rounded-2xl bg-gradient-to-br from-blue-950 to-slate-950 border border-slate-800 p-8 flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <svg className="w-24 h-24 mx-auto text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
-                    <div className="text-xl font-bold text-cyan-400">Modern Shower Solutions</div>
+                <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-2xl shadow-blue-900/20">
+                  <Image
+                    src="/IMG_1412 Ben.jpeg"
+                    alt="Luxury Shower Remodel Austin"
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <span className="inline-block px-3 py-1 bg-blue-500/80 backdrop-blur-sm rounded-full text-xs font-semibold text-white uppercase tracking-wider">Shower Remodel</span>
                   </div>
                 </div>
               </div>
@@ -284,32 +300,36 @@ export default function Services() {
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative">
-                <div className="aspect-square rounded-2xl bg-gradient-to-br from-blue-950 to-slate-950 border border-slate-800 p-8 flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <svg className="w-24 h-24 mx-auto text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                    </svg>
-                    <div className="text-2xl font-bold text-cyan-400">Convert & Upgrade</div>
-                    <div className="text-sm text-slate-400">Quick Installation</div>
+                <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-2xl shadow-blue-900/20">
+                  <Image
+                    src="/IMG_5970 Ben.jpeg"
+                    alt="Tub to Shower Conversion Austin"
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <span className="inline-block px-3 py-1 bg-cyan-500/80 backdrop-blur-sm rounded-full text-xs font-semibold text-white uppercase tracking-wider">Tub Conversion</span>
                   </div>
                 </div>
               </div>
 
               <div className="order-1 lg:order-2 space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-800 bg-blue-900/20">
-                  <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">Quick Conversion</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50">
+                  <span className="text-xs font-medium text-blue-600 uppercase tracking-widest">Quick Conversion</span>
                 </div>
                 
-                <h2 className="text-4xl md:text-5xl font-light text-slate-100">
+                <h2 className="text-4xl md:text-5xl font-light text-slate-900">
                   Tub to Shower Conversion <span className="text-cyan-500">Austin</span>
                 </h2>
 
-                <p className="text-lg text-slate-400 leading-relaxed">
+                <p className="text-lg text-slate-600 leading-relaxed">
                   Transform your outdated bathtub into a sleek, modern walk-in shower. Perfect for homeowners looking to improve accessibility, increase space, or simply update the look of their bathroom with a more contemporary design.
                 </p>
 
                 <div className="space-y-3">
-                  <h3 className="text-xl font-semibold text-slate-200">Conversion Benefits:</h3>
+                  <h3 className="text-xl font-semibold text-slate-800">Conversion Benefits:</h3>
                   <ul className="grid grid-cols-1 gap-3">
                     {[
                       'One-day installation available',
@@ -343,7 +363,7 @@ export default function Services() {
                   </a>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-900/50 border border-slate-800 rounded-lg font-medium text-slate-300 hover:bg-slate-800/50 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-300 rounded-lg font-medium text-slate-700 hover:bg-slate-800/50 transition-all"
                   >
                     Learn More
                   </Link>
@@ -361,20 +381,20 @@ export default function Services() {
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-800 bg-blue-900/20">
-                  <span className="text-xs font-medium text-cyan-400 uppercase tracking-widest">Best of Both</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50">
+                  <span className="text-xs font-medium text-cyan-600 uppercase tracking-widest">Best of Both</span>
                 </div>
                 
-                <h2 className="text-4xl md:text-5xl font-light text-slate-100">
+                <h2 className="text-4xl md:text-5xl font-light text-slate-900">
                   Tub & Shower Combo <span className="text-cyan-500">Austin</span>
                 </h2>
 
-                <p className="text-lg text-slate-400 leading-relaxed">
+                <p className="text-lg text-slate-600 leading-relaxed">
                   No matter if your preference is clean, contemporary design or the timeless charm of traditional style, our skilled professionals collaborate with you to bring your ideal bathroom to life. We combine premium materials with detailed workmanship to create spaces that are as beautiful as they are functional.
                 </p>
 
                 <div className="space-y-3">
-                  <h3 className="text-xl font-semibold text-slate-200">Combo Features:</h3>
+                  <h3 className="text-xl font-semibold text-slate-800">Combo Features:</h3>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {[
                       'Versatile design options',
@@ -408,7 +428,7 @@ export default function Services() {
                   </a>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-900/50 border border-slate-800 rounded-lg font-medium text-slate-300 hover:bg-slate-800/50 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-300 rounded-lg font-medium text-slate-700 hover:bg-slate-800/50 transition-all"
                   >
                     Get Free Quote
                   </Link>
@@ -416,12 +436,17 @@ export default function Services() {
               </div>
 
               <div className="relative">
-                <div className="aspect-square rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 p-8 flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <svg className="w-24 h-24 mx-auto text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-                    </svg>
-                    <div className="text-xl font-bold text-cyan-400">Dual Functionality</div>
+                <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-2xl shadow-blue-900/20">
+                  <Image
+                    src="/IMG_2596 Ben.jpeg"
+                    alt="Tub and Shower Combo Austin"
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <span className="inline-block px-3 py-1 bg-blue-500/80 backdrop-blur-sm rounded-full text-xs font-semibold text-white uppercase tracking-wider">Tub & Shower</span>
                   </div>
                 </div>
               </div>
@@ -437,32 +462,36 @@ export default function Services() {
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative">
-                <div className="aspect-square rounded-2xl bg-gradient-to-br from-green-950 to-slate-950 border border-slate-800 p-8 flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <svg className="w-24 h-24 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
-                    <div className="text-2xl font-bold text-green-400">Safety First</div>
-                    <div className="text-sm text-slate-400">ADA Compliant Solutions</div>
+                <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-2xl shadow-blue-900/20">
+                  <Image
+                    src="/IMG_2329 Ben.jpeg"
+                    alt="Accessibility Bathroom Remodel Austin"
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <span className="inline-block px-3 py-1 bg-cyan-500/80 backdrop-blur-sm rounded-full text-xs font-semibold text-white uppercase tracking-wider">Safety & Accessibility</span>
                   </div>
                 </div>
               </div>
 
               <div className="order-1 lg:order-2 space-y-6">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-green-800 bg-green-900/20">
-                  <span className="text-xs font-medium text-green-400 uppercase tracking-widest">Safety Solutions</span>
+                  <span className="text-xs font-medium text-green-600 uppercase tracking-widest">Safety Solutions</span>
                 </div>
                 
-                <h2 className="text-4xl md:text-5xl font-light text-slate-100">
+                <h2 className="text-4xl md:text-5xl font-light text-slate-900">
                   Safety & <span className="text-green-500">Accessibility</span>
                 </h2>
 
-                <p className="text-lg text-slate-400 leading-relaxed">
+                <p className="text-lg text-slate-600 leading-relaxed">
                   We specialize in creating safer, more accessible bathrooms for people of all ages and abilities. From aging-in-place modifications to ADA-compliant installations, we ensure your bathroom is both safe and stylish.
                 </p>
 
                 <div className="space-y-3">
-                  <h3 className="text-xl font-semibold text-slate-200">Safety Features:</h3>
+                  <h3 className="text-xl font-semibold text-slate-800">Safety Features:</h3>
                   <ul className="grid grid-cols-1 gap-3">
                     {[
                       'Grab bars & handrails',
@@ -496,7 +525,7 @@ export default function Services() {
                   </a>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-900/50 border border-slate-800 rounded-lg font-medium text-slate-300 hover:bg-slate-800/50 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-300 rounded-lg font-medium text-slate-700 hover:bg-slate-800/50 transition-all"
                   >
                     Learn More
                   </Link>
@@ -508,16 +537,16 @@ export default function Services() {
       </section>
 
       {/* === SERVICE AREAS SECTION === */}
-      <section className="relative py-24 bg-gradient-to-b from-black to-slate-950">
+      <section className="relative py-24 bg-gradient-to-br from-slate-50 to-blue-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-800 bg-slate-900/50 backdrop-blur-sm mb-6">
-              <span className="text-xs font-medium text-slate-400 uppercase tracking-widest">Service Areas</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 bg-slate-900/50 backdrop-blur-sm mb-6">
+              <span className="text-xs font-medium text-slate-600 uppercase tracking-widest">Service Areas</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-light text-slate-100 mb-4">
+            <h2 className="text-4xl md:text-5xl font-light text-slate-900 mb-4">
               Proudly Serving <span className="text-cyan-500">Greater Austin</span>
             </h2>
-            <p className="text-xl text-slate-400">
+            <p className="text-xl text-slate-600">
               Professional bathroom remodeling services throughout Austin and surrounding communities
             </p>
           </div>
@@ -544,17 +573,17 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
-                className="group p-6 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-cyan-600 hover:bg-slate-900/70 transition-all"
+                className="group p-6 rounded-xl bg-white border border-slate-200 shadow-sm hover:border-cyan-400 hover:shadow-md transition-all"
               >
                 <div className="flex items-start gap-4">
                   <svg className="w-6 h-6 text-cyan-500 flex-shrink-0 mt-1 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                   </svg>
                   <div>
-                    <h3 className="text-xl font-semibold text-slate-100 mb-1 group-hover:text-cyan-400 transition-colors">
+                    <h3 className="text-xl font-semibold text-slate-900 mb-1 group-hover:text-cyan-600 transition-colors">
                       Bathroom Remodel {area.name}
                     </h3>
-                    <p className="text-sm text-slate-400">{area.desc}</p>
+                    <p className="text-sm text-slate-600">{area.desc}</p>
                   </div>
                 </div>
               </motion.div>
@@ -562,7 +591,7 @@ export default function Services() {
           </div>
 
           <div className="text-center mt-12">
-            <p className="text-slate-400 mb-6">Don't see your area? We serve all of Central Texas!</p>
+            <p className="text-slate-600 mb-6">Don't see your area? We serve all of Central Texas!</p>
             <Link
               href="/contact"
               className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-lg font-medium text-white hover:shadow-lg hover:shadow-cyan-600/40 transition-all"
@@ -577,13 +606,13 @@ export default function Services() {
       </section>
 
       {/* === WHY CHOOSE US === */}
-      <section className="relative py-24 bg-black">
+      <section className="relative py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-slate-100 mb-4">
+            <h2 className="text-4xl md:text-5xl font-light text-slate-900 mb-4">
               Why Choose <span className="text-cyan-500">Premier Bathroom Remodel Austin</span>
             </h2>
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               Experience the difference of working with Austin's trusted remodeling experts
             </p>
           </div>
@@ -633,13 +662,13 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="p-6 rounded-xl bg-slate-900/50 border border-slate-800 text-center hover:border-cyan-600 transition-all"
+                className="p-6 rounded-xl bg-white border border-slate-200 shadow-sm text-center hover:border-cyan-400 hover:shadow-md transition-all"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-blue-500/10 border border-blue-500/20 text-cyan-500 mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-blue-50 border border-blue-100 text-cyan-500 mb-4">
                   {item.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-slate-100 mb-2">{item.title}</h3>
-                <p className="text-slate-400">{item.desc}</p>
+                <h3 className="text-xl font-semibold text-slate-900 mb-2">{item.title}</h3>
+                <p className="text-slate-600">{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -647,17 +676,17 @@ export default function Services() {
       </section>
 
       {/* === FINAL CTA === */}
-      <section className="relative py-24 bg-gradient-to-b from-black to-slate-950 overflow-hidden">
+      <section className="relative py-24 bg-gradient-to-br from-slate-50 to-blue-50 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.1),transparent_50%)]" />
         
         <div className="relative max-w-5xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-6xl font-light text-slate-100 mb-6">
+          <h2 className="text-4xl md:text-6xl font-light text-slate-900 mb-6">
             Ready to Start Your
             <br />
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Remodeling Project?</span>
           </h2>
           
-          <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto">
             Contact Premier Bathroom Remodel Austin today for a free consultation. Let's bring your vision to life!
           </p>
 
@@ -674,13 +703,13 @@ export default function Services() {
             
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-slate-900/50 border-2 border-slate-800 rounded-lg font-semibold text-lg text-slate-300 hover:bg-slate-800/50 hover:border-slate-700 backdrop-blur-sm transition-all duration-300"
+              className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-slate-900/50 border-2 border-slate-200 rounded-lg font-semibold text-lg text-slate-300 hover:bg-slate-800/50 hover:border-slate-700 backdrop-blur-sm transition-all duration-300"
             >
               Request Free Quote
             </Link>
           </div>
 
-          <div className="mt-16 pt-8 border-t border-slate-800">
+          <div className="mt-16 pt-8 border-t border-slate-200">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-slate-500">
               <div className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
@@ -711,5 +740,6 @@ export default function Services() {
     </div>
   )
 }
+
 
 
