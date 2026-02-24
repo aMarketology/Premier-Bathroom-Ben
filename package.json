@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "form-data": "^4.0.5",
     "framer-motion": "^12.23.24",
+    "mailgun.js": "^12.7.0",
     "next": "^14.0.0",
     "next-seo": "^7.0.1",
     "node-mailjet": "^6.0.11",
