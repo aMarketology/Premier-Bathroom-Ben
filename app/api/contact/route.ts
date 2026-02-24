@@ -1,19 +1,51 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 import Mailjet from 'node-mailjet'
+import FormData from 'form-data'
+import Mailgun from 'mailgun.js'
+// ── Mailgun (primary) ─────────────────────────────────────────────────────────
+async function sendViaMailgun(
+  to: string[],
+  subject: string,
+  text: string,
+  html: string
+): Promise<void> {
+  const mailgun = new Mailgun(FormData)
+  const mg = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY! })
+  const domain = process.env.MAILGUN_DOMAIN!
+  const from = process.env.MAILGUN_FROM!
+  await Promise.all(
+    to.map((recipient) =>
+      mg.messages.create(domain, { from, to: [recipient], subject, text, html })
+    )
+  )
+}
 
-// Initialize Mailjet client lazily to avoid build-time errors
-function getMailjetClient() {
+// ── Mailjet (fallback) ────────────────────────────────────────────────────────
+async function sendViaMailjet(
+  to: string[],
+  subject: string,
+  text: string,
+  html: string
+): Promise<void> {
   const apiKey = process.env.MAILJET_API_KEY
   const apiSecret = process.env.MAILJET_SECRET_KEY
-
-  if (!apiKey || !apiSecret) {
-    throw new Error('Mailjet credentials not configured')
-  }
-
-  return new Mailjet({
-    apiKey,
-    apiSecret
-  })
+  if (!apiKey || !apiSecret) throw new Error('Mailjet credentials not configured')
+  const mailjet = new Mailjet({ apiKey, apiSecret })
+  await Promise.all(
+    to.map((recipient) =>
+      mailjet.post('send', { version: 'v3.1' }).request({
+        Messages: [
+          {
+            From: { Email: 'info@amarketology.com', Name: 'Champs Tile Austin' },
+            To: [{ Email: recipient }],
+            Subject: subject,
+            TextPart: text,
+            HTMLPart: html,
+          },
+        ],
+      })
+    )
+  )
 }
 
 export async function POST(request: NextRequest) {
@@ -33,7 +65,7 @@ export async function POST(request: NextRequest) {
     const notificationEmails = [
       process.env.NOTIFICATION_EMAIL_1,
       process.env.NOTIFICATION_EMAIL_2
-    ].filter(Boolean)
+    ].filter(Boolean) as string[]
 
     if (notificationEmails.length === 0) {
       console.error('No notification emails configured')
@@ -50,98 +82,99 @@ export async function POST(request: NextRequest) {
     const pageUrlText = pageUrl ? `\nSubmitted from: ${pageUrl}` : ''
 
     const emailContent = `
-New Contact Form Submission - Premier Bathroom Remodel Austin
+New Lead - Champs Tile Austin
 
 Customer Information:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Name: ${name}
 Email: ${email}
-Phone: ${phone}${serviceText}${messageText}${smsConsentText}${pageUrlText}
+Phone: ${phone}${serviceText}${pageUrlText}${messageText}${smsConsentText}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })}
     `.trim()
 
-    // Get Mailjet client
-    const mailjet = getMailjetClient()
+    const subject = `New Contact Form - ${name}`
 
-    // Send email to notification recipients
-    const emailPromises = notificationEmails.map((recipientEmail) => {
-      return mailjet
-        .post('send', { version: 'v3.1' })
-        .request({
-          Messages: [
-            {
-              From: {
-                Email: 'info@amarketology.com',
-                Name: 'Premier Bathroom Remodel Austin Website'
-              },
-              To: [
-                {
-                  Email: recipientEmail,
-                  Name: 'Premier Bathroom Remodel Austin'
-                }
-              ],
-              Subject: `New Contact Form - ${name}`,
-              TextPart: emailContent,
-              HTMLPart: `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                  <div style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: white; padding: 30px; text-align: center;">
-                    <h1 style="margin: 0; font-size: 28px;">New Contact Form Submission</h1>
-                    <p style="margin: 10px 0 0 0; font-size: 16px;">Premier Bathroom Remodel Austin</p>
-                  </div>
-                  
-                  <div style="background: #f7fafc; padding: 30px;">
-                    <h2 style="color: #2563eb; margin-top: 0;">Customer Information</h2>
-                    
-                    <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #3b82f6;">
-                      <p style="margin: 0 0 10px 0;"><strong style="color: #2563eb;">Name:</strong> ${name}</p>
-                      <p style="margin: 0 0 10px 0;"><strong style="color: #2563eb;">Email:</strong> <a href="mailto:${email}" style="color: #1e40af;">${email}</a></p>
-                      <p style="margin: 0 0 10px 0;"><strong style="color: #2563eb;">Phone:</strong> <a href="tel:${phone}" style="color: #1e40af;">${phone}</a></p>
-                      ${service ? `<p style="margin: 0 0 10px 0;"><strong style="color: #2563eb;">Service:</strong> ${service}</p>` : ''}
-                      ${pageUrl ? `<p style="margin: 0;"><strong style="color: #2563eb;">Page URL:</strong> <a href="${pageUrl}" style="color: #1e40af; word-break: break-all;">${pageUrl}</a></p>` : ''}
-                    </div>
-                    
-                    ${message ? `
-                    <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #2563eb;">
-                      <h3 style="color: #2563eb; margin-top: 0;">Message:</h3>
-                      <p style="color: #2d3748; line-height: 1.6; white-space: pre-wrap;">${message}</p>
-                    </div>
-                    ` : ''}
-                    
-                    ${smsConsent ? `
-                    <div style="background: #d6f5d6; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #48bb78;">
-                      <p style="margin: 0; color: #22543d;"><strong>✓ SMS Consent:</strong> Customer agreed to receive SMS messages</p>
-                    </div>
-                    ` : ''}
-                    
-                    <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                      <p style="margin: 0; color: #718096; font-size: 14px;">
-                        <strong>Submitted:</strong> ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })} (Central Time)
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div style="background: #2d3748; color: white; padding: 20px; text-align: center; font-size: 14px;">
-                    <p style="margin: 0;">Premier Bathroom Remodel Austin - Austin, TX</p>
-                    <p style="margin: 5px 0 0 0;">(512) 706-9577</p>
-                  </div>
-                </div>
-              `
-            }
-          ]
-        })
-    })
+    const htmlContent = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background: linear-gradient(135deg, #d97706 0%, #92400e 100%); color: white; padding: 30px; text-align: center;">
+          <h1 style="margin: 0; font-size: 28px; letter-spacing: 1px;">New Lead</h1>
+          <p style="margin: 10px 0 0 0; font-size: 16px; font-weight: bold;">Champs Tile Austin</p>
+        </div>
 
-    // Wait for all emails to be sent
-    await Promise.all(emailPromises)
+        ${pageUrl ? `
+        <div style="background: #fffbeb; border-left: 4px solid #d97706; padding: 14px 20px;">
+          <p style="margin: 0; font-size: 13px; color: #78350f;">
+            <strong style="color: #92400e;">Submitted from:</strong>&nbsp;
+            <a href="${pageUrl}" style="color: #b45309; word-break: break-all;">${pageUrl}</a>
+          </p>
+        </div>` : ''}
+        
+        <div style="background: #f7fafc; padding: 30px;">
+          <h2 style="color: #92400e; margin-top: 0;">Customer Information</h2>
+          
+          <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #d97706;">
+            <p style="margin: 0 0 10px 0;"><strong style="color: #92400e;">Name:</strong> ${name}</p>
+            <p style="margin: 0 0 10px 0;"><strong style="color: #92400e;">Email:</strong> <a href="mailto:${email}" style="color: #b45309;">${email}</a></p>
+            <p style="margin: 0 0 10px 0;"><strong style="color: #92400e;">Phone:</strong> <a href="tel:${phone}" style="color: #b45309;">${phone}</a></p>
+            ${service ? `<p style="margin: 0;"><strong style="color: #92400e;">Service:</strong> ${service}</p>` : ''}
+          </div>
+          
+          ${message ? `
+          <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #d97706;">
+            <h3 style="color: #92400e; margin-top: 0;">Message:</h3>
+            <p style="color: #2d3748; line-height: 1.6; white-space: pre-wrap;">${message}</p>
+          </div>
+          ` : ''}
+          
+          ${smsConsent ? `
+          <div style="background: #d6f5d6; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #48bb78;">
+            <p style="margin: 0; color: #22543d;"><strong>✓ SMS Consent:</strong> Customer agreed to receive SMS messages</p>
+          </div>
+          ` : ''}
+          
+          <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <p style="margin: 0; color: #718096; font-size: 14px;">
+              <strong>Submitted:</strong> ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })} (Central Time)
+            </p>
+          </div>
+        </div>
+        
+        <div style="background: #1c1917; color: white; padding: 20px; text-align: center; font-size: 14px;">
+          <p style="margin: 0; font-weight: bold; color: #fbbf24;">Champs Tile</p>
+          <p style="margin: 4px 0 0 0; color: #d6d3d1;">Austin, TX &bull; (512) 706-9577</p>
+        </div>
+      </div>
+    `
+
+    // ── Send with Mailgun (primary) → Mailjet (fallback) ──────────────────────
+    let provider = 'unknown'
+    try {
+      await sendViaMailgun(notificationEmails, subject, emailContent, htmlContent)
+      provider = 'Mailgun'
+      console.log('[email] Sent via Mailgun')
+    } catch (mailgunError) {
+      console.warn('[email] Mailgun failed, trying Mailjet:', mailgunError)
+      try {
+        await sendViaMailjet(notificationEmails, subject, emailContent, htmlContent)
+        provider = 'Mailjet'
+        console.log('[email] Sent via Mailjet (fallback)')
+      } catch (mailjetError) {
+        console.error('[email] Both providers failed:', mailjetError)
+        return NextResponse.json(
+          { error: 'Failed to send email' },
+          { status: 500 }
+        )
+      }
+    }
 
     return NextResponse.json(
-      { success: true, message: 'Form submitted successfully' },
+      { success: true, message: 'Form submitted successfully', provider },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error sending email:', error)
+    console.error('Error processing form submission:', error)
     return NextResponse.json(
       { error: 'Failed to send email' },
       { status: 500 }
