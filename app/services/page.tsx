@@ -29,16 +29,16 @@ export default function Services() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 bg-slate-900/50 backdrop-blur-sm">
               <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-              <span className="text-xs font-medium text-slate-600 uppercase tracking-widest">Our Services</span>
+              <span className="text-xs font-medium text-slate-300 uppercase tracking-widest">Our Services</span>
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-light text-slate-900 tracking-tight">
+            <h1 className="text-5xl md:text-7xl font-light text-white tracking-tight">
               Bathroom
               <br />
               <span className="bg-gradient-to-r from-blue-400 via-cyan-500 to-blue-600 bg-clip-text text-transparent">Remodeling Services</span>
             </h1>
 
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-300 max-w-3xl mx-auto">
               Expert bathroom renovation and transformation serving Austin, Rollingwood, Manchaca, Pflugerville, and surrounding areas
             </p>
           </motion.div>
@@ -74,19 +74,33 @@ export default function Services() {
                   <h3 className="text-xl font-semibold text-slate-800">Our Comprehensive Services Include:</h3>
                   <ul className="space-y-3">
                     {[
-                      'Complete bathroom renovations',
-                      'Custom shower and tub installations',
-                      'Vanity design and installation',
-                      'Tile work and backsplash',
-                      'Modern fixtures and fittings',
-                      'Lighting design and installation',
-                      'ADA-compliant modifications'
+                      { text: 'Complete bathroom renovations', highlight: true },
+                      { text: 'Custom shower and tub installations', highlight: true },
+                      { text: 'Vanity design and installation', highlight: true },
+                      { text: 'Tile work and backsplash', highlight: true },
+                      { text: 'Modern fixtures and fittings', highlight: true },
+                      { text: 'Lighting design and installation', highlight: true },
+                      { text: 'ADA-compliant modifications', highlight: true },
                     ].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-slate-300">
+                      <li key={i} className="flex items-center gap-3">
                         <svg className="w-5 h-5 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
-                        {item}
+                        {item.highlight ? (
+                          <span style={{
+                            background: 'linear-gradient(102deg, transparent 0%, rgba(29, 78, 216, 0.72) 2.5%, rgba(59, 130, 246, 0.78) 5%, rgba(96, 165, 250, 0.68) 82%, rgba(29, 78, 216, 0.72) 97%, transparent 99.5%), linear-gradient(192deg, transparent 0%, rgba(37, 99, 235, 0.4) 6%, transparent 20%)',
+                            padding: '0.28em 0.5em 0.1em',
+                            borderRadius: '0.05em 0.4em 0.35em 0.1em',
+                            WebkitBoxDecorationBreak: 'clone',
+                            boxDecorationBreak: 'clone' as 'clone',
+                            color: '#ffffff',
+                            fontWeight: 500,
+                            display: 'inline-block',
+                            transform: 'translateY(-2px)',
+                          }}>
+                            {item.text}
+                          </span>
+                        ) : <span className="text-slate-300">{item.text}</span>}
                       </li>
                     ))}
                   </ul>
@@ -115,8 +129,9 @@ export default function Services() {
                 <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-2xl shadow-blue-900/20">
                   <Image
                     src="/IMG_0387 Ben.jpeg"
-                    alt="Modern Bathroom Remodel Austin"
+                    alt="Modern Bathroom Remodel Austin - Premier Bathroom Remodel"
                     fill
+                    priority
                     className="object-cover hover:scale-105 transition-transform duration-700"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
@@ -141,8 +156,9 @@ export default function Services() {
                 <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-2xl shadow-blue-900/20">
                   <Image
                     src="/IMG_2324 Ben.jpeg"
-                    alt="Walk-in Bath Installation Austin"
+                    alt="Walk-in Bath Installation Austin - Premier Bathroom Remodel"
                     fill
+                    loading="lazy"
                     className="object-cover hover:scale-105 transition-transform duration-700"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
@@ -170,20 +186,34 @@ export default function Services() {
                   <h3 className="text-xl font-semibold text-slate-800">Key Features:</h3>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {[
-                      'Low threshold entry',
-                      'Anti-slip flooring',
-                      'Built-in seating',
-                      'Grab bars & handrails',
-                      'Quick-drain technology',
-                      'Therapeutic jets (optional)',
-                      'ADA compliant design',
-                      'Lifetime warranty options'
+                      { text: 'Low threshold entry', highlight: true },
+                      { text: 'Anti-slip flooring', highlight: true },
+                      { text: 'Built-in seating', highlight: true },
+                      { text: 'Grab bars & handrails', highlight: true },
+                      { text: 'Quick-drain technology', highlight: true },
+                      { text: 'Therapeutic jets (optional)', highlight: true },
+                      { text: 'ADA compliant design', highlight: true },
+                      { text: 'Lifetime warranty options', highlight: true },
                     ].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-slate-300">
+                      <li key={i} className="flex items-center gap-3">
                         <svg className="w-5 h-5 text-cyan-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
-                        {item}
+                        {item.highlight ? (
+                          <span style={{
+                            background: 'linear-gradient(102deg, transparent 0%, rgba(29, 78, 216, 0.72) 2.5%, rgba(59, 130, 246, 0.78) 5%, rgba(96, 165, 250, 0.68) 82%, rgba(29, 78, 216, 0.72) 97%, transparent 99.5%), linear-gradient(192deg, transparent 0%, rgba(37, 99, 235, 0.4) 6%, transparent 20%)',
+                            padding: '0.28em 0.5em 0.1em',
+                            borderRadius: '0.05em 0.4em 0.35em 0.1em',
+                            WebkitBoxDecorationBreak: 'clone',
+                            boxDecorationBreak: 'clone' as 'clone',
+                            color: '#ffffff',
+                            fontWeight: 500,
+                            display: 'inline-block',
+                            transform: 'translateY(-2px)',
+                          }}>
+                            {item.text}
+                          </span>
+                        ) : <span className="text-slate-300">{item.text}</span>}
                       </li>
                     ))}
                   </ul>
@@ -235,20 +265,34 @@ export default function Services() {
                   <h3 className="text-xl font-semibold text-slate-800">Shower Features:</h3>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {[
-                      'Walk-in showers',
-                      'Rainfall shower heads',
-                      'Custom glass enclosures',
-                      'Frameless shower doors',
-                      'Tile & stone work',
-                      'Built-in benches',
-                      'Modern fixtures',
-                      'Spa-inspired designs'
+                      { text: 'Walk-in showers', highlight: true },
+                      { text: 'Rainfall shower heads', highlight: true },
+                      { text: 'Custom glass enclosures', highlight: true },
+                      { text: 'Frameless shower doors', highlight: true },
+                      { text: 'Tile & stone work', highlight: true },
+                      { text: 'Built-in benches', highlight: true },
+                      { text: 'Modern fixtures', highlight: true },
+                      { text: 'Spa-inspired designs', highlight: true },
                     ].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-slate-300">
+                      <li key={i} className="flex items-center gap-3">
                         <svg className="w-5 h-5 text-cyan-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
-                        {item}
+                        {item.highlight ? (
+                          <span style={{
+                            background: 'linear-gradient(102deg, transparent 0%, rgba(29, 78, 216, 0.72) 2.5%, rgba(59, 130, 246, 0.78) 5%, rgba(96, 165, 250, 0.68) 82%, rgba(29, 78, 216, 0.72) 97%, transparent 99.5%), linear-gradient(192deg, transparent 0%, rgba(37, 99, 235, 0.4) 6%, transparent 20%)',
+                            padding: '0.28em 0.5em 0.1em',
+                            borderRadius: '0.05em 0.4em 0.35em 0.1em',
+                            WebkitBoxDecorationBreak: 'clone',
+                            boxDecorationBreak: 'clone' as 'clone',
+                            color: '#ffffff',
+                            fontWeight: 500,
+                            display: 'inline-block',
+                            transform: 'translateY(-2px)',
+                          }}>
+                            {item.text}
+                          </span>
+                        ) : <span className="text-slate-300">{item.text}</span>}
                       </li>
                     ))}
                   </ul>
@@ -277,8 +321,9 @@ export default function Services() {
                 <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-2xl shadow-blue-900/20">
                   <Image
                     src="/IMG_1412 Ben.jpeg"
-                    alt="Luxury Shower Remodel Austin"
+                    alt="Luxury Shower Remodel Austin - Premier Bathroom Remodel"
                     fill
+                    loading="lazy"
                     className="object-cover hover:scale-105 transition-transform duration-700"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
@@ -303,8 +348,9 @@ export default function Services() {
                 <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-2xl shadow-blue-900/20">
                   <Image
                     src="/IMG_5970 Ben.jpeg"
-                    alt="Tub to Shower Conversion Austin"
+                    alt="Tub to Shower Conversion Austin - Premier Bathroom Remodel"
                     fill
+                    loading="lazy"
                     className="object-cover hover:scale-105 transition-transform duration-700"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
@@ -339,13 +385,25 @@ export default function Services() {
                       'Custom design options',
                       'Improved home value',
                       'Energy-efficient fixtures',
-                      'Warranty included'
+                      'Warranty included',
                     ].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-slate-300">
+                      <li key={i} className="flex items-center gap-3">
                         <svg className="w-5 h-5 text-cyan-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
-                        {item}
+                        <span style={{
+                          background: 'linear-gradient(102deg, transparent 0%, rgba(29, 78, 216, 0.72) 2.5%, rgba(59, 130, 246, 0.78) 5%, rgba(96, 165, 250, 0.68) 82%, rgba(29, 78, 216, 0.72) 97%, transparent 99.5%), linear-gradient(192deg, transparent 0%, rgba(37, 99, 235, 0.4) 6%, transparent 20%)',
+                          padding: '0.28em 0.5em 0.1em',
+                          borderRadius: '0.05em 0.4em 0.35em 0.1em',
+                          WebkitBoxDecorationBreak: 'clone',
+                          boxDecorationBreak: 'clone' as 'clone',
+                          color: '#ffffff',
+                          fontWeight: 500,
+                          display: 'inline-block',
+                          transform: 'translateY(-2px)',
+                        }}>
+                          {item}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -404,13 +462,25 @@ export default function Services() {
                       'Modern or traditional styles',
                       'High-quality materials',
                       'Professional installation',
-                      'Perfect for family homes'
+                      'Perfect for family homes',
                     ].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-slate-300">
+                      <li key={i} className="flex items-center gap-3">
                         <svg className="w-5 h-5 text-cyan-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
-                        {item}
+                        <span style={{
+                          background: 'linear-gradient(102deg, transparent 0%, rgba(29, 78, 216, 0.72) 2.5%, rgba(59, 130, 246, 0.78) 5%, rgba(96, 165, 250, 0.68) 82%, rgba(29, 78, 216, 0.72) 97%, transparent 99.5%), linear-gradient(192deg, transparent 0%, rgba(37, 99, 235, 0.4) 6%, transparent 20%)',
+                          padding: '0.28em 0.5em 0.1em',
+                          borderRadius: '0.05em 0.4em 0.35em 0.1em',
+                          WebkitBoxDecorationBreak: 'clone',
+                          boxDecorationBreak: 'clone' as 'clone',
+                          color: '#ffffff',
+                          fontWeight: 500,
+                          display: 'inline-block',
+                          transform: 'translateY(-2px)',
+                        }}>
+                          {item}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -439,8 +509,9 @@ export default function Services() {
                 <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-2xl shadow-blue-900/20">
                   <Image
                     src="/IMG_2596 Ben.jpeg"
-                    alt="Tub and Shower Combo Austin"
+                    alt="Tub and Shower Combo Austin - Premier Bathroom Remodel"
                     fill
+                    loading="lazy"
                     className="object-cover hover:scale-105 transition-transform duration-700"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
@@ -465,8 +536,9 @@ export default function Services() {
                 <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-2xl shadow-blue-900/20">
                   <Image
                     src="/IMG_2329 Ben.jpeg"
-                    alt="Accessibility Bathroom Remodel Austin"
+                    alt="Accessible Bathroom Remodel Austin - ADA Compliant - Premier Bathroom Remodel"
                     fill
+                    loading="lazy"
                     className="object-cover hover:scale-105 transition-transform duration-700"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
@@ -501,13 +573,25 @@ export default function Services() {
                       'Barrier-free entry',
                       'Adjustable shower heads',
                       'Comfort height fixtures',
-                      'ADA compliance expertise'
+                      'ADA compliance expertise',
                     ].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-slate-300">
+                      <li key={i} className="flex items-center gap-3">
                         <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
-                        {item}
+                        <span style={{
+                          background: 'linear-gradient(102deg, transparent 0%, rgba(29, 78, 216, 0.72) 2.5%, rgba(59, 130, 246, 0.78) 5%, rgba(96, 165, 250, 0.68) 82%, rgba(29, 78, 216, 0.72) 97%, transparent 99.5%), linear-gradient(192deg, transparent 0%, rgba(37, 99, 235, 0.4) 6%, transparent 20%)',
+                          padding: '0.28em 0.5em 0.1em',
+                          borderRadius: '0.05em 0.4em 0.35em 0.1em',
+                          WebkitBoxDecorationBreak: 'clone',
+                          boxDecorationBreak: 'clone' as 'clone',
+                          color: '#ffffff',
+                          fontWeight: 500,
+                          display: 'inline-block',
+                          transform: 'translateY(-2px)',
+                        }}>
+                          {item}
+                        </span>
                       </li>
                     ))}
                   </ul>
