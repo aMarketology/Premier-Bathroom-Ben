@@ -3,7 +3,7 @@
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { getGA4ClientId, getGA4SessionId } from '@/lib/ga4-client'
 
 const galleryImages = [
@@ -25,6 +25,8 @@ export default function Contact() {
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const honeypotRef = useRef('')
+  const loadedAtRef = useRef(Date.now())
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const target = e.target
@@ -42,7 +44,7 @@ export default function Contact() {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, pageUrl: window.location.href, clientId, sessionId }),
+        body: JSON.stringify({ ...formData, pageUrl: window.location.href, clientId, sessionId, _hp: honeypotRef.current, _lt: loadedAtRef.current }),
       })
       if (!response.ok) throw new Error('Failed to submit form')
       if (typeof window !== 'undefined' && (window as any).gtagSendEvent) {
@@ -106,6 +108,11 @@ export default function Contact() {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Honeypot — hidden from real users, traps bots */}
+              <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
+                <label htmlFor="_hp">Leave this empty</label>
+                <input type="text" id="_hp" name="_hp" tabIndex={-1} autoComplete="off" onChange={e => { honeypotRef.current = e.target.value }} />
+              </div>
               <input
                 type="text" name="name" value={formData.name} onChange={handleChange}
                 required disabled={loading}

@@ -52,7 +52,20 @@ async function sendViaMailjet(to: string[], subject: string, text: string, html:
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, email, phone, message, service, smsConsent, pageUrl, clientId, sessionId } = body
+    const { name, email, phone, message, service, smsConsent, pageUrl, clientId, sessionId, _hp, _lt } = body
+
+    // ── Spam bot protection ───────────────────────────────────────────────────
+    // 1. Honeypot: real users never fill this hidden field
+    if (_hp) {
+      console.warn('[spam] Honeypot triggered — silently discarding submission')
+      return NextResponse.json({ success: true, message: 'Received' })
+    }
+    // 2. Timing: legitimate users take more than 3 seconds to fill a form
+    if (_lt && Date.now() - Number(_lt) < 3000) {
+      console.warn('[spam] Submission too fast — silently discarding')
+      return NextResponse.json({ success: true, message: 'Received' })
+    }
+    // ─────────────────────────────────────────────────────────────────────────
 
     if (!name || !email || !phone) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
