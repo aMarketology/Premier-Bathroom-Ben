@@ -67,20 +67,20 @@ export default function Contact() {
       {/* Hero Banner */}
       <section className="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-16 px-4 text-center text-white">
         <div className="inline-block px-4 py-2 bg-blue-500/20 border border-blue-400/30 rounded-full mb-4">
-          <span className="text-sm font-bold uppercase tracking-wider">Free Consultation</span>
+          <span className="text-sm font-bold uppercase tracking-wider">Speak to an Expert Today</span>
         </div>
         <h1 className="text-4xl md:text-5xl font-bold mb-3">
-          Get Your Free <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Bathroom Quote</span>
+          Talk to a <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Bathroom Expert</span>
         </h1>
         <p className="text-lg text-gray-300 max-w-xl mx-auto">
-          Austin's top-rated bathroom remodelers. We respond within 24 hours ” usually same day.
+          Austin's top-rated bathroom remodelers. Our experts are ready to help — we respond within 24 hours, usually same day.
         </p>
 
         {/* Trust bar */}
         <div className="flex flex-wrap justify-center gap-6 mt-8 text-sm text-gray-300">
           {[
             { icon: <path fillRule="evenodd" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" clipRule="evenodd" />, text: 'Licensed & Insured' },
-            { icon: <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />, text: 'Same-Day Response' },
+            { icon: <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />, text: 'Fast Expert Response' },
             { icon: <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />, text: '5-Star Rated on Google' },
             { icon: <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />, text: 'Serving Greater Austin' },
           ].map((item, i) => (
@@ -98,7 +98,7 @@ export default function Contact() {
 
           {/* LEFT ” Form */}
           <div className="bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Request Your Free Quote</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Speak with a Bathroom Expert</h2>
             <p className="text-gray-500 mb-8 text-sm">No obligation. Our team will reach out within 24 hours.</p>
 
             {error && (
@@ -154,7 +154,7 @@ export default function Contact() {
                 type="submit" disabled={loading}
                 className="w-full py-5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold text-lg rounded-xl hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Submitting...' : 'Speak with an Expert'}
+                {loading ? 'Submitting...' : 'Get Your Free Estimate'}
               </button>
             </form>
 
