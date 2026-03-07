@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import { organizationSchema, servicesSchema, reviewSchema } from '@/lib/schema'
 import './globals.css'
@@ -9,23 +9,27 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
+export const viewport: Viewport = {
+  themeColor: '#0ea5e9', // sky-500 — Tile Pros Austin light blue
+}
+
 export const metadata: Metadata = {
-  title: 'Project Precision Flow | Engineering Marketplace',
-  description: 'Global marketplace connecting engineering professionals with innovative products and services. CAD design, 3D modeling, engineering consulting, and more.',
-  keywords: 'engineering marketplace, CAD design, 3D modeling, engineering services, engineering products, technical consulting, product development',
-  metadataBase: new URL('https://projectprecisionflow.com'),
+  title: 'Tile Pros Austin TX | Expert Tile Installation & Bathroom Remodeling',
+  description: 'Tile Pros Austin — expert tile installation, bathroom remodeling, shower tile, kitchen backsplash, and flooring services in Austin TX. Licensed & insured. Call (512) 706-9577 for a free quote.',
+  keywords: 'tile installation Austin TX, tile contractor Austin, bathroom remodel Austin, shower tile Austin, kitchen backsplash Austin, floor tile Austin, Tile Pros Austin',
+  metadataBase: new URL('https://tileprosaustin.com'),
   openGraph: {
     type: 'website',
-    url: 'https://projectprecisionflow.com',
-    title: 'Project Precision Flow | Engineering Marketplace',
-    description: 'Global marketplace connecting engineering professionals with innovative products and services.',
-    siteName: 'Project Precision Flow',
+    url: 'https://tileprosaustin.com',
+    title: 'Tile Pros Austin TX | Expert Tile Installation & Bathroom Remodeling',
+    description: 'Expert tile installation and bathroom remodeling in Austin TX. Free quotes, licensed & insured.',
+    siteName: 'Tile Pros Austin',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Project Precision Flow',
-    description: 'Engineering Marketplace - Connect, Collaborate, Create',
+    title: 'Tile Pros Austin TX',
+    description: 'Expert tile installation & bathroom remodeling — Austin TX. Call (512) 706-9577.',
   },
   robots: {
     index: true,

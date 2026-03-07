@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Navigation from './components/Navigation'
 import Footer from './components/Footer'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -16,6 +16,8 @@ export default function Home() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const honeypotRef = useRef('')
+  const loadedAtRef = useRef(Date.now())
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -28,7 +30,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...formData, pageUrl: window.location.href }),
+        body: JSON.stringify({ ...formData, pageUrl: window.location.href, _hp: honeypotRef.current, _lt: loadedAtRef.current }),
       })
 
       const data = await response.json()
@@ -133,6 +135,11 @@ export default function Home() {
               )}
 
               <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Honeypot — hidden from real users, traps bots */}
+                <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
+                  <label htmlFor="_hp">Leave this empty</label>
+                  <input type="text" id="_hp" name="_hp" tabIndex={-1} autoComplete="off" onChange={e => { honeypotRef.current = e.target.value }} />
+                </div>
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                     Your Name <span className="text-red-500">*</span>

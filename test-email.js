@@ -36,9 +36,9 @@ const subject = `[TEST] Email Delivery Check — ${now}`
 const text = `This is an automated weekly email delivery test.\n\nSent: ${now} (Central Time)\nProvider: {PROVIDER}\n\nIf you received this, the email system is working correctly.`
 const html = `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
-  <div style="background:#1e3a8a;color:white;padding:24px;text-align:center;border-radius:8px 8px 0 0;">
-    <h2 style="margin:0;">✅ Email Delivery Test</h2>
-    <p style="margin:8px 0 0;opacity:.85;">Premier Bathroom Remodel — Automated Check</p>
+  <div style="background:linear-gradient(135deg,#0c4a6e 0%,#0369a1 100%);color:white;padding:24px;text-align:center;border-radius:8px 8px 0 0;border-bottom:4px solid #0ea5e9;">
+    <h2 style="margin:0;letter-spacing:1px;">✅ Tile Pros Austin — Email Test</h2>
+    <p style="margin:8px 0 0;opacity:.85;font-size:14px;">Mailgun Delivery Check — Automated</p>
   </div>
   <div style="background:#f8fafc;padding:24px;border-radius:0 0 8px 8px;border:1px solid #e2e8f0;">
     <p style="font-size:16px;color:#1e293b;">This is an automated weekly email delivery test.</p>
@@ -112,7 +112,7 @@ async function sendViaMailjet() {
   const https = require('https')
   const payload = JSON.stringify({
     Messages: RECIPIENTS.map((to) => ({
-      From: { Email: 'info@amarketology.com', Name: 'Premier Bathroom Remodel' },
+      From: { Email: 'info@amarketology.com', Name: 'Tile Pros Austin' },
       To: [{ Email: to }],
       Subject: subject,
       TextPart: text.replace('{PROVIDER}', 'Mailjet (fallback)'),

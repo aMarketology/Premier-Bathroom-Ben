@@ -2,7 +2,7 @@
 
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -13,6 +13,8 @@ export default function Contact() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const honeypotRef = useRef('')
+  const loadedAtRef = useRef(Date.now())
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -33,7 +35,7 @@ export default function Contact() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...formData, pageUrl: window.location.href }),
+        body: JSON.stringify({ ...formData, pageUrl: window.location.href, _hp: honeypotRef.current, _lt: loadedAtRef.current }),
       })
 
       const data = await response.json()
@@ -167,6 +169,11 @@ export default function Contact() {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Honeypot — hidden from real users, traps bots */}
+              <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
+                <label htmlFor="_hp">Leave this empty</label>
+                <input type="text" id="_hp" name="_hp" tabIndex={-1} autoComplete="off" onChange={e => { honeypotRef.current = e.target.value }} />
+              </div>
               <div>
                 <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
                   Full Name *
