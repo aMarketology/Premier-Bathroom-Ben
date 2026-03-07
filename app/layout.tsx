@@ -1,6 +1,10 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { organizationSchema, servicesSchema, reviewSchema } from '@/lib/schema'
 import './globals.css'
+
+export const viewport: Viewport = {
+  themeColor: '#57534e', // stone-600
+}
 
 export const metadata: Metadata = {
   title: 'Champs Tile Austin TX | Professional Tile Installation & Flooring Services',
@@ -31,7 +35,6 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  themeColor: '#57534e', // stone-600
   verification: {
     google: 'your-google-verification-code',
   },

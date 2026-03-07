@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -18,6 +18,8 @@ export default function Home() {
     smsConsent: false
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const honeypotRef = useRef('')
+  const loadedAtRef = useRef(Date.now())
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target
@@ -37,7 +39,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...formData, pageUrl: window.location.href }),
+        body: JSON.stringify({ ...formData, pageUrl: window.location.href, _hp: honeypotRef.current, _lt: loadedAtRef.current }),
       })
 
       if (response.ok) {
@@ -151,6 +153,11 @@ export default function Home() {
                 <p className="text-sm text-gray-600 mb-6">Get your free quote today!</p>
                 
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {/* Honeypot — hidden from real users, traps bots */}
+                  <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
+                    <label htmlFor="_hp">Leave this empty</label>
+                    <input type="text" id="_hp" name="_hp" tabIndex={-1} autoComplete="off" onChange={e => { honeypotRef.current = e.target.value }} />
+                  </div>
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                       Your Name *
