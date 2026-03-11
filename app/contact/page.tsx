@@ -3,7 +3,7 @@
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
 import Image from 'next/image'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { getGA4ClientId, getGA4SessionId } from '@/lib/ga4-client'
 
 const galleryImages = [
@@ -25,35 +25,93 @@ export default function Contact() {
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
+  const [captcha, setCaptcha] = useState({ a: 0, b: 0 })
+  const [captchaInput, setCaptchaInput] = useState('')
+  const [captchaError, setCaptchaError] = useState(false)
   const honeypotRef = useRef('')
   const loadedAtRef = useRef(Date.now())
 
+  useEffect(() => {
+    setCaptcha({
+      a: Math.floor(Math.random() * 9) + 1,
+      b: Math.floor(Math.random() * 9) + 1,
+    })
+  }, [])
+
+  const formatPhone = (value: string) => {
+    const digits = value.replace(/\D/g, '').slice(0, 10)
+    if (digits.length <= 3) return digits
+    if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const target = e.target
-    const value = target.type === 'checkbox' ? (target as HTMLInputElement).checked : target.value
-    const name = target.name
-    setFormData(prev => ({ ...prev, [name]: value }))
+    const { name, value } = e.target
+    const formatted = name === 'phone' ? formatPhone(value) : value
+    setFormData(prev => ({ ...prev, [name]: formatted }))
+    if (fieldErrors[name]) setFieldErrors(prev => ({ ...prev, [name]: '' }))
+  }
+
+  const validate = () => {
+    const errors: Record<string, string> = {}
+    if (!formData.name.trim()) errors.name = 'Name is required'
+    if (!formData.phone.trim()) errors.phone = 'Phone number is required'
+    else if (formData.phone.replace(/\D/g, '').length < 10) errors.phone = 'Enter a valid 10-digit phone number'
+    if (!formData.email.trim()) errors.email = 'Email is required'
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) errors.email = 'Enter a valid email address'
+    if (!formData.service) errors.service = 'Please select a service'
+    return errors
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
     setError('')
+    setCaptchaError(false)
+
+    const errors = validate()
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors)
+      return
+    }
+
+    const expectedAnswer = captcha.a + captcha.b
+    if (!captchaInput || parseInt(captchaInput) !== expectedAnswer) {
+      setCaptchaError(true)
+      return
+    }
+
+    setLoading(true)
     try {
       const [clientId, sessionId] = await Promise.all([getGA4ClientId(), getGA4SessionId()])
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, pageUrl: window.location.href, clientId, sessionId, _hp: honeypotRef.current, _lt: loadedAtRef.current }),
+        body: JSON.stringify({
+          ...formData,
+          pageUrl: window.location.href,
+          clientId,
+          sessionId,
+          _hp: honeypotRef.current,
+          _lt: loadedAtRef.current,
+          _ca: captcha.a,
+          _cb: captcha.b,
+          _ck: parseInt(captchaInput),
+        }),
       })
-      if (!response.ok) throw new Error('Failed to submit form')
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}))
+        throw new Error(data.error || 'Failed to submit form')
+      }
       if (typeof window !== 'undefined' && (window as any).gtagSendEvent) {
         (window as any).gtagSendEvent('/thank-you')
       } else {
         window.location.href = '/thank-you'
       }
-    } catch (err) {
-      setError('Failed to submit. Please try again or call us directly.')
+    } catch (err: any) {
+      setError(err.message || 'Failed to submit. Please try again or call us directly.')
+      setCaptcha({ a: Math.floor(Math.random() * 9) + 1, b: Math.floor(Math.random() * 9) + 1 })
+      setCaptchaInput('')
       console.error('Form submission error:', err)
     } finally {
       setLoading(false)
@@ -107,55 +165,122 @@ export default function Contact() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5" noValidate>
               {/* Honeypot — hidden from real users, traps bots */}
               <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
                 <label htmlFor="_hp">Leave this empty</label>
                 <input type="text" id="_hp" name="_hp" tabIndex={-1} autoComplete="off" onChange={e => { honeypotRef.current = e.target.value }} />
               </div>
-              <input
-                type="text" name="name" value={formData.name} onChange={handleChange}
-                required disabled={loading}
-                className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50"
-                placeholder="Your Full Name *"
-              />
-              <input
-                type="tel" name="phone" value={formData.phone} onChange={handleChange}
-                required disabled={loading}
-                className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50"
-                placeholder="Phone Number *"
-              />
-              <input
-                type="email" name="email" value={formData.email} onChange={handleChange}
-                required disabled={loading}
-                className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50"
-                placeholder="Email Address *"
-              />
-              <select
-                name="service" value={formData.service} onChange={handleChange}
-                required disabled={loading}
-                className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 disabled:opacity-50"
-              >
-                <option value="">Select a service...</option>
-                <option value="bathroom-remodel">Bathroom Remodeling</option>
-                <option value="shower-remodel">Shower Remodel</option>
-                <option value="walk-in-bath">Walk-in Bath</option>
-                <option value="tub-conversion">Tub to Shower Conversion</option>
-                <option value="flooring">Premium Flooring</option>
-                <option value="other">Other</option>
-              </select>
-              <textarea
-                name="message" value={formData.message} onChange={handleChange}
-                disabled={loading} rows={4}
-                placeholder="Tell us about your project (optional)..."
-                className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 resize-none disabled:opacity-50"
-              />
+
+              {/* Name */}
+              <div>
+                <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-1">
+                  Full Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="name" type="text" name="name" value={formData.name} onChange={handleChange}
+                  autoComplete="name" disabled={loading} placeholder="e.g. John Smith"
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50 ${fieldErrors.name ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                />
+                {fieldErrors.name && <p className="mt-1 text-xs text-red-600">{fieldErrors.name}</p>}
+              </div>
+
+              {/* Phone */}
+              <div>
+                <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-1">
+                  Phone Number <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="phone" type="tel" name="phone" value={formData.phone} onChange={handleChange}
+                  autoComplete="tel" disabled={loading} placeholder="(512) 000-0000"
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50 ${fieldErrors.phone ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                />
+                {fieldErrors.phone && <p className="mt-1 text-xs text-red-600">{fieldErrors.phone}</p>}
+              </div>
+
+              {/* Email */}
+              <div>
+                <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-1">
+                  Email Address <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="email" type="email" name="email" value={formData.email} onChange={handleChange}
+                  autoComplete="email" disabled={loading} placeholder="you@example.com"
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50 ${fieldErrors.email ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                />
+                {fieldErrors.email && <p className="mt-1 text-xs text-red-600">{fieldErrors.email}</p>}
+              </div>
+
+              {/* Service */}
+              <div>
+                <label htmlFor="service" className="block text-sm font-semibold text-gray-700 mb-1">
+                  Service Needed <span className="text-red-500">*</span>
+                </label>
+                <select
+                  id="service" name="service" value={formData.service} onChange={handleChange}
+                  disabled={loading}
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 disabled:opacity-50 ${fieldErrors.service ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                >
+                  <option value="">Select a service...</option>
+                  <option value="bathroom-remodel">Bathroom Remodeling</option>
+                  <option value="shower-remodel">Shower Remodel</option>
+                  <option value="walk-in-bath">Walk-in Bath</option>
+                  <option value="tub-conversion">Tub to Shower Conversion</option>
+                  <option value="full-remodel">Full Bathroom Renovation</option>
+                  <option value="vanity">Vanity & Fixtures</option>
+                  <option value="flooring">Premium Flooring</option>
+                  <option value="tile">Custom Tile Work</option>
+                  <option value="other">Other / Not Sure Yet</option>
+                </select>
+                {fieldErrors.service && <p className="mt-1 text-xs text-red-600">{fieldErrors.service}</p>}
+              </div>
+
+              {/* Message */}
+              <div>
+                <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-1">
+                  Tell Us About Your Project <span className="text-gray-400 font-normal">(optional)</span>
+                </label>
+                <textarea
+                  id="message" name="message" value={formData.message} onChange={handleChange}
+                  disabled={loading} rows={4} maxLength={1000}
+                  placeholder="Describe your bathroom, what you'd like changed, any specific ideas..."
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 resize-none disabled:opacity-50"
+                />
+                <p className="text-right text-xs text-gray-400 mt-1">{formData.message.length}/1000</p>
+              </div>
+
+              {/* Math Captcha */}
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                <label htmlFor="captcha" className="block text-sm font-semibold text-gray-700 mb-2">
+                  🛡️ Quick Verification — What is {captcha.a} + {captcha.b}? <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="captcha" type="number" value={captchaInput}
+                  onChange={e => { setCaptchaInput(e.target.value); setCaptchaError(false) }}
+                  disabled={loading} placeholder="Enter the answer"
+                  className={`w-32 px-4 py-3 bg-white border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 disabled:opacity-50 ${captchaError ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                />
+                {captchaError && <p className="mt-1 text-xs text-red-600">Incorrect answer — please try again.</p>}
+              </div>
+
               <button
                 type="submit" disabled={loading}
-                className="w-full py-5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold text-lg rounded-xl hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold text-lg rounded-xl hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
               >
-                {loading ? 'Submitting...' : 'Get Your Free Estimate'}
+                {loading ? (
+                  <>
+                    <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Submitting...
+                  </>
+                ) : 'Get Your Free Estimate'}
               </button>
+
+              <p className="text-center text-xs text-gray-400">
+                <span className="text-red-500">*</span> Required fields. No spam, ever.
+              </p>
             </form>
 
             {/* Direct call CTA */}

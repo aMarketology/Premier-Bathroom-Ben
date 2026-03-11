@@ -4,6 +4,24 @@ import FormData from 'form-data'
 import Mailgun from 'mailgun.js'
 import { trackFormSubmission } from '@/lib/ga4-tracking'
 
+// ── IP Rate Limiting ──────────────────────────────────────────────────────────
+const rateLimitMap = new Map<string, { count: number; firstRequest: number }>()
+const RATE_LIMIT_MAX = 5
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000 // 10 minutes
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const record = rateLimitMap.get(ip)
+  if (!record || now - record.firstRequest > RATE_LIMIT_WINDOW_MS) {
+    rateLimitMap.set(ip, { count: 1, firstRequest: now })
+    return false
+  }
+  if (record.count >= RATE_LIMIT_MAX) return true
+  record.count++
+  return false
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 // â”€â”€ Mailgun (Primary) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function sendViaMailgun(to: string[], subject: string, text: string, html: string) {
   const mailgun = new Mailgun(FormData)
@@ -51,8 +69,19 @@ async function sendViaMailjet(to: string[], subject: string, text: string, html:
 
 export async function POST(request: NextRequest) {
   try {
+    // ── IP Rate Limiting ────────────────────────────────────────────────────
+    const ip =
+      request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+      request.headers.get('x-real-ip') ||
+      'unknown'
+    if (isRateLimited(ip)) {
+      console.warn(`[spam] Rate limit exceeded for IP: ${ip}`)
+      return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 })
+    }
+    // ───────────────────────────────────────────────────────────────────────
+
     const body = await request.json()
-    const { name, email, phone, message, service, smsConsent, pageUrl, clientId, sessionId, _hp, _lt } = body
+    const { name, email, phone, message, service, smsConsent, pageUrl, clientId, sessionId, _hp, _lt, _ca, _cb, _ck } = body
 
     // ── Spam bot protection ───────────────────────────────────────────────────
     // 1. Honeypot: real users never fill this hidden field
@@ -64,6 +93,14 @@ export async function POST(request: NextRequest) {
     if (_lt && Date.now() - Number(_lt) < 3000) {
       console.warn('[spam] Submission too fast — silently discarding')
       return NextResponse.json({ success: true, message: 'Received' })
+    }
+    // 3. Math captcha verification
+    if (_ca !== undefined && _cb !== undefined && _ck !== undefined) {
+      const expected = Number(_ca) + Number(_cb)
+      if (Number(_ck) !== expected) {
+        console.warn('[spam] Math captcha failed')
+        return NextResponse.json({ error: 'Captcha verification failed. Please try again.' }, { status: 400 })
+      }
     }
     // ─────────────────────────────────────────────────────────────────────────
 

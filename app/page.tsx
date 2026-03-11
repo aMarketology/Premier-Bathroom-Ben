@@ -9,18 +9,90 @@ import Footer from './components/Footer'
 
 // Gallery images with project details
 const galleryImages = [
-  { src: '/IMG_0387 Ben.jpeg', title: 'Modern Bathroom Remodel', location: 'Austin, TX', type: 'Full Renovation' },
-  { src: '/IMG_1412 Ben.jpeg', title: 'Luxury Shower Installation', location: 'Round Rock, TX', type: 'Shower Remodel' },
-  { src: '/IMG_1551 Ben.jpeg', title: 'Custom Tile Work', location: 'Cedar Park, TX', type: 'Tile Design' },
-  { src: '/IMG_2305 Ben.jpeg', title: 'Contemporary Bathroom', location: 'Pflugerville, TX', type: 'Complete Remodel' },
-  { src: '/IMG_2324 Ben.jpeg', title: 'Walk-in Bath Installation', location: 'West Lake Hills, TX', type: 'Accessibility' },
-  { src: '/IMG_2329 Ben.jpeg', title: 'Premium Flooring', location: 'Austin, TX', type: 'Flooring Install' },
-  { src: '/IMG_2596 Ben.jpeg', title: 'Elegant Master Bath', location: 'Bee Cave, TX', type: 'Master Suite' },
-  { src: '/IMG_5970 Ben.jpeg', title: 'Spa-Style Shower', location: 'Lakeway, TX', type: 'Luxury Shower' },
-  { src: '/IMG_6283 Ben.jpeg', title: 'Modern Vanity Design', location: 'Georgetown, TX', type: 'Vanity Install' },
-  { src: '/IMG_7767 Ben.jpeg', title: 'Hardwood Flooring', location: 'Leander, TX', type: 'Premium Floors' },
-  { src: '/IMG_8122 Ben.jpeg', title: 'Bathroom Transformation', location: 'Kyle, TX', type: 'Full Remodel' },
-  { src: '/IMG_2849 Ben v.jpeg', title: 'Custom Bathroom', location: 'Dripping Springs, TX', type: 'Custom Design' },
+  {
+    src: '/IMG_0387 Ben.jpeg',
+    title: 'Modern Bathroom Remodel',
+    category: 'Complete Remodel',
+    description: 'Complete bathroom remodeling in Austin featuring contemporary fixtures, custom tile work, and premium finishes for a spa-like experience.',
+    location: 'Austin, TX',
+  },
+  {
+    src: '/IMG_1412 Ben.jpeg',
+    title: 'Luxury Shower Installation',
+    category: 'Shower Remodel',
+    description: 'Professional shower remodel in Austin with frameless glass enclosure, rainfall showerhead, and elegant tile patterns for modern living.',
+    location: 'Austin, TX',
+  },
+  {
+    src: '/IMG_1551 Ben.jpeg',
+    title: 'Contemporary Bathroom Design',
+    category: 'Complete Remodel',
+    description: 'Full bathroom renovation showcasing sleek vanities, energy-efficient lighting, and beautiful countertops by Austin bathroom remodeling experts.',
+    location: 'Austin, TX',
+  },
+  {
+    src: '/IMG_2305 Ben.jpeg',
+    title: 'Custom Tile Work',
+    category: 'Tile Installation',
+    description: 'Expert tile installation featuring precision craftsmanship in shower walls, flooring, and accent details for Austin bathroom projects.',
+    location: 'Austin, TX',
+  },
+  {
+    src: '/IMG_2324 Ben.jpeg',
+    title: 'Walk-in Bath Installation',
+    category: 'Walk-in Bath',
+    description: 'Safe and accessible walk-in bath installation in Austin TX with low threshold entry and therapeutic features for enhanced mobility.',
+    location: 'Austin, TX',
+  },
+  {
+    src: '/IMG_2329 Ben.jpeg',
+    title: 'Elegant Vanity Installation',
+    category: 'Vanity & Fixtures',
+    description: 'Premium bathroom vanity installation with double sinks, modern faucets, and ample storage for functional bathroom remodeling in Austin.',
+    location: 'Austin, TX',
+  },
+  {
+    src: '/IMG_2596 Ben.jpeg',
+    title: 'Designer Bathroom Upgrade',
+    category: 'Complete Remodel',
+    description: 'Classic bathroom transformation combining traditional elegance with modern functionality through expert Austin bathroom renovation services.',
+    location: 'Austin, TX',
+  },
+  {
+    src: '/IMG_5970 Ben.jpeg',
+    title: 'Tub to Shower Conversion',
+    category: 'Shower Conversion',
+    description: 'Professional tub to shower conversion in Austin featuring walk-in accessibility, custom tile, and modern fixtures for easier daily use.',
+    location: 'Austin, TX',
+  },
+  {
+    src: '/IMG_6283 Ben.jpeg',
+    title: 'Spa-Style Bathroom',
+    category: 'Luxury Remodel',
+    description: 'Luxury bathroom remodeling in Austin with high-end materials, ambient lighting, and spa-inspired design for ultimate relaxation.',
+    location: 'Austin, TX',
+  },
+  {
+    src: '/IMG_7767 Ben.jpeg',
+    title: 'Premium Flooring Installation',
+    category: 'Flooring',
+    description: 'Beautiful bathroom flooring installation featuring durable, waterproof materials with modern patterns for Austin bathroom projects.',
+    location: 'Austin, TX',
+  },
+  {
+    src: '/IMG_8122 Ben.jpeg',
+    title: 'Modern Fixtures & Lighting',
+    category: 'Bathroom Update',
+    description: 'Contemporary bathroom update in Austin with LED lighting, chrome fixtures, and coordinated hardware for a fresh, modern look.',
+    location: 'Austin, TX',
+  },
+  {
+    src: '/IMG_2849 Ben v.jpeg',
+    title: 'Custom Bathroom Design',
+    category: 'Custom Design',
+    description: 'Fully customized bathroom renovation with bespoke tile selection, unique fixtures, and expert craftsmanship for a one-of-a-kind Austin bathroom.',
+    location: 'Austin, TX',
+  },
 ]
 
 export default function Home() {
@@ -291,37 +363,70 @@ export default function Home() {
       </section>
 
       {/* === GALLERY PREVIEW SECTION === */}
-      <section className="pt-24 pb-8 bg-white">
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {galleryImages.slice(0, 6).map((img, idx) => (
+          <div className="text-center mb-12">
+            <div className="inline-block px-4 py-2 bg-blue-100 border border-blue-200 rounded-full mb-4">
+              <span className="text-sm font-bold uppercase tracking-wider text-blue-700">Our Portfolio</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Recent <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Projects</span>
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Explore our latest bathroom transformations across Austin. Each project reflects our commitment to quality craftsmanship.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {galleryImages.slice(0, 11).map((img, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, scale: 0.96 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.07 }}
-                className="relative group overflow-hidden rounded-xl aspect-square"
+                transition={{ duration: 0.5, delay: idx * 0.06 }}
+                className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 bg-white"
               >
-                <Image
-                  src={img.src}
-                  alt={img.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  sizes="(max-width: 768px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                  <p className="text-white font-semibold text-sm leading-tight">{img.title}</p>
-                  <p className="text-blue-300 text-xs mt-1">{img.location}</p>
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={img.src}
+                    alt={img.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-blue-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <Link href="/gallery" className="text-white text-center">
+                      <svg className="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                      </svg>
+                      <p className="font-bold text-lg">Click to View</p>
+                    </Link>
+                  </div>
+                </div>
+                <div className="p-5">
+                  <div className="mb-2">
+                    <span className="text-xs font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 px-3 py-1 rounded-full">
+                      {img.category}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900 mt-3 mb-2">{img.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">{img.description}</p>
+                  <div className="flex items-center gap-2 text-sm text-blue-600 mt-4">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                    </svg>
+                    {img.location}
+                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          <div className="text-center mt-10">
+          <div className="text-center mt-12">
             <Link
               href="/gallery"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-blue-500/50 text-blue-300 rounded-lg font-semibold hover:bg-blue-500/10 hover:border-blue-400 transition-all duration-300"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-semibold hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 shadow-lg hover:shadow-blue-500/40"
             >
               View Full Gallery
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
