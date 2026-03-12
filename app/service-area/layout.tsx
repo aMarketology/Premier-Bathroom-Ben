@@ -1,14 +1,17 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Service Areas | Bathroom Remodeling Austin & Greater Texas | Premier Bathroom',
-  description: 'Premier Bathroom Remodel serves Austin, Round Rock, Cedar Park, Pflugerville, Georgetown, Lakeway, and more. Expert bathroom renovation services throughout the Greater Austin area.',
-  keywords: 'bathroom remodeling Austin area, bathroom renovation Central Texas, Austin metro bathroom contractors, Greater Austin bathroom remodeling',
+  title: 'Bathroom Remodeling Service Areas | Texas Statewide | Premier Bathroom Remodel Texas',
+  description: 'Premier Bathroom Remodel Texas serves Austin, Houston, Dallas, San Antonio, Fort Worth, Plano, Frisco, and 50+ Texas cities. Expert bathroom renovation services statewide. Call 512-492-2321.',
+  keywords: 'bathroom remodeling Texas, bathroom renovation Texas cities, Austin bathroom remodeling, Houston bathroom remodeling, Dallas bathroom remodeling, San Antonio bathroom remodeling, Texas bathroom contractors',
   openGraph: {
-    title: 'Bathroom Remodeling Service Areas - Greater Austin, TX',
-    description: 'Professional bathroom remodeling services throughout the Austin metro area and Central Texas.',
+    title: 'Bathroom Remodeling Service Areas — All of Texas | Premier Bathroom Remodel Texas',
+    description: 'Professional bathroom remodeling services throughout Texas. Austin, Houston, Dallas, San Antonio, Fort Worth, and 50+ cities.',
     type: 'website',
-  }
+  },
+  alternates: {
+    canonical: 'https://premierbathroomremodelaustin.com/service-area',
+  },
 }
 
 export default function ServiceAreaRootLayout({

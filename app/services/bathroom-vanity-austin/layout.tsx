@@ -1,12 +1,12 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Bathroom Vanity Installation Austin TX | Custom Vanities',
-  description: 'Expert bathroom vanity installation in Austin, TX. Single & double sink vanities, floating designs, premium countertops. Free quotes. Licensed & insured. Call (512) 492-2321.',
-  keywords: 'bathroom vanity installation Austin, custom bathroom vanity Austin TX, vanity replacement Austin, double sink vanity Austin, floating vanity installation Austin',
+  title: 'Bathroom Vanity Installation Texas | Custom Vanities | Premier Bathroom Remodel Texas',
+  description: 'Expert bathroom vanity installation across Texas. Single & double sink vanities, floating designs, premium countertops. Serving Austin, Houston, Dallas, San Antonio, and more. Call (512) 492-2321.',
+  keywords: 'bathroom vanity installation Texas, custom bathroom vanity Texas, vanity replacement Texas, vanity installation Austin, vanity installation Houston, vanity installation Dallas, floating vanity Texas',
   openGraph: {
-    title: 'Bathroom Vanity Installation Austin TX | Premier Bathroom Remodel',
-    description: 'Upgrade your bathroom with expert vanity installation. Custom designs, quality materials, professional service.',
+    title: 'Bathroom Vanity Installation Texas | Premier Bathroom Remodel Texas',
+    description: 'Upgrade your Texas bathroom with expert vanity installation. Custom designs, quality materials, professional service statewide.',
     url: 'https://premierbathroomremodelaustin.com/services/bathroom-vanity-austin',
   },
 }

@@ -1,12 +1,12 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Walk-in Bath Austin TX | Safe Accessible Bathtubs | Premier Bathroom',
-  description: 'Premier walk-in bath installations in Austin, TX. Safe, accessible bathing solutions for seniors and mobility concerns. Low threshold entry, anti-slip flooring, ADA compliant. Call 512-492-2321.',
-  keywords: 'walk-in bath Austin, walk-in tub Austin TX, accessible bathtub Austin, senior bathroom Austin, ADA compliant bath Austin, safe bathtub installation',
+  title: 'Walk-in Bath Texas | Safe Accessible Bathtubs | Premier Bathroom Remodel Texas',
+  description: 'Premier walk-in bath installations across Texas. Safe, accessible bathing solutions for seniors and mobility concerns throughout Austin, Houston, Dallas, San Antonio, and more. ADA compliant. Call 512-492-2321.',
+  keywords: 'walk-in bath Texas, walk-in tub Texas, accessible bathtub Texas, senior bathroom Texas, ADA compliant bath Texas, walk-in bath Austin, walk-in bath Houston, walk-in bath San Antonio',
   openGraph: {
-    title: 'Walk-in Bath Installation in Austin, TX',
-    description: 'Safe, accessible walk-in baths for Austin seniors and individuals with mobility concerns.',
+    title: 'Walk-in Bath Installation in Texas | Premier Bathroom Remodel Texas',
+    description: 'Safe, accessible walk-in baths for Texas seniors and individuals with mobility concerns. Serving Austin, Houston, Dallas, San Antonio, and more.',
     type: 'website',
   }
 }

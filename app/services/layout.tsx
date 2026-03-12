@@ -1,32 +1,32 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Bathroom Remodeling Services Austin TX | Premier Bathroom Remodel',
+  title: 'Bathroom Remodeling Services Texas | Premier Bathroom Remodel Texas',
   description:
-    'Premier Bathroom Remodel Austin offers complete bathroom remodeling, shower remodels, tub-to-shower conversions, walk-in baths, vanity installation, and ADA-accessible upgrades in Austin, TX and surrounding areas. Call 512-492-2321 for a free quote.',
+    'Premier Bathroom Remodel Texas offers complete bathroom remodeling, shower remodels, tub-to-shower conversions, walk-in baths, vanity installation, and ADA-accessible upgrades across Texas — Austin, Houston, Dallas, San Antonio, and more. Call 512-492-2321 for a free quote.',
   keywords: [
+    'bathroom remodeling Texas',
+    'shower remodel Texas',
+    'tub to shower conversion Texas',
+    'walk in bath Texas',
+    'bathroom renovation Texas',
+    'bathroom contractor Texas',
     'bathroom remodeling Austin TX',
-    'shower remodel Austin',
-    'tub to shower conversion Austin',
-    'walk in bath Austin',
-    'bathroom renovation Austin',
-    'bathroom contractor Austin',
-    'custom shower Austin',
-    'frameless shower doors Austin',
-    'ADA bathroom remodel Austin',
-    'vanity installation Austin',
-    'tile work Austin',
-    'bathroom near me Austin',
+    'bathroom remodeling Houston TX',
+    'bathroom remodeling Dallas TX',
+    'bathroom remodeling San Antonio TX',
+    'ADA bathroom remodel Texas',
+    'vanity installation Texas',
   ],
   alternates: {
     canonical: 'https://premierbathroomremodelaustin.com/services',
   },
   openGraph: {
-    title: 'Bathroom Remodeling Services Austin TX | Premier Bathroom Remodel',
+    title: 'Bathroom Remodeling Services Texas | Premier Bathroom Remodel Texas',
     description:
-      'Expert bathroom remodeling in Austin, TX. Shower remodels, tub conversions, walk-in baths, tile work & more. Licensed & insured. Free quotes — call 512-492-2321.',
+      'Expert bathroom remodeling across Texas. Serving Austin, Houston, Dallas, San Antonio, and 50+ cities. Shower remodels, tub conversions, walk-in baths & more. Free quotes — call 512-492-2321.',
     url: 'https://premierbathroomremodelaustin.com/services',
-    siteName: 'Premier Bathroom Remodel Austin',
+    siteName: 'Premier Bathroom Remodel Texas',
     locale: 'en_US',
     type: 'website',
     images: [

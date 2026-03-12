@@ -1,12 +1,12 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Full Bathroom Remodel Austin TX | Complete Renovation Services',
-  description: 'Professional full bathroom remodeling in Austin, TX. Complete renovation services including design, demolition, installation & finishing. Free consultation. Licensed & insured. Call (512) 492-2321.',
-  keywords: 'full bathroom remodel Austin, complete bathroom renovation Austin TX, bathroom remodeling services Austin, custom bathroom design Austin, bathroom renovation contractors Austin',
+  title: 'Full Bathroom Remodel Texas | Complete Renovation Services | Premier Bathroom Remodel Texas',
+  description: 'Professional full bathroom remodeling across Texas. Complete renovation services including design, demolition, installation & finishing. Serving Austin, Houston, Dallas, San Antonio, and more. Free consultation. Call (512) 492-2321.',
+  keywords: 'full bathroom remodel Texas, complete bathroom renovation Texas, bathroom remodeling services Texas, full bathroom remodel Austin, full bathroom remodel Houston, full bathroom remodel Dallas, Texas bathroom renovation contractors',
   openGraph: {
-    title: 'Full Bathroom Remodel Austin TX | Premier Bathroom Remodel',
-    description: 'Transform your entire bathroom with a complete remodel from Austin\'s trusted experts. Custom design, quality materials, expert installation.',
+    title: 'Full Bathroom Remodel Texas | Premier Bathroom Remodel Texas',
+    description: 'Transform your entire Texas bathroom with a complete remodel from trusted statewide experts. Serving Austin, Houston, Dallas, San Antonio, and more.',
     url: 'https://premierbathroomremodelaustin.com/services/full-bathroom-remodel-austin',
   },
 }

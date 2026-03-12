@@ -455,7 +455,7 @@ export default function Home() {
               FAST, TRANSPARENT, AND BUILT TO LAST
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Remodeling your bathroom shouldn't be complicated. At Premier Bathroom Remodel Austin, our process is straightforward, from your first call through final inspection. Quick turnaround, complete transparency, and no shortcuts.
+              Remodeling your bathroom shouldn't be complicated. At Premier Bathroom Remodel Texas, our process is straightforward, from your first call through final inspection. Quick turnaround, complete transparency, and no shortcuts.
             </p>
           </div>
 
@@ -733,7 +733,7 @@ export default function Home() {
           </h2>
           
           <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto">
-            Take the first step in transforming your space. Contact Premier Bathroom Remodel Austin today for a free consultation and quote.
+            Take the first step in transforming your space. Contact Premier Bathroom Remodel Texas today for a free consultation and quote. Serving Austin, Houston, Dallas, San Antonio, and all of Texas.
           </p>
 
           {/* CTA Buttons Row */}
@@ -762,7 +762,7 @@ export default function Home() {
               <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
               </svg>
-              Serving Austin, TX & Surrounding Areas
+              Serving All of Texas — Austin, Houston, Dallas, San Antonio & More
             </p>
           </div>
         </div>
