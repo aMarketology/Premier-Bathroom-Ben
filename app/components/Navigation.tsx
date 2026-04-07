@@ -52,7 +52,7 @@ export default function Navigation() {
 
             {/* Desktop Menu */}
             <div className="flex gap-8 items-center">
-              {['Home', 'Services', 'Gallery', 'About', 'Contact'].map((item, index) => (
+              {['Home', 'Services', 'Gallery', 'Blog', 'About', 'Contact'].map((item, index) => (
                 <motion.div
                   key={item}
                   initial={{ opacity: 0, y: -20 }}
@@ -143,7 +143,7 @@ export default function Navigation() {
             className="md:hidden overflow-hidden fixed top-16 left-0 right-0 z-40"
           >
             <div className="py-4 space-y-1 bg-gradient-to-br from-blue-600/95 via-cyan-500/95 to-blue-700/95 backdrop-blur-lg mx-4 rounded-lg shadow-xl border border-blue-400/30">
-              {['Home', 'Services', 'Gallery', 'About', 'Contact'].map((item, index) => (
+              {['Home', 'Services', 'Gallery', 'Blog', 'About', 'Contact'].map((item, index) => (
                 <motion.div
                   key={item}
                   initial={{ opacity: 0, x: -20 }}

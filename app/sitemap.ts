@@ -75,6 +75,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: `${BASE_URL}/blog`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/blog/how-much-does-a-bathroom-remodel-cost-in-austin`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.75,
+    },
+    {
+      url: `${BASE_URL}/blog/how-long-does-a-bathroom-remodel-take-in-austin`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.75,
+    },
+    {
+      url: `${BASE_URL}/blog/does-a-bathroom-remodel-add-value-to-your-home-in-austin`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.75,
+    },
   ]
 
   const servicePages: MetadataRoute.Sitemap = servicePageSlugs.map((slug) => ({
