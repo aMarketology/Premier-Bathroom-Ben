@@ -3,31 +3,85 @@
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
 import { useState, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function Contact() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    message: ''
+    message: '',
+    smsConsent: false
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState('')
+  const [errors, setErrors] = useState<Record<string, string>>({})
   const honeypotRef = useRef('')
   const loadedAtRef = useRef(Date.now())
 
+  const validate = (data: typeof formData) => {
+    const errs: Record<string, string> = {}
+
+    // Name: letters, spaces, hyphens, apostrophes only — no numbers or symbols
+    if (!data.name.trim()) {
+      errs.name = 'Name is required.'
+    } else if (!/^[a-zA-Z\s'\-.]{2,80}$/.test(data.name.trim())) {
+      errs.name = 'Please enter a valid name (letters only, no numbers or special characters).'
+    }
+
+    // Email: standard format
+    if (!data.email.trim()) {
+      errs.email = 'Email address is required.'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email.trim())) {
+      errs.email = 'Please enter a valid email address.'
+    }
+
+    // Phone: must contain at least 7 digits
+    const digits = data.phone.replace(/\D/g, '')
+    if (!data.phone.trim()) {
+      errs.phone = 'Phone number is required.'
+    } else if (digits.length < 7 || digits.length > 15) {
+      errs.phone = 'Please enter a valid phone number.'
+    } else if (!/^[0-9\s().+\-]{7,20}$/.test(data.phone.trim())) {
+      errs.phone = 'Phone number contains invalid characters.'
+    }
+
+    // Message: no more than 2 URLs (spam signal)
+    if (data.message) {
+      const urlCount = (data.message.match(/https?:\/\/|www\./gi) || []).length
+      if (urlCount > 2) {
+        errs.message = 'Your message contains too many links. Please describe your project in plain text.'
+      }
+      if (data.message.length > 2000) {
+        errs.message = 'Message is too long (max 2000 characters).'
+      }
+    }
+
+    return errs
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
+    const { name, value, type } = e.target
+    const updated = {
+      ...formData,
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+    }
+    setFormData(updated)
+    // Clear error for this field as user types
+    if (errors[name]) {
+      setErrors(prev => { const next = { ...prev }; delete next[name]; return next })
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    const validationErrors = validate(formData)
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      return
+    }
+    setErrors({})
     setIsSubmitting(true)
-    setError('')
 
     try {
       const response = await fetch('/api/send-email', {
@@ -38,23 +92,20 @@ export default function Contact() {
         body: JSON.stringify({ ...formData, pageUrl: window.location.href, _hp: honeypotRef.current, _lt: loadedAtRef.current }),
       })
 
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to send email')
+      if (response.ok) {
+        router.push('/thank-you')
+      } else {
+        throw new Error('Failed to send')
       }
-
-      // Redirect to thank you page on success
-      window.location.href = '/thank-you'
-    } catch (err) {
-      console.error('Error submitting form:', err)
-      setError(err instanceof Error ? err.message : 'Failed to submit form. Please try again.')
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      alert('There was an error submitting your request. Please call us at 512-706-9577.')
       setIsSubmitting(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col font-sans">
+    <div className="min-h-screen bg-white flex flex-col">
       <Navigation />
 
       {/* Page Header */}
@@ -161,12 +212,6 @@ export default function Contact() {
           {/* Contact Form */}
           <div>
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Request a Free Quote</h2>
-            
-            {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded">
-                {error}
-              </div>
-            )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Honeypot — hidden from real users, traps bots */}
@@ -186,8 +231,11 @@ export default function Contact() {
                   onChange={handleChange}
                   required
                   placeholder="John Doe"
-                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={`w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    errors.name ? 'border-red-400 bg-red-50' : 'border-gray-300'
+                  }`}
                 />
+                {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
               </div>
 
               <div>
@@ -202,8 +250,11 @@ export default function Contact() {
                   onChange={handleChange}
                   required
                   placeholder="john@example.com"
-                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={`w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    errors.email ? 'border-red-400 bg-red-50' : 'border-gray-300'
+                  }`}
                 />
+                {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
               </div>
 
               <div>
@@ -218,8 +269,11 @@ export default function Contact() {
                   onChange={handleChange}
                   required
                   placeholder="512-706-9577"
-                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={`w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    errors.phone ? 'border-red-400 bg-red-50' : 'border-gray-300'
+                  }`}
                 />
+                {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
               </div>
 
               <div>
@@ -231,18 +285,37 @@ export default function Contact() {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Tell us about your bathroom remodel or flooring project..."
+                  placeholder="Tell us about your tile or flooring project..."
                   rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  maxLength={2000}
+                  className={`w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none text-gray-900 ${
+                    errors.message ? 'border-red-400 bg-red-50' : 'border-gray-300'
+                  }`}
                 ></textarea>
+                {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
+              </div>
+
+              <div className="flex items-start">
+                <input
+                  type="checkbox"
+                  id="smsConsent"
+                  name="smsConsent"
+                  checked={formData.smsConsent}
+                  onChange={handleChange}
+                  className="mt-1 h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
+                />
+                <label htmlFor="smsConsent" className="ml-2 text-xs text-gray-600">
+                  By checking this box, you agree to receive SMS messages about your appointment/job from Champs Tile. 
+                  You may reply STOP to opt-out at any time.
+                </label>
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded transition transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                className="w-full bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-bold py-3 px-6 rounded transition transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? 'Sending...' : 'Request Free Quote'}
+                {isSubmitting ? 'Submitting...' : 'Request Free Quote'}
               </button>
             </form>
           </div>

@@ -37,7 +37,7 @@ async function sendViaMailjet(
       mailjet.post('send', { version: 'v3.1' }).request({
         Messages: [
           {
-            From: { Email: 'info@amarketology.com', Name: 'Tile Pros Austin' },
+            From: { Email: 'info@amarketology.com', Name: 'Champs Tile Austin' },
             To: [{ Email: recipient }],
             Subject: subject,
             TextPart: text,
@@ -67,106 +67,133 @@ export async function POST(request: NextRequest) {
     }
     // ─────────────────────────────────────────────────────────────────────────
 
-    // Validate required fields
+    // ── Server-side field validation (mirrors client rules) ──────────────────
     if (!name || !email || !phone) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    // Resolve source URL — prefer explicit pageUrl, fall back to referer header
-    const sourceUrl = pageUrl || request.headers.get('referer') || 'Direct submission'
+    // Name: letters, spaces, hyphens, apostrophes only — no numbers or symbols
+    if (typeof name !== 'string' || name.length > 80 || !/^[a-zA-Z\s'\-.]{2,80}$/.test(name.trim())) {
+      return NextResponse.json({ error: 'Invalid name' }, { status: 400 })
+    }
 
-    const emailSubject = service
-      ? `New Service Request: ${service} — ${name}`
-      : `New Contact Form — ${name}`
+    // Email: basic format + length cap
+    if (typeof email !== 'string' || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) {
+      return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
+    }
+
+    // Phone: at least 7 digits, max 15, allowed chars only
+    const phoneDigits = String(phone).replace(/\D/g, '')
+    if (phoneDigits.length < 7 || phoneDigits.length > 15 || !/^[0-9\s().+\-]{7,20}$/.test(String(phone).trim())) {
+      return NextResponse.json({ error: 'Invalid phone number' }, { status: 400 })
+    }
+
+    // Message: length cap + URL spam check
+    if (message) {
+      if (String(message).length > 2000) {
+        return NextResponse.json({ error: 'Message too long' }, { status: 400 })
+      }
+      const urlCount = (String(message).match(/https?:\/\/|www\./gi) || []).length
+      if (urlCount > 2) {
+        return NextResponse.json({ error: 'Message contains too many links' }, { status: 400 })
+      }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
+    const notificationEmails = [
+      process.env.NOTIFICATION_EMAIL_1,
+      process.env.NOTIFICATION_EMAIL_2,
+    ].filter(Boolean) as string[]
+
+    if (notificationEmails.length === 0) {
+      return NextResponse.json({ error: 'Email configuration error' }, { status: 500 })
+    }
+
+    // Resolve the source URL — prefer explicit pageUrl, fall back to referer header
+    const sourceUrl = pageUrl || request.headers.get('referer') || 'Direct submission'
+    const websiteSource = 'Champs Tile Branch'
+    
+    const serviceLabel = service
+      ? service.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())
+      : 'Not specified'
+
+    const textContent = `New Lead - ${websiteSource}\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}${service ? `\nService: ${serviceLabel}` : ''}${message ? `\nMessage: ${message}` : ''}\nSubmitted from: ${sourceUrl}${smsConsent ? '\n\n✓ Customer agreed to receive SMS messages' : ''}\n\nSubmitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })} CST`
+
+    const emailSubject = `New Lead from ${websiteSource} - ${name}`
 
     const htmlContent = `
       <!DOCTYPE html>
       <html>
-      <head>
-        <style>
-          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background: #f0f9ff; }
-          .container { max-width: 600px; margin: 0 auto; background: white; }
-          .header { background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); color: white; padding: 32px 30px; text-align: center; }
-          .blue-bar { background: linear-gradient(90deg, #0ea5e9, #38bdf8, #0ea5e9); height: 4px; }
-          .source-bar { background: #e0f2fe; border-left: 4px solid #0ea5e9; padding: 12px 20px; }
-          .content { background: #f0f9ff; padding: 30px; }
-          .field { margin-bottom: 14px; padding: 16px; background: white; border-radius: 8px; border-left: 4px solid #0ea5e9; }
-          .field-label { font-weight: bold; color: #475569; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-          .field-value { color: #0f172a; font-size: 15px; }
-          .footer { background: #0c4a6e; color: white; padding: 20px 30px; text-align: center; font-size: 13px; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:6px 14px;margin-bottom:14px;">
-              <div style="width:8px;height:8px;border-radius:50%;background:#bae6fd;animation:pulse 2s infinite;"></div>
-              <span style="font-size:12px;color:#e0f2fe;letter-spacing:0.08em;font-weight:500;">NEW CUSTOMER INQUIRY</span>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background: #f3f4f6; }
+            .container { max-width: 600px; margin: 0 auto; background: white; }
+            .header { background: linear-gradient(135deg, #1c1917 0%, #292524 100%); color: white; padding: 32px 30px; text-align: center; }
+            .gold-bar { background: linear-gradient(90deg, #d97706, #f59e0b, #d97706); height: 4px; }
+            .source-bar { background: #fffbeb; border-left: 4px solid #d97706; padding: 14px 20px; }
+            .content { background: #f9fafb; padding: 30px; }
+            .field { margin-bottom: 14px; padding: 16px; background: white; border-radius: 8px; border-left: 4px solid #d97706; }
+            .field-label { font-weight: bold; color: #374151; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+            .field-value { color: #111827; font-size: 15px; }
+            .footer { background: #1c1917; color: white; padding: 20px 30px; text-align: center; font-size: 13px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(217,119,6,0.2);border:1px solid rgba(217,119,6,0.4);border-radius:20px;padding:6px 14px;margin-bottom:14px;">
+                <div style="width:8px;height:8px;border-radius:50%;background:#fbbf24;"></div>
+                <span style="font-size:12px;color:#fcd34d;letter-spacing:0.08em;font-weight:500;">NEW LEAD</span>
+              </div>
+              <h1 style="margin:0;font-size:26px;font-weight:700;letter-spacing:2px;color:#fbbf24;">CHAMPS</h1>
+              <p style="margin:6px 0 0;font-size:14px;color:#a8a29e;">Tile &amp; Bathroom Services — Austin, TX</p>
             </div>
-            <h1 style="margin:0;font-size:28px;font-weight:700;color:white;letter-spacing:1px;">Tile Pros <span style="color:#bae6fd;">Austin</span></h1>
-            <p style="margin:8px 0 0;font-size:14px;color:#e0f2fe;">Premier Tile &amp; Bathroom Services</p>
+            <div class="gold-bar"></div>
+            <div class="source-bar">
+              <div style="font-size:11px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Submitted From</div>
+              <a href="${sourceUrl}" style="color:#b45309;font-size:13px;word-break:break-all;">${sourceUrl}</a>
+            </div>
+            <div class="content">
+              <div class="field">
+                <div class="field-label">Customer Name</div>
+                <div class="field-value">${name}</div>
+              </div>
+              <div class="field">
+                <div class="field-label">Email</div>
+                <div class="field-value"><a href="mailto:${email}" style="color:#d97706;">${email}</a></div>
+              </div>
+              <div class="field">
+                <div class="field-label">Phone</div>
+                <div class="field-value"><a href="tel:${phone}" style="color:#d97706;">${phone}</a></div>
+              </div>
+              ${service ? `
+              <div class="field">
+                <div class="field-label">Service Requested</div>
+                <div class="field-value">${serviceLabel}</div>
+              </div>` : ''}
+              ${message ? `
+              <div class="field">
+                <div class="field-label">Message / Project Details</div>
+                <div class="field-value" style="white-space:pre-wrap;">${message}</div>
+              </div>` : ''}
+              ${smsConsent ? `
+              <div style="background:#fef3c7;border-left:4px solid #d97706;padding:14px 16px;border-radius:8px;margin-bottom:14px;">
+                <div class="field-label">SMS Consent</div>
+                <div class="field-value">✓ Customer agreed to receive SMS messages</div>
+              </div>` : ''}
+              <div style="background:#f3f4f6;padding:12px 16px;border-radius:8px;font-size:13px;color:#6b7280;">
+                Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })} (Central Time)
+              </div>
+            </div>
+            <div class="footer">
+              <p style="margin:0;font-weight:700;color:#fbbf24;font-size:15px;letter-spacing:2px;">CHAMPS</p>
+              <p style="margin:4px 0 0;color:#a8a29e;">Austin, TX &bull; (512) 706-9577</p>
+              <p style="margin:8px 0 0;color:#78716c;font-size:12px;">Please respond to the customer as soon as possible.</p>
+            </div>
           </div>
-          <div class="blue-bar"></div>
-          <div class="source-bar">
-            <div style="font-size:11px;font-weight:700;color:#0369a1;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Submitted From</div>
-            <a href="${sourceUrl}" style="color:#0284c7;font-size:13px;word-break:break-all;">${sourceUrl}</a>
-          </div>
-          <div class="content">
-            <div class="field">
-              <div class="field-label">Customer Name</div>
-              <div class="field-value">${name}</div>
-            </div>
-            <div class="field">
-              <div class="field-label">Email Address</div>
-              <div class="field-value"><a href="mailto:${email}" style="color:#0284c7;">${email}</a></div>
-            </div>
-            <div class="field">
-              <div class="field-label">Phone Number</div>
-              <div class="field-value"><a href="tel:${phone}" style="color:#0284c7;">${phone}</a></div>
-            </div>
-            ${service ? `
-            <div class="field">
-              <div class="field-label">Service Requested</div>
-              <div class="field-value">${service}</div>
-            </div>` : ''}
-            ${message ? `
-            <div class="field">
-              <div class="field-label">Project Details</div>
-              <div class="field-value" style="white-space:pre-wrap;">${message}</div>
-            </div>` : ''}
-            ${smsConsent ? `
-            <div style="background:#e0f2fe;border-left:4px solid #0ea5e9;padding:14px 16px;border-radius:8px;margin-bottom:14px;">
-              <div class="field-label">SMS Consent</div>
-              <div class="field-value">✓ Customer agreed to receive SMS messages</div>
-            </div>` : ''}
-            <div style="background:white;padding:12px 16px;border-radius:8px;border:1px solid #e0f2fe;font-size:13px;color:#64748b;">
-              Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })} (Central Time)
-            </div>
-          </div>
-          <div class="footer">
-            <p style="margin:0;font-weight:700;color:#7dd3fc;font-size:15px;">Tile Pros Austin</p>
-            <p style="margin:4px 0 0;color:#bae6fd;">Austin, TX &bull; (512) 706-9577</p>
-            <p style="margin:8px 0 0;color:#7dd3fc;font-size:12px;">Please respond promptly to provide excellent customer service.</p>
-          </div>
-        </div>
-      </body>
+        </body>
       </html>
     `
-
-    const notificationEmails = [
-      process.env.NOTIFICATION_EMAIL_1,
-      process.env.NOTIFICATION_EMAIL_2
-    ].filter(Boolean) as string[]
-
-    if (notificationEmails.length === 0) {
-      console.error('No notification emails configured')
-      return NextResponse.json({ error: 'Email configuration error' }, { status: 500 })
-    }
-
-    const textContent = `New inquiry from ${name}\nEmail: ${email}\nPhone: ${phone}${service ? `\nService: ${service}` : ''}${message ? `\nMessage: ${message}` : ''}\nSubmitted from: ${sourceUrl}${smsConsent ? '\n\n✓ Customer agreed to receive SMS messages' : ''}`
 
     // ── Send with Mailgun (primary) → Mailjet (fallback) ──────────────────────
     let provider = 'unknown'
@@ -191,7 +218,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error sending email:', error)
     return NextResponse.json(
-      { error: 'Failed to send email', details: error instanceof Error ? error.message : 'Unknown error' },
+      { success: false, error: error instanceof Error ? error.message : 'Failed to send email' },
       { status: 500 }
     )
   }

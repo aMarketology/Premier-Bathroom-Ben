@@ -35,14 +35,14 @@ export default function Navigation() {
               className="flex items-center"
             >
               <div className={`text-2xl font-bold ${scrolled ? 'text-slate-900' : 'text-white'}`}>
-                <span className={scrolled ? 'text-blue-600' : 'text-blue-400'}>Tile Pros</span> Austin
+                <span className={scrolled ? 'text-orange-600' : 'text-orange-400'}>Champs Tile Installation</span> Austin
               </div>
             </motion.div>
           </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex gap-8 items-center">
-            {['Home', 'Services', 'Gallery', 'About', 'Contact'].map((item, index) => (
+            {['Home', 'Services', 'Gallery', 'Blog', 'About', 'Contact'].map((item, index) => (
               <motion.div
                 key={item}
                 initial={{ opacity: 0, y: -20 }}
@@ -119,7 +119,7 @@ export default function Navigation() {
               className="md:hidden overflow-hidden"
             >
               <div className="py-4 space-y-1 bg-white/95 backdrop-blur-lg rounded-lg mt-4 shadow-xl">
-                {['Home', 'Services', 'Gallery', 'About', 'Contact'].map((item, index) => (
+                {['Home', 'Services', 'Gallery', 'Blog', 'About', 'Contact'].map((item, index) => (
                   <motion.div
                     key={item}
                     initial={{ opacity: 0, x: -20 }}

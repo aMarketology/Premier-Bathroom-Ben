@@ -4,269 +4,87 @@ import { motion } from 'framer-motion'
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
 import Link from 'next/link'
-import { useState } from 'react'
+import Image from 'next/image'
 
 export default function Services() {
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    service: '',
-    smsConsent: false
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState('')
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setError('')
-
-    try {
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to send email')
-      }
-
-      // Redirect to thank you page on success
-      window.location.href = '/thank-you'
-    } catch (err) {
-      console.error('Error submitting form:', err)
-      setError(err instanceof Error ? err.message : 'Failed to submit form. Please try again.')
-      setIsSubmitting(false)
-    }
-  }
-
   return (
-    <div className="min-h-screen bg-white font-sans">
+    <div className="min-h-screen bg-white">
       <Navigation />
 
-      {/* === HERO SECTION WITH VIDEO BACKGROUND === */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-gray-900">
-        {/* Video Background */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-40"
-        >
-          <source src="/Premier Bathroom Remodeling Texas/0202 (1).mp4" type="video/mp4" />
-        </video>
-
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-900/70 to-gray-800/80" />
-        
-        {/* Subtle Purple Accent Glow */}
+      {/* === HERO SECTION === */}
+      <section className="relative min-h-[60vh] flex items-center overflow-hidden bg-gradient-to-br from-stone-50 via-white to-neutral-50">
         <div className="absolute inset-0">
-          <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
+          <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-stone-500/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-neutral-400/5 rounded-full blur-3xl" />
         </div>
+        
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(120,113,108,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(120,113,108,0.03)_1px,transparent_1px)] bg-[size:100px_100px]" />
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-8 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            
-            {/* Left Column - Text Content */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="space-y-8"
-            >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 backdrop-blur-sm">
-                <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-                <span className="text-sm font-medium text-gray-300 tracking-wide">Premium Tile & Bathroom Services</span>
-              </div>
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-8 py-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center space-y-6"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-stone-200 bg-white shadow-sm">
+              <div className="w-1.5 h-1.5 rounded-full bg-stone-600 animate-pulse" />
+              <span className="text-xs font-medium text-stone-700 uppercase tracking-widest">Our Services</span>
+            </div>
 
-              <h1 className="text-5xl lg:text-6xl xl:text-7xl font-light text-white tracking-tight leading-tight">
-                Professional Tile &<br />
-                Bathroom Installation
-              </h1>
+            <h1 className="text-5xl md:text-7xl font-display font-light text-gray-900 tracking-tight">
+              Bathroom & Flooring
+              <br />
+              <span className="bg-gradient-to-r from-stone-600 via-neutral-600 to-stone-700 bg-clip-text text-transparent">Remodeling Services</span>
+            </h1>
 
-              <p className="text-xl text-gray-300 leading-relaxed max-w-2xl">
-                Expert tile installation and premium bathroom solutions serving Austin, Rollingwood, Manchaca, Pflugerville, and surrounding areas
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <a
-                  href="tel:512-706-9577"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-gray-900 rounded-lg font-medium hover:bg-gray-100 transition-all shadow-lg"
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                  </svg>
-                  Call 512-706-9577
-                </a>
-                <Link
-                  href="/gallery"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-medium hover:bg-white hover:text-gray-900 transition-all"
-                >
-                  View Our Work
-                </Link>
-              </div>
-            </motion.div>
-
-            {/* Right Column - Request Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-200"
-            >
-              <div className="mb-6">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-2">REQUEST AN APPOINTMENT ONLINE</h3>
-                <p className="text-gray-600">Get your free quote today!</p>
-              </div>
-
-              {error && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
-                  {error}
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Your Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="John Doe"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                    Phone Number <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    required
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="(512) 555-0123"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="john@example.com"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-2">
-                    What type of service do you need? <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    id="service"
-                    required
-                    value={formData.service}
-                    onChange={(e) => setFormData({...formData, service: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all bg-white"
-                  >
-                    <option value="">Select a service</option>
-                    <option value="tile-installation">Tile Installation</option>
-                    <option value="bathroom-remodel">Bathroom Remodel</option>
-                    <option value="shower-installation">Shower Installation</option>
-                    <option value="floor-tiling">Floor Tiling</option>
-                    <option value="backsplash">Kitchen Backsplash</option>
-                    <option value="tile-repair">Tile Repair</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <input
-                    type="checkbox"
-                    id="smsConsent"
-                    checked={formData.smsConsent}
-                    onChange={(e) => setFormData({...formData, smsConsent: e.target.checked})}
-                    className="mt-1 w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
-                  />
-                  <label htmlFor="smsConsent" className="text-sm text-gray-600">
-                    By checking this box, you agree to receive SMS messages about your appointment/job from Tile Pros Austin. You may reply STOP to opt-out at any time. Message frequency may vary.
-                  </label>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-4 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? 'Sending...' : 'Submit Request'}
-                </button>
-              </form>
-            </motion.div>
-          </div>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-body">
+              Expert bathroom renovation and premium flooring solutions serving Austin, Rollingwood, Manchaca, Pflugerville, and surrounding areas
+            </p>
+          </motion.div>
         </div>
       </section>
 
       {/* === MAIN SERVICES SECTION === */}
-      <section className="relative py-24 bg-white">
+      <section className="relative py-24 bg-gradient-to-b from-white to-stone-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           
-          {/* Service 1: Tile Installation Austin */}
+          {/* Service 1: Bathroom Remodeling Austin */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="mb-24"
           >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-gray-50">
-                  <div className="w-1.5 h-1.5 rounded-full bg-purple-500" />
-                  <span className="text-xs font-medium text-gray-600 uppercase tracking-wider">Featured Service</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-stone-200 bg-stone-50">
+                  <span className="text-xs font-medium text-stone-700 uppercase tracking-widest">Featured Service</span>
                 </div>
                 
-                <h2 className="text-4xl md:text-5xl font-light text-gray-900 leading-tight">
-                  Professional Tile Installation <span className="text-gray-700">Austin</span>
+                <h2 className="text-4xl md:text-5xl font-display font-light text-gray-900">
+                  Bathroom Remodeling <span className="text-stone-700">Austin</span>
                 </h2>
 
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  When you're looking for expert tile installation in Austin, TX, trust the professionals at Tile Pros Austin. We transform spaces with precision tile work, from elegant bathroom installations to stunning floor designs.
+                  When you're looking for a bathroom remodel in Austin, TX, make sure to call the experts at Premier Bathroom Remodel Austin. We take pride in transforming ordinary bathrooms into stunning, functional spaces that exceed expectations.
                 </p>
 
-                <div className="space-y-4">
-                  <h3 className="text-xl font-medium text-gray-900">Our Comprehensive Services Include:</h3>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="space-y-3">
+                  <h3 className="text-xl font-semibold text-gray-800">Our Comprehensive Services Include:</h3>
+                  <ul className="space-y-3">
                     {[
-                      'Custom tile design & installation',
-                      'Bathroom wall & floor tiling',
-                      'Kitchen backsplash design',
-                      'Shower & tub surrounds',
-                      'Porcelain & ceramic tiles',
-                      'Natural stone installation',
-                      'Mosaic & accent work',
-                      'Tile repair & restoration'
+                      'Complete bathroom renovations',
+                      'Custom shower and tub installations',
+                      'Vanity design and installation',
+                      'Tile work and backsplash',
+                      'Modern fixtures and fittings',
+                      'Lighting design and installation',
+                      'Flooring upgrades',
+                      'ADA-compliant modifications'
                     ].map((item, i) => (
                       <li key={i} className="flex items-center gap-3 text-gray-700">
-                        <svg className="w-5 h-5 text-purple-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-blue-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                         {item}
@@ -275,10 +93,10 @@ export default function Services() {
                   </ul>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 pt-6">
+                <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <a
                     href="tel:512-706-9577"
-                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-900 rounded-lg font-medium text-white hover:bg-gray-800 transition-all shadow-lg"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg font-medium text-white hover:shadow-lg hover:shadow-blue-500/40 transition-all"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -287,7 +105,7 @@ export default function Services() {
                   </a>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-gray-300 rounded-lg font-medium text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-stone-600 rounded-lg font-medium text-stone-700 hover:bg-stone-50 transition-all"
                   >
                     Get Free Quote
                   </Link>
@@ -295,13 +113,15 @@ export default function Services() {
               </div>
 
               <div className="relative">
-                <div className="aspect-square rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 p-8 flex items-center justify-center shadow-xl">
-                  <div className="text-center space-y-4">
-                    <div className="text-7xl font-light text-gray-900">15+</div>
-                    <div className="text-xl text-gray-700 font-medium">Years Experience</div>
-                    <div className="text-sm text-gray-500">in Austin Tile Installation</div>
-                    <div className="mt-6 w-16 h-1 bg-purple-500 mx-auto rounded-full" />
-                  </div>
+                <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
+                  <Image 
+                    src="/pexels-curtis-adams-1694007-7168080.jpg" 
+                    alt="Beautiful bathroom remodeling in Austin" 
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-900/20 to-transparent" />
                 </div>
               </div>
             </div>
@@ -316,32 +136,33 @@ export default function Services() {
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative">
-                <div className="aspect-square rounded-2xl bg-gradient-to-br from-cyan-950 to-slate-950 border border-slate-800 p-8 flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <svg className="w-24 h-24 mx-auto text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                    </svg>
-                    <div className="text-2xl font-bold text-cyan-400">Safe & Accessible</div>
-                    <div className="text-sm text-slate-400">Walk-in Bath Solutions</div>
-                  </div>
+                <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
+                  <Image 
+                    src="/pexels-vladimirsrajber-11806476.jpg" 
+                    alt="Walk-in bath installation in Austin" 
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/20 to-transparent" />
                 </div>
               </div>
 
               <div className="order-1 lg:order-2 space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-800 bg-cyan-900/20">
-                  <span className="text-xs font-medium text-cyan-400 uppercase tracking-widest">Safety & Comfort</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-200 bg-neutral-50">
+                  <span className="text-xs font-medium text-neutral-700 uppercase tracking-widest">Safety & Comfort</span>
                 </div>
                 
-                <h2 className="text-4xl md:text-5xl font-light text-slate-100">
-                  Walk-in Bath <span className="text-cyan-500">Austin</span>
+                <h2 className="text-4xl md:text-5xl font-display font-light text-gray-900">
+                  Walk-in Bath <span className="text-neutral-700">Austin</span>
                 </h2>
 
-                <p className="text-lg text-slate-400 leading-relaxed">
+                <p className="text-lg text-gray-600 leading-relaxed">
                   Experience enhanced safety, accessibility, and independence with our premium walk-in bath installations. Perfect for seniors and individuals with mobility concerns, our walk-in baths combine safety features with luxurious comfort.
                 </p>
 
                 <div className="space-y-3">
-                  <h3 className="text-xl font-semibold text-slate-200">Key Features:</h3>
+                  <h3 className="text-xl font-semibold text-gray-800">Key Features:</h3>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {[
                       'Low threshold entry',
@@ -353,8 +174,8 @@ export default function Services() {
                       'ADA compliant design',
                       'Lifetime warranty options'
                     ].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-slate-300">
-                        <svg className="w-5 h-5 text-cyan-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <li key={i} className="flex items-center gap-3 text-gray-700">
+                        <svg className="w-5 h-5 text-neutral-700 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                         {item}
@@ -366,7 +187,7 @@ export default function Services() {
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <a
                     href="tel:512-706-9577"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg font-medium text-white hover:shadow-lg hover:shadow-cyan-600/40 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-neutral-600 to-stone-700 rounded-lg font-medium text-white hover:shadow-lg hover:shadow-neutral-500/40 transition-all"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -375,7 +196,7 @@ export default function Services() {
                   </a>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-900/50 border border-slate-800 rounded-lg font-medium text-slate-300 hover:bg-slate-800/50 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-neutral-600 rounded-lg font-medium text-neutral-700 hover:bg-neutral-50 transition-all"
                   >
                     Learn More
                   </Link>
@@ -393,20 +214,20 @@ export default function Services() {
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-800 bg-blue-900/20">
-                  <span className="text-xs font-medium text-blue-400 uppercase tracking-widest">Modern Designs</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-stone-200 bg-stone-50">
+                  <span className="text-xs font-medium text-stone-700 uppercase tracking-widest">Modern Designs</span>
                 </div>
                 
-                <h2 className="text-4xl md:text-5xl font-light text-slate-100">
-                  Shower Remodel <span className="text-blue-500">Austin</span>
+                <h2 className="text-4xl md:text-5xl font-display font-light text-gray-900">
+                  Shower Remodel <span className="text-stone-700">Austin</span>
                 </h2>
 
-                <p className="text-lg text-slate-400 leading-relaxed">
+                <p className="text-lg text-gray-600 leading-relaxed">
                   Premier Bathroom Remodel Austin specializes in reimagining ordinary bathrooms as relaxing, spa-inspired spaces designed for both comfort and everyday functionality. From stepping onto warm, heated flooring in the morning to unwinding beneath a soothing rainfall shower at night, every detail is carefully considered.
                 </p>
 
                 <div className="space-y-3">
-                  <h3 className="text-xl font-semibold text-slate-200">Shower Features:</h3>
+                  <h3 className="text-xl font-semibold text-gray-800">Shower Features:</h3>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {[
                       'Walk-in showers',
@@ -418,8 +239,8 @@ export default function Services() {
                       'Modern fixtures',
                       'Spa-inspired designs'
                     ].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-slate-300">
-                        <svg className="w-5 h-5 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <li key={i} className="flex items-center gap-3 text-gray-700">
+                        <svg className="w-5 h-5 text-blue-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                         {item}
@@ -431,7 +252,7 @@ export default function Services() {
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <a
                     href="tel:512-706-9577"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-lg font-medium text-white hover:shadow-lg hover:shadow-blue-600/40 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg font-medium text-white hover:shadow-lg hover:shadow-blue-500/40 transition-all"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -440,7 +261,7 @@ export default function Services() {
                   </a>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-900/50 border border-slate-800 rounded-lg font-medium text-slate-300 hover:bg-slate-800/50 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-stone-600 rounded-lg font-medium text-stone-700 hover:bg-stone-50 transition-all"
                   >
                     Get Free Quote
                   </Link>
@@ -448,13 +269,15 @@ export default function Services() {
               </div>
 
               <div className="relative">
-                <div className="aspect-square rounded-2xl bg-gradient-to-br from-blue-950 to-slate-950 border border-slate-800 p-8 flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <svg className="w-24 h-24 mx-auto text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
-                    <div className="text-xl font-bold text-blue-400">Modern Shower Solutions</div>
-                  </div>
+                <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
+                  <Image 
+                    src="/pexels-vladimirsrajber-11806490.jpg" 
+                    alt="Modern shower remodel in Austin" 
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-900/20 to-transparent" />
                 </div>
               </div>
             </div>
@@ -469,12 +292,12 @@ export default function Services() {
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative">
-                <div className="aspect-square rounded-2xl bg-gradient-to-br from-cyan-950 to-slate-950 border border-slate-800 p-8 flex items-center justify-center">
+                <div className="aspect-square rounded-2xl bg-gradient-to-br from-neutral-950 to-slate-950 border border-slate-800 p-8 flex items-center justify-center">
                   <div className="text-center space-y-4">
-                    <svg className="w-24 h-24 mx-auto text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-24 h-24 mx-auto text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                     </svg>
-                    <div className="text-2xl font-bold text-cyan-400">Convert & Upgrade</div>
+                    <div className="text-2xl font-bold text-stone-400">Convert & Upgrade</div>
                     <div className="text-sm text-slate-400">Quick Installation</div>
                   </div>
                 </div>
@@ -852,7 +675,7 @@ export default function Services() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light text-slate-100 mb-4">
-              Why Choose <span className="text-blue-500">Tile Pros Austin</span>
+              Why Choose <span className="text-blue-500">Premier Bathroom Remodel Austin</span>
             </h2>
             <p className="text-xl text-slate-400 max-w-2xl mx-auto">
               Experience the difference of working with Austin's trusted remodeling experts
@@ -929,7 +752,7 @@ export default function Services() {
           </h2>
           
           <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto">
-            Contact Tile Pros Austin today for a free consultation. Let's bring your vision to life!
+            Contact Premier Bathroom Remodel Austin today for a free consultation. Let's bring your vision to life!
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
