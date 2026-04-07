@@ -67,13 +67,38 @@ export async function POST(request: NextRequest) {
     }
     // ─────────────────────────────────────────────────────────────────────────
 
-    // Validate required fields
+    // ── Server-side field validation (mirrors client rules) ──────────────────
     if (!name || !email || !phone) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
+
+    // Name: letters, spaces, hyphens, apostrophes only — no numbers or symbols
+    if (typeof name !== 'string' || name.length > 80 || !/^[a-zA-Z\s'\-.]{2,80}$/.test(name.trim())) {
+      return NextResponse.json({ error: 'Invalid name' }, { status: 400 })
+    }
+
+    // Email: basic format + length cap
+    if (typeof email !== 'string' || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) {
+      return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
+    }
+
+    // Phone: at least 7 digits, max 15, allowed chars only
+    const phoneDigits = String(phone).replace(/\D/g, '')
+    if (phoneDigits.length < 7 || phoneDigits.length > 15 || !/^[0-9\s().+\-]{7,20}$/.test(String(phone).trim())) {
+      return NextResponse.json({ error: 'Invalid phone number' }, { status: 400 })
+    }
+
+    // Message: length cap + URL spam check
+    if (message) {
+      if (String(message).length > 2000) {
+        return NextResponse.json({ error: 'Message too long' }, { status: 400 })
+      }
+      const urlCount = (String(message).match(/https?:\/\/|www\./gi) || []).length
+      if (urlCount > 2) {
+        return NextResponse.json({ error: 'Message contains too many links' }, { status: 400 })
+      }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
 
     const notificationEmails = [
       process.env.NOTIFICATION_EMAIL_1,
