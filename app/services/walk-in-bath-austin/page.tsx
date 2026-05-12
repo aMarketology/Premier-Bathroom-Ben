@@ -125,7 +125,7 @@ export default function WalkInBathAustin() {
                   Call 512-492-2321
                 </a>
                 <Link
-                  href="/contact"
+                  href="/get-started?service=walk-in-bath"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-cyan-600 rounded-lg font-medium text-cyan-600 hover:bg-cyan-50 transition-all text-lg"
                 >
                   Free Consultation
@@ -254,7 +254,7 @@ export default function WalkInBathAustin() {
 
               <div className="pt-6">
                 <Link
-                  href="/contact"
+                  href="/get-started?service=walk-in-bath"
                   className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-lg font-medium text-white hover:shadow-lg hover:shadow-cyan-500/40 transition-all"
                 >
                   Get Your Free Quote
@@ -377,7 +377,7 @@ export default function WalkInBathAustin() {
                 Call 512-492-2321 Now
               </a>
               <Link
-                href="/contact"
+                href="/get-started?service=walk-in-bath"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent border-2 border-white rounded-lg font-medium text-white hover:bg-white/10 transition-all text-lg"
               >
                 Request Free Quote

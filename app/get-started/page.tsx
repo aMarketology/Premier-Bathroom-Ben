@@ -3,9 +3,41 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
+
+// Per-service dynamic messaging — keyed to the dropdown value / URL ?service= param
+const SERVICE_CONFIG: Record<string, { headline: string; tagline: string; formTitle: string; urgency: string; badge: string }> = {
+  'tub-conversion': {
+    headline: 'TUB-TO-SHOWER CONVERSION IN AUSTIN',
+    tagline: 'Fast, clean, and warrantied. Most installs complete in just 1 day with minimal disruption to your home.',
+    formTitle: 'GET YOUR FREE CONVERSION QUOTE',
+    urgency: '⚡ Most conversions complete in 1 day!',
+    badge: 'TUB TO SHOWER SPECIALIST',
+  },
+  'walk-in-bath': {
+    headline: 'WALK-IN BATH INSTALLATION IN AUSTIN',
+    tagline: 'Safe, ADA-compliant walk-in baths for Austin homeowners. Lifetime warranty included — free in-home estimate.',
+    formTitle: 'GET YOUR FREE WALK-IN BATH QUOTE',
+    urgency: '♿ ADA-compliant · Lifetime warranty included',
+    badge: 'ACCESSIBILITY SPECIALIST',
+  },
+  'shower-remodel': {
+    headline: 'CUSTOM SHOWER REMODEL IN AUSTIN',
+    tagline: 'Frameless glass, custom tile, premium fixtures. Designed and installed by Austin\'s most trusted remodelers.',
+    formTitle: 'GET YOUR FREE SHOWER QUOTE',
+    urgency: '✨ Frameless glass · Custom tile · 2–4 week installs',
+    badge: 'SHOWER REMODEL SPECIALIST',
+  },
+}
+const DEFAULT_CONFIG = {
+  headline: 'TRUSTED BATHROOM REMODELING COMPANY IN AUSTIN',
+  tagline: "Austin's premier experts in bathroom remodeling and luxury flooring. Transform your space with quality craftsmanship and unmatched service.",
+  formTitle: 'REQUEST FREE QUOTE',
+  urgency: 'Get started on your dream bathroom today!',
+  badge: '15+ YEARS SERVING AUSTIN',
+}
 
 export default function GetStarted() {
   const [heroFormData, setHeroFormData] = useState({
@@ -15,9 +47,23 @@ export default function GetStarted() {
     service: '',
     smsConsent: false
   })
+  // Track the service param from URL for dynamic headline (separate from dropdown state)
+  const [urlService, setUrlService] = useState('')
   const [heroLoading, setHeroLoading] = useState(false)
   const [heroSubmitted, setHeroSubmitted] = useState(false)
   const [heroError, setHeroError] = useState('')
+
+  // Read ?service= URL param on mount and pre-select dropdown + set dynamic messaging
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const svc = params.get('service') ?? ''
+    if (svc) {
+      setUrlService(svc)
+      setHeroFormData(prev => ({ ...prev, service: svc }))
+    }
+  }, [])
+
+  const config = SERVICE_CONFIG[urlService] ?? DEFAULT_CONFIG
 
   const handleHeroChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const target = e.target
@@ -96,7 +142,7 @@ export default function GetStarted() {
                 className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20"
               >
                 <div className="w-2 h-2 bg-accent-gold animate-pulse" />
-                <span className="text-xs font-bold text-white uppercase tracking-[0.2em]">15+ YEARS SERVING AUSTIN</span>
+                <span className="text-xs font-bold text-white uppercase tracking-[0.2em]">{config.badge}</span>
               </motion.div>
 
               {/* Main Headline */}
@@ -107,8 +153,17 @@ export default function GetStarted() {
                 className="space-y-4"
               >
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold text-white leading-[1.1] uppercase tracking-tight">
-                  TRUSTED BATHROOM REMODELING
-                  <span className="block text-accent-gold mt-2">COMPANY IN AUSTIN</span>
+                  {config.headline.includes('COMPANY IN AUSTIN') ? (
+                    <>
+                      TRUSTED BATHROOM REMODELING
+                      <span className="block text-accent-gold mt-2">COMPANY IN AUSTIN</span>
+                    </>
+                  ) : (
+                    <>
+                      {config.headline.replace(' IN AUSTIN', '')}
+                      <span className="block text-accent-gold mt-2">IN AUSTIN</span>
+                    </>
+                  )}
                 </h1>
               </motion.div>
 
@@ -119,7 +174,7 @@ export default function GetStarted() {
                 transition={{ duration: 0.8, delay: 0.35 }}
                 className="text-xl md:text-2xl text-white/90 font-light leading-relaxed"
               >
-                Austin's premier experts in bathroom remodeling and luxury flooring. Transform your space with quality craftsmanship and unmatched service.
+                {config.tagline}
               </motion.p>
 
               {/* CTA Buttons Row */}
@@ -159,8 +214,12 @@ export default function GetStarted() {
                 transition={{ duration: 0.8, delay: 0.8 }}
                 className="p-8 bg-white shadow-2xl border-t-4 border-accent-gold"
               >
-                <h3 className="text-2xl font-display font-extrabold text-gray-900 mb-2 uppercase">REQUEST FREE QUOTE</h3>
-                <p className="text-sm text-gray-600 mb-6 font-semibold">Get started on your dream bathroom today!</p>
+                <h3 className="text-2xl font-display font-extrabold text-gray-900 mb-2 uppercase">{config.formTitle}</h3>
+                <p className="text-sm font-semibold mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 border border-green-200 text-green-700 rounded-full text-xs font-bold">
+                    {config.urgency}
+                  </span>
+                </p>
                 
                 {heroSubmitted && (
                   <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
@@ -1116,7 +1175,8 @@ export default function GetStarted() {
             </a>
             
             <Link
-              href="/contact"
+              href="/get-started"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-slate-900/50 border-2 border-slate-800 rounded-lg font-semibold text-lg text-slate-300 hover:bg-slate-800/50 hover:border-slate-700 backdrop-blur-sm transition-all duration-300"
             >
               Get Free Quote
@@ -1136,6 +1196,32 @@ export default function GetStarted() {
       </section>
 
       <Footer />
+
+      {/* === STICKY MOBILE CALL BAR === */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-gradient-to-r from-purple-900 to-purple-800 border-t-2 border-accent-gold shadow-2xl">
+        <div className="flex">
+          <a
+            href="tel:512-492-2321"
+            className="flex-1 flex items-center justify-center gap-2 py-4 text-white font-bold text-sm uppercase tracking-wide"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+            </svg>
+            Call Now
+          </a>
+          <div className="w-px bg-white/20" />
+          <a
+            href="#"
+            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+            className="flex-1 flex items-center justify-center gap-2 py-4 bg-accent-gold text-gray-900 font-bold text-sm uppercase tracking-wide"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Free Quote
+          </a>
+        </div>
+      </div>
     </div>
   )
 }

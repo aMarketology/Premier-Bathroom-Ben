@@ -3,10 +3,28 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useEffect } from 'react'
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
 
 export default function ThankYou() {
+  // Fire Google Ads conversion + GA4 event on page mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Google Ads conversion
+      if (typeof (window as any).gtag === 'function') {
+        ;(window as any).gtag('event', 'ads_conversion_Contact_Us_1', {
+          send_to: 'AW-17861557264',
+        })
+        // GA4 lead event
+        ;(window as any).gtag('event', 'generate_lead', {
+          currency: 'USD',
+          value: 50,
+        })
+      }
+    }
+  }, [])
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex flex-col">
       <Navigation />

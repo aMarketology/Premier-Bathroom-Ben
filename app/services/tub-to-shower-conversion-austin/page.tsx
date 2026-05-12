@@ -201,7 +201,7 @@ export default function TubToShowerConversionAustin() {
                   Call 512-492-2321
                 </a>
                 <Link
-                  href="/contact"
+                  href="/get-started?service=tub-conversion"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-cyan-600 rounded-lg font-medium text-cyan-600 hover:bg-cyan-50 transition-all text-lg"
                 >
                   Get Free Quote
@@ -337,7 +337,7 @@ export default function TubToShowerConversionAustin() {
                 </ul>
 
                 <Link
-                  href="/contact"
+                  href="/get-started?service=tub-conversion"
                   className={`block text-center px-6 py-3 rounded-lg font-medium transition-all ${
                     option.popular
                       ? 'bg-white text-cyan-600 hover:bg-cyan-50'
@@ -486,7 +486,7 @@ export default function TubToShowerConversionAustin() {
                 Call 512-492-2321
               </a>
               <Link
-                href="/contact"
+                href="/get-started?service=tub-conversion"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent border-2 border-white rounded-lg font-medium text-white hover:bg-white/10 transition-all text-lg"
               >
                 Schedule Free Quote
