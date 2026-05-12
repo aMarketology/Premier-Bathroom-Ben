@@ -17,8 +17,9 @@ const cityNames: Record<string, string> = {
   beaumont: 'Beaumont', mcallen: 'McAllen', laredo: 'Laredo',
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const city = cityNames[params.id] ?? params.id.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const city = cityNames[id] ?? id.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
   return {
     title: `Bathroom Remodeling ${city}, TX | Premier Bathroom Remodel Texas`,
     description: `Expert bathroom remodeling in ${city}, TX. Walk-in showers, tub to shower conversions, walk-in baths, full renovations, and vanity upgrades. Licensed & insured. Call 512-492-2321 for a free quote.`,
@@ -29,7 +30,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       type: 'website',
     },
     alternates: {
-      canonical: `https://premierbathroomremodelaustin.com/service-area/${params.id}`,
+      canonical: `https://premierbathroomremodelaustin.com/service-area/${id}`,
     },
   }
 }

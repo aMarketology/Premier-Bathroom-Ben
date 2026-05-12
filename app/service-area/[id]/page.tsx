@@ -482,8 +482,9 @@ export async function generateStaticParams() {
   return Object.keys(serviceAreas).map((id) => ({ id }))
 }
 
-export default function ServiceAreaPage({ params }: { params: { id: string } }) {
-  const area = serviceAreas[params.id]
+export default async function ServiceAreaPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const area = serviceAreas[id]
   if (!area) notFound()
 
   const services = [
