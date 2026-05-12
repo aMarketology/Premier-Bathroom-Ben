@@ -14,7 +14,7 @@
     "form-data": "^4.0.5",
     "framer-motion": "^12.23.24",
     "mailgun.js": "^12.7.0",
-    "next": "^16.1.6",
+    "next": "^16.2.6",
     "next-seo": "^7.0.1",
     "node-mailjet": "^6.0.11",
     "react": "^18.2.0",
