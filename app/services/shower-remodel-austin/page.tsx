@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Navigation from '../../components/Navigation'
 import Footer from '../../components/Footer'
+import ServiceLeadForm from '../../components/ServiceLeadForm'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -169,23 +170,12 @@ export default function ShowerRemodelAustin() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
-                <Image 
-                  src="/IMG_7767 Ben.jpeg" 
-                  alt="Modern shower remodel in Austin, TX" 
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent" />
-              </div>
-              
-              {/* Floating Badge */}
-              <div className="absolute -bottom-6 -right-6 bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
-                <div className="text-4xl font-bold text-blue-600">Spa</div>
-                <div className="text-sm text-gray-600">Quality</div>
-              </div>
+              <ServiceLeadForm
+                service="shower-remodel"
+                serviceLabel="Shower Remodel"
+                accentColor="blue"
+                pageLocation="/services/shower-remodel-austin"
+              />
             </motion.div>
           </div>
         </div>

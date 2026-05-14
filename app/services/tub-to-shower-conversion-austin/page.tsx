@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Navigation from '../../components/Navigation'
 import Footer from '../../components/Footer'
+import ServiceLeadForm from '../../components/ServiceLeadForm'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -237,23 +238,12 @@ export default function TubToShowerConversionAustin() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
-                <Image 
-                  src="/IMG_2329 Ben.jpeg" 
-                  alt="Tub to shower conversion in Austin, TX" 
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/30 to-transparent" />
-              </div>
-              
-              {/* Floating Stats */}
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
-                <div className="text-4xl font-bold text-cyan-600">300+</div>
-                <div className="text-sm text-gray-600">Conversions Done</div>
-              </div>
+              <ServiceLeadForm
+                service="tub-to-shower-conversion"
+                serviceLabel="Tub to Shower Conversion"
+                accentColor="cyan"
+                pageLocation="/services/tub-to-shower-conversion-austin"
+              />
             </motion.div>
           </div>
         </div>

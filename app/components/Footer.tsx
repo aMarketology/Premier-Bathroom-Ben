@@ -130,47 +130,52 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-bold mb-6 text-white">Connect With Us</h3>
+            <h3 className="text-lg font-bold mb-6 text-white">Talk to an Expert</h3>
             <ul className="space-y-4">
               <li>
                 <a
-                  href="tel:512-492-2321"
-                  onClick={() => trackPhoneClick('512-492-2321', 'Footer')}
-                  className="text-blue-500 hover:text-blue-400 transition font-semibold flex items-center gap-2"
+                  href="tel:512-706-9577"
+                  onClick={() => trackPhoneClick('512-706-9577', 'Footer')}
+                  className="group flex items-center gap-3 bg-blue-600 hover:bg-blue-500 transition-all rounded-xl px-4 py-3"
                 >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                  </svg>
-                  512-492-2321
+                  <div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-white/30 transition-all">
+                    <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="text-xs text-blue-200 font-medium">Schedule a Call</div>
+                    <div className="text-white font-bold text-lg leading-tight">512-706-9577</div>
+                  </div>
                 </a>
               </li>
               <li>
                 <Link
                   href="/contact"
                   onClick={() => trackEmailClick('Footer Contact Link')}
-                  className="text-blue-500 hover:text-blue-400 transition font-semibold flex items-center gap-2"
+                  className="flex items-center gap-3 text-gray-400 hover:text-blue-400 transition font-medium group"
                 >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/>
+                  <svg className="w-5 h-5 flex-shrink-0 group-hover:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                  Get Free Quote
+                  Request a Free Estimate
                 </Link>
               </li>
               <li className="text-gray-400 text-sm flex items-start gap-2">
-                <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 flex-shrink-0 mt-0.5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                 </svg>
                 <div>
-                  516 Congress Ave.<br/>
-                  Austin, TX 78701
+                  Austin, TX &amp; Surrounding Areas<br/>
+                  <span className="text-gray-500">20-mile service radius</span>
                 </div>
               </li>
               <li className="text-gray-400 text-sm flex items-start gap-2">
-                <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 flex-shrink-0 mt-0.5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
                 </svg>
-                Mon-Fri: 8am - 6pm<br />
-                Sat: 8am - 4pm
+                Mon–Fri: 8am – 6pm<br />
+                Sat: 8am – 4pm
               </li>
             </ul>
           </div>

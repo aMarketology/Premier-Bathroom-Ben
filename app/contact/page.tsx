@@ -2,383 +2,242 @@
 
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
-import Image from 'next/image'
-import { useState, useRef, useEffect } from 'react'
-import { getGA4ClientId, getGA4SessionId } from '@/lib/ga4-client'
-
-const galleryImages = [
-  { src: '/IMG_0387 Ben.jpeg', alt: 'Modern Bathroom Remodel Austin' },
-  { src: '/IMG_1412 Ben.jpeg', alt: 'Luxury Shower Installation Austin' },
-  { src: '/IMG_1551 Ben.jpeg', alt: 'Contemporary Bathroom Design Austin' },
-  { src: '/IMG_2305 Ben.jpeg', alt: 'Custom Tile Work Austin' },
-  { src: '/IMG_6283 Ben.jpeg', alt: 'Spa-Style Bathroom Austin' },
-  { src: '/IMG_2596 Ben.jpeg', alt: 'Designer Bathroom Upgrade Austin' },
-]
+import { useState } from 'react'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    message: '',
-    service: ''
+    message: ''
   })
-  const [loading, setLoading] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
-  const [captcha, setCaptcha] = useState({ a: 0, b: 0 })
-  const [captchaInput, setCaptchaInput] = useState('')
-  const [captchaError, setCaptchaError] = useState(false)
-  const honeypotRef = useRef('')
-  const loadedAtRef = useRef(Date.now())
 
-  useEffect(() => {
-    setCaptcha({
-      a: Math.floor(Math.random() * 9) + 1,
-      b: Math.floor(Math.random() * 9) + 1,
-    })
-  }, [])
-
-  const formatPhone = (value: string) => {
-    const digits = value.replace(/\D/g, '').slice(0, 10)
-    if (digits.length <= 3) return digits
-    if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`
-    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    const formatted = name === 'phone' ? formatPhone(value) : value
-    setFormData(prev => ({ ...prev, [name]: formatted }))
-    if (fieldErrors[name]) setFieldErrors(prev => ({ ...prev, [name]: '' }))
-  }
-
-  const validate = () => {
-    const errors: Record<string, string> = {}
-    if (!formData.name.trim()) errors.name = 'Name is required'
-    if (!formData.phone.trim()) errors.phone = 'Phone number is required'
-    else if (formData.phone.replace(/\D/g, '').length < 10) errors.phone = 'Enter a valid 10-digit phone number'
-    if (!formData.email.trim()) errors.email = 'Email is required'
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) errors.email = 'Enter a valid email address'
-    if (!formData.service) errors.service = 'Please select a service'
-    return errors
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsSubmitting(true)
     setError('')
-    setCaptchaError(false)
 
-    const errors = validate()
-    if (Object.keys(errors).length > 0) {
-      setFieldErrors(errors)
-      return
-    }
-
-    const expectedAnswer = captcha.a + captcha.b
-    if (!captchaInput || parseInt(captchaInput) !== expectedAnswer) {
-      setCaptchaError(true)
-      return
-    }
-
-    setLoading(true)
     try {
-      const [clientId, sessionId] = await Promise.all([getGA4ClientId(), getGA4SessionId()])
-      const response = await fetch('/api/contact', {
+      const response = await fetch('/api/send-email', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          pageUrl: window.location.href,
-          clientId,
-          sessionId,
-          _hp: honeypotRef.current,
-          _lt: loadedAtRef.current,
-          _ca: captcha.a,
-          _cb: captcha.b,
-          _ck: parseInt(captchaInput),
-        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       })
+
+      const data = await response.json()
+
       if (!response.ok) {
-        const data = await response.json().catch(() => ({}))
-        throw new Error(data.error || 'Failed to submit form')
+        throw new Error(data.error || 'Failed to send email')
       }
-      if (typeof window !== 'undefined' && (window as any).gtagSendEvent) {
-        (window as any).gtagSendEvent('/thank-you')
-      } else {
-        window.location.href = '/thank-you'
-      }
-    } catch (err: any) {
-      setError(err.message || 'Failed to submit. Please try again or call us directly.')
-      setCaptcha({ a: Math.floor(Math.random() * 9) + 1, b: Math.floor(Math.random() * 9) + 1 })
-      setCaptchaInput('')
-      console.error('Form submission error:', err)
-    } finally {
-      setLoading(false)
+
+      // Redirect to thank you page on success
+      window.location.href = '/thank-you'
+    } catch (err) {
+      console.error('Error submitting form:', err)
+      setError(err instanceof Error ? err.message : 'Failed to submit form. Please try again.')
+      setIsSubmitting(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col font-sans">
       <Navigation />
 
-      {/* Hero Banner */}
-      <section className="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-16 px-4 text-center text-white">
-        <div className="inline-block px-4 py-2 bg-blue-500/20 border border-blue-400/30 rounded-full mb-4">
-          <span className="text-sm font-bold uppercase tracking-wider">Speak to an Expert Today</span>
-        </div>
-        <h1 className="text-4xl md:text-5xl font-bold mb-3">
-          Talk to a <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Bathroom Expert</span>
-        </h1>
-        <p className="text-lg text-gray-300 max-w-xl mx-auto">
-          Austin's top-rated bathroom remodelers. Our experts are ready to help — we respond within 24 hours, usually same day.
-        </p>
-
-        {/* Trust bar */}
-        <div className="flex flex-wrap justify-center gap-6 mt-8 text-sm text-gray-300">
-          {[
-            { icon: <path fillRule="evenodd" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" clipRule="evenodd" />, text: 'Licensed & Insured' },
-            { icon: <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />, text: 'Fast Expert Response' },
-            { icon: <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />, text: '5-Star Rated on Google' },
-            { icon: <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />, text: 'Serving Greater Austin' },
-          ].map((item, i) => (
-            <div key={i} className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-cyan-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">{item.icon}</svg>
-              <span>{item.text}</span>
-            </div>
-          ))}
+      {/* Page Header */}
+      <section className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-5xl md:text-5xl font-bold mb-4">Contact Us</h1>
+          <p className="text-xl text-gray-300">Get your free quote today - Call 512-706-9577</p>
         </div>
       </section>
 
-      {/* Main 2-col layout */}
-      <section className="flex-1 py-16 px-4 bg-gray-50">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+      {/* Contact Section */}
+      <section className="flex-1 py-16 px-4 bg-white">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+          
+          {/* Contact Info */}
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">Get In Touch</h2>
+            <p className="text-gray-700 mb-8 leading-relaxed">
+              Ready to transform your bathroom or upgrade your flooring? Contact Premier Bathroom Remodel Austin today for a free consultation and quote. We're here to answer all your questions and help you create the perfect space.
+            </p>
 
-          {/* LEFT ” Form */}
-          <div className="bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Speak with a Bathroom Expert</h2>
-            <p className="text-gray-500 mb-8 text-sm">No obligation. Our team will reach out within 24 hours.</p>
+            <div className="space-y-8">
+              {/* Phone */}
+              <div className="flex gap-4">
+                <div className="text-3xl">📞</div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Phone</h3>
+                  <a href="tel:512-706-9577" className="text-blue-500 font-bold hover:text-blue-600 text-2xl">
+                    512-706-9577
+                  </a>
+                </div>
+              </div>
 
+              {/* Email */}
+              <div className="flex gap-4">
+                <div className="text-3xl">✉️</div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Email</h3>
+                  <a href="mailto:info@premierbathroomremodel.com" className="text-blue-500 font-bold hover:text-blue-600">
+                    info@premierbathroomremodel.com
+                  </a>
+                </div>
+              </div>
+
+              {/* Address */}
+              <div className="flex gap-4">
+                <div className="text-3xl">📍</div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Address</h3>
+                  <p className="text-gray-700">
+                    516 Congress Ave.<br/>
+                    Austin, TX 78701
+                  </p>
+                </div>
+              </div>
+
+              {/* Service Area */}
+              <div className="flex gap-4">
+                <div className="text-3xl">�️</div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Service Area</h3>
+                  <p className="text-gray-700">
+                    Austin & Nearby Areas<br/>
+                    Including: Round Rock, Cedar Park,<br/>
+                    Pflugerville, West Lake Hills,<br/>
+                    Bee Cave & More
+                  </p>
+                </div>
+              </div>
+
+              {/* Hours */}
+              <div className="flex gap-4">
+                <div className="text-3xl">🕒</div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Hours</h3>
+                  <p className="text-gray-700">
+                    Monday - Friday: 8am - 6pm<br/>
+                    Saturday: 8am - 4pm<br/>
+                    Sunday: Closed
+                  </p>
+                </div>
+              </div>
+
+              {/* Reviews */}
+              <div className="flex gap-4">
+                <div className="text-3xl">⭐</div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Google Reviews</h3>
+                  <div className="flex items-center gap-2">
+                    <div className="flex">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <svg key={star} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <p className="text-gray-700 font-bold">4.6 (19 reviews)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">Request a Free Quote</h2>
+            
             {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded">
                 {error}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-              {/* Honeypot — hidden from real users, traps bots */}
-              <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
-                <label htmlFor="_hp">Leave this empty</label>
-                <input type="text" id="_hp" name="_hp" tabIndex={-1} autoComplete="off" onChange={e => { honeypotRef.current = e.target.value }} />
-              </div>
-
-              {/* Name */}
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-1">
-                  Full Name <span className="text-red-500">*</span>
+                <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
+                  Full Name *
                 </label>
                 <input
-                  id="name" type="text" name="name" value={formData.name} onChange={handleChange}
-                  autoComplete="name" disabled={loading} placeholder="e.g. John Smith"
-                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50 ${fieldErrors.name ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  placeholder="John Doe"
+                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                {fieldErrors.name && <p className="mt-1 text-xs text-red-600">{fieldErrors.name}</p>}
               </div>
 
-              {/* Phone */}
               <div>
-                <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-1">
-                  Phone Number <span className="text-red-500">*</span>
+                <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
+                  Email Address *
                 </label>
                 <input
-                  id="phone" type="tel" name="phone" value={formData.phone} onChange={handleChange}
-                  autoComplete="tel" disabled={loading} placeholder="(512) 000-0000"
-                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50 ${fieldErrors.phone ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="john@example.com"
+                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                {fieldErrors.phone && <p className="mt-1 text-xs text-red-600">{fieldErrors.phone}</p>}
               </div>
 
-              {/* Email */}
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-1">
-                  Email Address <span className="text-red-500">*</span>
+                <label htmlFor="phone" className="block text-gray-700 font-semibold mb-2">
+                  Phone Number *
                 </label>
                 <input
-                  id="email" type="email" name="email" value={formData.email} onChange={handleChange}
-                  autoComplete="email" disabled={loading} placeholder="you@example.com"
-                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50 ${fieldErrors.email ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  placeholder="512-706-9577"
+                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                {fieldErrors.email && <p className="mt-1 text-xs text-red-600">{fieldErrors.email}</p>}
               </div>
 
-              {/* Service */}
               <div>
-                <label htmlFor="service" className="block text-sm font-semibold text-gray-700 mb-1">
-                  Service Needed <span className="text-red-500">*</span>
-                </label>
-                <select
-                  id="service" name="service" value={formData.service} onChange={handleChange}
-                  disabled={loading}
-                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 disabled:opacity-50 ${fieldErrors.service ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
-                >
-                  <option value="">Select a service...</option>
-                  <option value="bathroom-remodel">Bathroom Remodeling</option>
-                  <option value="shower-remodel">Shower Remodel</option>
-                  <option value="walk-in-bath">Walk-in Bath</option>
-                  <option value="tub-conversion">Tub to Shower Conversion</option>
-                  <option value="full-remodel">Full Bathroom Renovation</option>
-                  <option value="vanity">Vanity & Fixtures</option>
-                  <option value="flooring">Premium Flooring</option>
-                  <option value="tile">Custom Tile Work</option>
-                  <option value="other">Other / Not Sure Yet</option>
-                </select>
-                {fieldErrors.service && <p className="mt-1 text-xs text-red-600">{fieldErrors.service}</p>}
-              </div>
-
-              {/* Message */}
-              <div>
-                <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-1">
-                  Tell Us About Your Project <span className="text-gray-400 font-normal">(optional)</span>
+                <label htmlFor="message" className="block text-gray-700 font-semibold mb-2">
+                  Project Details
                 </label>
                 <textarea
-                  id="message" name="message" value={formData.message} onChange={handleChange}
-                  disabled={loading} rows={4} maxLength={1000}
-                  placeholder="Describe your bathroom, what you'd like changed, any specific ideas..."
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 resize-none disabled:opacity-50"
-                />
-                <p className="text-right text-xs text-gray-400 mt-1">{formData.message.length}/1000</p>
-              </div>
-
-              {/* Math Captcha */}
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-                <label htmlFor="captcha" className="block text-sm font-semibold text-gray-700 mb-2">
-                  🛡️ Quick Verification — What is {captcha.a} + {captcha.b}? <span className="text-red-500">*</span>
-                </label>
-                <input
-                  id="captcha" type="number" value={captchaInput}
-                  onChange={e => { setCaptchaInput(e.target.value); setCaptchaError(false) }}
-                  disabled={loading} placeholder="Enter the answer"
-                  className={`w-32 px-4 py-3 bg-white border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 disabled:opacity-50 ${captchaError ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
-                />
-                {captchaError && <p className="mt-1 text-xs text-red-600">Incorrect answer — please try again.</p>}
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Tell us about your bathroom remodel or flooring project..."
+                  rows={5}
+                  className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                ></textarea>
               </div>
 
               <button
-                type="submit" disabled={loading}
-                className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold text-lg rounded-xl hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded transition transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
-                {loading ? (
-                  <>
-                    <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                    </svg>
-                    Submitting...
-                  </>
-                ) : 'Get Your Free Estimate'}
+                {isSubmitting ? 'Sending...' : 'Request Free Quote'}
               </button>
-
-              <p className="text-center text-xs text-gray-400">
-                <span className="text-red-500">*</span> Required fields. No spam, ever.
-              </p>
             </form>
-
-            {/* Direct call CTA */}
-            <div className="mt-6 pt-6 border-t border-gray-100 text-center">
-              <p className="text-gray-500 text-sm mb-2">Prefer to talk? Call us directly:</p>
-              <a href="tel:512-492-2321" className="inline-flex items-center gap-2 text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                </svg>
-                512-492-2321
-              </a>
-            </div>
-          </div>
-
-          {/* RIGHT ” Gallery + Info */}
-          <div className="space-y-8">
-
-            {/* Gallery grid */}
-            <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-4">Our Recent Work in Austin</h3>
-              <div className="grid grid-cols-3 gap-2">
-                {galleryImages.map((img, i) => (
-                  <div key={i} className="relative aspect-square rounded-xl overflow-hidden group">
-                    <Image
-                      src={img.src} alt={img.alt} fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      sizes="(max-width: 768px) 33vw, 200px"
-                    />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Contact details */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 space-y-6">
-              <h3 className="text-xl font-bold text-gray-900">Contact Information</h3>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">Phone</p>
-                  <a href="tel:512-492-2321" className="text-xl font-bold text-blue-600 hover:text-blue-700">512-492-2321</a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">Email</p>
-                  <a href="mailto:info@premierbathroomremodel.com" className="text-blue-600 hover:text-blue-700 font-medium break-all">info@premierbathroomremodel.com</a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">Address</p>
-                  <p className="text-gray-700">516 Congress Ave., Austin, TX 78701</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">Hours</p>
-                  <p className="text-gray-700 text-sm">Mon “ Fri: 8am “ 6pm<br/>Saturday: 8am “ 4pm<br/>Sunday: Closed</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">Service Area</p>
-                  <p className="text-gray-700 text-sm">Austin, Round Rock, Cedar Park,<br/>Pflugerville, West Lake Hills,<br/>Bee Cave & all of Central Texas</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -387,5 +246,3 @@ export default function Contact() {
     </div>
   )
 }
-
-
