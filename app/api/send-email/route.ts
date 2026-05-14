@@ -37,7 +37,7 @@ async function sendViaMailjet(
       mailjet.post('send', { version: 'v3.1' }).request({
         Messages: [
           {
-            From: { Email: 'info@amarketology.com', Name: 'Champs Tile Austin' },
+            From: { Email: 'info@amarketology.com', Name: 'Tile Pros Austin' },
             To: [{ Email: recipient }],
             Subject: subject,
             TextPart: text,

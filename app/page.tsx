@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
@@ -58,7 +58,7 @@ export default function Home() {
       <Navigation />
 
       {/* === HERO SECTION === */}
-      <section className="relative bg-gradient-to-br from-amber-700 via-amber-800 to-amber-900 text-white overflow-hidden">
+      <section className="relative bg-gradient-to-br from-sky-700 via-sky-800 to-sky-900 text-white overflow-hidden">
         {/* Background Video */}
         <div className="absolute inset-0 overflow-hidden">
           <video
@@ -70,7 +70,7 @@ export default function Home() {
           >
             <source src="/0202 (1).mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-900/80 via-amber-800/70 to-amber-900/80" />
+          <div className="absolute inset-0 bg-gradient-to-br from-sky-900/80 via-sky-800/70 to-sky-900/80" />
         </div>
 
         {/* Background Pattern Overlay */}
@@ -94,11 +94,11 @@ export default function Home() {
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                   AUSTIN'S PREMIER TILE INSTALLATION & FLOORING EXPERTS
                 </h1>
-                <div className="flex items-center gap-3 text-2xl md:text-3xl font-bold text-amber-200">
+                <div className="flex items-center gap-3 text-2xl md:text-3xl font-bold text-sky-200">
                   <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  CHAMPS TILE
+                  TILE PROS AUSTIN
                 </div>
               </motion.div>
 
@@ -121,7 +121,7 @@ export default function Home() {
               >
                 <a
                   href="tel:512-706-9577"
-                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-amber-900 rounded-lg font-bold text-lg hover:bg-amber-50 transition-all duration-300 shadow-lg"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-sky-900 rounded-lg font-bold text-lg hover:bg-sky-50 transition-all duration-300 shadow-lg"
                 >
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -131,7 +131,7 @@ export default function Home() {
                 
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-bold text-lg hover:bg-white hover:text-amber-900 transition-all duration-300"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-bold text-lg hover:bg-white hover:text-sky-900 transition-all duration-300"
                 >
                   Free Instant Estimate
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,7 +153,7 @@ export default function Home() {
                 <p className="text-sm text-gray-600 mb-6">Get your free quote today!</p>
                 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  {/* Honeypot — hidden from real users, traps bots */}
+                  {/* Honeypot â€” hidden from real users, traps bots */}
                   <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
                     <label htmlFor="_hp">Leave this empty</label>
                     <input type="text" id="_hp" name="_hp" tabIndex={-1} autoComplete="off" onChange={e => { honeypotRef.current = e.target.value }} />
@@ -169,7 +169,7 @@ export default function Home() {
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition text-gray-900"
                       placeholder="Enter your name"
                     />
                   </div>
@@ -185,7 +185,7 @@ export default function Home() {
                       value={formData.phone}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition text-gray-900"
                       placeholder="(512) 555-1234"
                     />
                   </div>
@@ -201,7 +201,7 @@ export default function Home() {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition text-gray-900"
                       placeholder="your@email.com"
                     />
                   </div>
@@ -217,7 +217,7 @@ export default function Home() {
                       onChange={handleInputChange}
                       style={{ color: formData.service ? '#111827' : '#9CA3AF' }}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition bg-white text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition bg-white text-gray-900"
                     >
                       <option value="" disabled>Select a service...</option>
                       <option value="tile-installation">Custom Tile Installation</option>
@@ -238,10 +238,10 @@ export default function Home() {
                       name="smsConsent"
                       checked={formData.smsConsent}
                       onChange={handleInputChange}
-                      className="mt-1 h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
+                      className="mt-1 h-4 w-4 text-sky-600 focus:ring-sky-500 border-gray-300 rounded"
                     />
                     <label htmlFor="sms-consent" className="ml-2 text-xs text-gray-600">
-                      By checking this box, you agree to receive SMS messages about your appointment/job from Champs Tile. 
+                      By checking this box, you agree to receive SMS messages about your appointment/job from TILE PROS AUSTIN. 
                       You may reply STOP to opt-out at any time. Message frequency may vary.
                     </label>
                   </div>
@@ -249,7 +249,7 @@ export default function Home() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full px-6 py-4 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-bold rounded-lg hover:from-amber-700 hover:to-amber-800 transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-6 py-4 bg-gradient-to-r from-sky-600 to-sky-700 text-white font-bold rounded-lg hover:from-sky-700 hover:to-sky-800 transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? 'Submitting...' : 'Submit Request'}
                   </button>
@@ -261,23 +261,23 @@ export default function Home() {
       </section>
 
       {/* === SCROLLING BANNER === */}
-      <section className="bg-gradient-to-r from-amber-600 to-amber-700 text-white py-4 overflow-hidden">
+      <section className="bg-gradient-to-r from-sky-600 to-sky-700 text-white py-4 overflow-hidden">
         <div className="whitespace-nowrap animate-scroll">
-          <span className="inline-block px-8 text-lg font-semibold">★ CHAMPS TILE - SERVING AUSTIN FOR 15 YEARS ★</span>
-          <span className="inline-block px-8 text-lg font-semibold">★ EXPERT TILE INSTALLATION ★</span>
-          <span className="inline-block px-8 text-lg font-semibold">★ LICENSED & INSURED ★</span>
-          <span className="inline-block px-8 text-lg font-semibold">★ CHAMPS TILE - SERVING AUSTIN FOR 15 YEARS ★</span>
-          <span className="inline-block px-8 text-lg font-semibold">★ EXPERT TILE INSTALLATION ★</span>
-          <span className="inline-block px-8 text-lg font-semibold">★ LICENSED & INSURED ★</span>
+          <span className="inline-block px-8 text-lg font-semibold">â˜… TILE PROS AUSTIN - SERVING AUSTIN FOR 15 YEARS â˜…</span>
+          <span className="inline-block px-8 text-lg font-semibold">â˜… EXPERT TILE INSTALLATION â˜…</span>
+          <span className="inline-block px-8 text-lg font-semibold">â˜… LICENSED & INSURED â˜…</span>
+          <span className="inline-block px-8 text-lg font-semibold">â˜… TILE PROS AUSTIN - SERVING AUSTIN FOR 15 YEARS â˜…</span>
+          <span className="inline-block px-8 text-lg font-semibold">â˜… EXPERT TILE INSTALLATION â˜…</span>
+          <span className="inline-block px-8 text-lg font-semibold">â˜… LICENSED & INSURED â˜…</span>
         </div>
       </section>
 
       {/* === WHY CHOOSE US SECTION === */}
-      <section className="py-20 bg-amber-50">
+      <section className="py-20 bg-sky-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              WHY CHOOSE CHAMPS TILE AUSTIN?
+              WHY CHOOSE TILE PROS AUSTIN AUSTIN?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Need a trusted tile installation company for custom tile work, kitchen backsplashes, bathroom tiles, or premium flooring? Our experienced team delivers quality, integrity, and reliable results.
@@ -298,8 +298,8 @@ export default function Home() {
                 className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg className="w-7 h-7 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
+                  <div className="w-14 h-14 bg-sky-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg className="w-7 h-7 text-sky-700" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                   </div>
@@ -321,8 +321,8 @@ export default function Home() {
                 className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg className="w-7 h-7 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
+                  <div className="w-14 h-14 bg-sky-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg className="w-7 h-7 text-sky-700" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
                     </svg>
                   </div>
@@ -344,8 +344,8 @@ export default function Home() {
                 className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg className="w-7 h-7 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
+                  <div className="w-14 h-14 bg-sky-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg className="w-7 h-7 text-sky-700" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   </div>
@@ -428,7 +428,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="tel:512-706-9577"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-lg font-bold text-lg hover:from-amber-700 hover:to-amber-800 transition-all shadow-lg"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-sky-600 to-sky-700 text-white rounded-lg font-bold text-lg hover:from-sky-700 hover:to-sky-800 transition-all shadow-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -437,7 +437,7 @@ export default function Home() {
               </a>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-amber-600 text-amber-900 rounded-lg font-bold text-lg hover:bg-amber-50 transition-all"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-sky-600 text-sky-900 rounded-lg font-bold text-lg hover:bg-sky-50 transition-all"
               >
                 Free Instant Estimate
               </Link>
@@ -455,7 +455,7 @@ export default function Home() {
               FAST, TRANSPARENT, AND BUILT TO LAST
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Your tile project shouldn't be complicated. At Champs Tile, our process is straightforward, from your first call through final inspection. Expert installation, complete transparency, and no shortcuts.
+              Your tile project shouldn't be complicated. At TILE PROS AUSTIN, our process is straightforward, from your first call through final inspection. Expert installation, complete transparency, and no shortcuts.
             </p>
           </div>
 
@@ -469,10 +469,10 @@ export default function Home() {
               transition={{ delay: 0.1 }}
               className="relative"
             >
-              <div className="absolute -top-6 -left-6 w-16 h-16 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
+              <div className="absolute -top-6 -left-6 w-16 h-16 bg-gradient-to-r from-sky-600 to-sky-700 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
                 01
               </div>
-              <div className="bg-amber-50 p-8 pt-12 rounded-xl border-2 border-amber-200 hover:border-amber-500 transition-colors">
+              <div className="bg-sky-50 p-8 pt-12 rounded-xl border-2 border-sky-200 hover:border-sky-500 transition-colors">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">STEP 1: GET IN TOUCH</h3>
                 <p className="text-gray-600 leading-relaxed">
                   Ready for a tile upgrade? Contact us by phone, email, or online. We're available for consultations about kitchen backsplashes, bathroom tile, flooring projects, and custom tile work.
@@ -488,10 +488,10 @@ export default function Home() {
               transition={{ delay: 0.2 }}
               className="relative"
             >
-              <div className="absolute -top-6 -left-6 w-16 h-16 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
+              <div className="absolute -top-6 -left-6 w-16 h-16 bg-gradient-to-r from-sky-600 to-sky-700 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
                 02
               </div>
-              <div className="bg-amber-50 p-8 pt-12 rounded-xl border-2 border-amber-200 hover:border-amber-500 transition-colors">
+              <div className="bg-sky-50 p-8 pt-12 rounded-xl border-2 border-sky-200 hover:border-sky-500 transition-colors">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">STEP 2: GET A FAST, CUSTOMIZED QUOTE</h3>
                 <p className="text-gray-600 leading-relaxed">
                   Our tile experts inspect your space, discuss your design vision, and provide clear options. You'll get a detailed plan, including tile selection, materials, timelines, and accurate pricing.
@@ -507,10 +507,10 @@ export default function Home() {
               transition={{ delay: 0.3 }}
               className="relative"
             >
-              <div className="absolute -top-6 -left-6 w-16 h-16 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
+              <div className="absolute -top-6 -left-6 w-16 h-16 bg-gradient-to-r from-sky-600 to-sky-700 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
                 03
               </div>
-              <div className="bg-amber-50 p-8 pt-12 rounded-xl border-2 border-amber-200 hover:border-amber-500 transition-colors">
+              <div className="bg-sky-50 p-8 pt-12 rounded-xl border-2 border-sky-200 hover:border-sky-500 transition-colors">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">STEP 3: PROFESSIONAL INSTALLATION</h3>
                 <p className="text-gray-600 leading-relaxed">
                   After approval, we begin your tile installation using premium materials and expert craftsmanship. Your beautiful new tiles include quality warranties, installed by certified professionals.
@@ -523,7 +523,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="tel:512-706-9577"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-lg font-bold text-lg hover:from-amber-700 hover:to-amber-800 transition-all shadow-lg"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-sky-600 to-sky-700 text-white rounded-lg font-bold text-lg hover:from-sky-700 hover:to-sky-800 transition-all shadow-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -532,7 +532,7 @@ export default function Home() {
               </a>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-amber-600 text-amber-900 rounded-lg font-bold text-lg hover:bg-amber-50 transition-all"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-sky-600 text-sky-900 rounded-lg font-bold text-lg hover:bg-sky-50 transition-all"
               >
                 Request Your Free Estimate
               </Link>
@@ -542,12 +542,12 @@ export default function Home() {
       </section>
 
       {/* === SERVICES SECTION === */}
-      <section className="py-20 bg-amber-50">
+      <section className="py-20 bg-sky-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           
           {/* Section Header */}
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-amber-800 uppercase tracking-widest mb-4 block">Our Services</span>
+            <span className="text-sm font-semibold text-sky-800 uppercase tracking-widest mb-4 block">Our Services</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               Expert Tile Installation & Flooring Solutions
             </h2>
@@ -581,7 +581,7 @@ export default function Home() {
 
               {/* Content */}
               <div className="p-8">
-                <div className="w-14 h-14 -mt-20 mb-6 rounded-xl bg-amber-700 flex items-center justify-center shadow-xl relative z-10">
+                <div className="w-14 h-14 -mt-20 mb-6 rounded-xl bg-sky-700 flex items-center justify-center shadow-xl relative z-10">
                   <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
                   </svg>
@@ -596,7 +596,7 @@ export default function Home() {
                 <ul className="space-y-2 mb-6">
                   {['Custom Patterns', 'Ceramic & Porcelain', 'Glass Tile', 'Natural Stone'].map((feature, i) => (
                     <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
-                      <svg className="w-4 h-4 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 text-sky-700" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
                       {feature}
@@ -605,7 +605,7 @@ export default function Home() {
                 </ul>
 
                 {/* Link */}
-                <Link href="/services" className="inline-flex items-center gap-2 text-amber-700 font-semibold hover:gap-3 transition-all">
+                <Link href="/services" className="inline-flex items-center gap-2 text-sky-700 font-semibold hover:gap-3 transition-all">
                   Learn More
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -635,7 +635,7 @@ export default function Home() {
               </div>
 
               <div className="p-8">
-                <div className="w-14 h-14 -mt-20 mb-6 rounded-xl bg-amber-800 flex items-center justify-center shadow-xl relative z-10">
+                <div className="w-14 h-14 -mt-20 mb-6 rounded-xl bg-sky-800 flex items-center justify-center shadow-xl relative z-10">
                   <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                   </svg>
@@ -649,7 +649,7 @@ export default function Home() {
                 <ul className="space-y-2 mb-6">
                   {['Shower Walls', 'Floor Tile', 'Tub Surrounds', 'Decorative Accents'].map((feature, i) => (
                     <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
-                      <svg className="w-4 h-4 text-amber-800" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 text-sky-800" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
                       {feature}
@@ -657,7 +657,7 @@ export default function Home() {
                   ))}
                 </ul>
 
-                <Link href="/services" className="inline-flex items-center gap-2 text-amber-800 font-semibold hover:gap-3 transition-all">
+                <Link href="/services" className="inline-flex items-center gap-2 text-sky-800 font-semibold hover:gap-3 transition-all">
                   Explore Options
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -687,7 +687,7 @@ export default function Home() {
               </div>
 
               <div className="p-8">
-                <div className="w-14 h-14 -mt-20 mb-6 rounded-xl bg-amber-900 flex items-center justify-center shadow-xl relative z-10">
+                <div className="w-14 h-14 -mt-20 mb-6 rounded-xl bg-sky-900 flex items-center justify-center shadow-xl relative z-10">
                   <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
                   </svg>
@@ -701,7 +701,7 @@ export default function Home() {
                 <ul className="space-y-2 mb-6">
                   {['Tile Flooring', 'Luxury Vinyl Plank', 'Natural Stone', 'Wood-Look Tile'].map((feature, i) => (
                     <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
-                      <svg className="w-4 h-4 text-amber-900" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 text-sky-900" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
                       {feature}
@@ -709,7 +709,7 @@ export default function Home() {
                   ))}
                 </ul>
 
-                <Link href="/services" className="inline-flex items-center gap-2 text-amber-900 font-semibold hover:gap-3 transition-all">
+                <Link href="/services" className="inline-flex items-center gap-2 text-sky-900 font-semibold hover:gap-3 transition-all">
                   View Services
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -730,18 +730,18 @@ export default function Home() {
             
             {/* Left Column - Content */}
             <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amber-800 bg-amber-900/50 backdrop-blur-sm">
-                <span className="text-xs font-medium text-amber-400 uppercase tracking-widest">Why Choose Us</span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-sky-800 bg-sky-900/50 backdrop-blur-sm">
+                <span className="text-xs font-medium text-sky-400 uppercase tracking-widest">Why Choose Us</span>
               </div>
 
               <h2 className="text-4xl md:text-5xl font-light text-slate-100">
                 Austin's Trusted
                 <br />
-                <span className="bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">Tile Installation Experts</span>
+                <span className="bg-gradient-to-r from-sky-400 to-sky-600 bg-clip-text text-transparent">Tile Installation Experts</span>
               </h2>
 
               <p className="text-lg text-slate-400 leading-relaxed">
-                At Champs Tile, we combine superior craftsmanship with personalized service to bring your vision to life. Our experienced team specializes in custom tile work, creating stunning spaces that last.
+                At TILE PROS AUSTIN, we combine superior craftsmanship with personalized service to bring your vision to life. Our experienced team specializes in custom tile work, creating stunning spaces that last.
               </p>
 
               {/* Feature List with Icons */}
@@ -819,7 +819,7 @@ export default function Home() {
               Serving Greater Austin
             </h2>
             <p className="text-xl text-slate-400">
-              Austin • Round Rock • Cedar Park • Pflugerville • West Lake Hills • Bee Cave & More
+              Austin â€¢ Round Rock â€¢ Cedar Park â€¢ Pflugerville â€¢ West Lake Hills â€¢ Bee Cave & More
             </p>
           </div>
 
@@ -853,7 +853,7 @@ export default function Home() {
               viewport={{ once: true }}
               className="inline-block"
             >
-              <span className="text-sm font-semibold text-amber-600 uppercase tracking-widest mb-2 block">Our Work</span>
+              <span className="text-sm font-semibold text-sky-600 uppercase tracking-widest mb-2 block">Our Work</span>
             </motion.div>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               RECENT TILE INSTALLATION PROJECTS
@@ -1059,24 +1059,24 @@ export default function Home() {
 
       {/* === FINAL CTA SECTION === */}
       <section className="relative py-32 bg-gradient-to-b from-black to-slate-950 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(251,191,36,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(14,165,233,0.1),transparent_50%)]" />
         
         <div className="relative max-w-5xl mx-auto px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-6xl font-light text-slate-100 mb-6">
             Ready to Transform
             <br />
-            <span className="bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">Your Space with Tile?</span>
+            <span className="bg-gradient-to-r from-sky-400 to-sky-600 bg-clip-text text-transparent">Your Space with Tile?</span>
           </h2>
           
           <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto">
-            Take the first step in transforming your space. Contact Champs Tile today for a free consultation and quote.
+            Take the first step in transforming your space. Contact TILE PROS AUSTIN today for a free consultation and quote.
           </p>
 
           {/* CTA Buttons Row */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="tel:512-706-9577"
-              className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-gradient-to-r from-amber-500 to-amber-700 rounded-lg font-semibold text-lg text-white hover:shadow-2xl hover:shadow-amber-600/40 transition-all duration-300"
+              className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-gradient-to-r from-sky-500 to-sky-700 rounded-lg font-semibold text-lg text-white hover:shadow-2xl hover:shadow-sky-600/40 transition-all duration-300"
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -1086,7 +1086,7 @@ export default function Home() {
             
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-slate-900/50 border-2 border-amber-800 rounded-lg font-semibold text-lg text-slate-300 hover:bg-slate-800/50 hover:border-amber-700 backdrop-blur-sm transition-all duration-300"
+              className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-slate-900/50 border-2 border-sky-800 rounded-lg font-semibold text-lg text-slate-300 hover:bg-slate-800/50 hover:border-sky-700 backdrop-blur-sm transition-all duration-300"
             >
               Get Free Quote
             </Link>
@@ -1095,7 +1095,7 @@ export default function Home() {
           {/* Contact Info */}
           <div className="mt-16 pt-8 border-t border-slate-800">
             <p className="text-slate-500 flex items-center justify-center gap-2">
-              <svg className="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-5 h-5 text-sky-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
               </svg>
               Serving Austin, TX & Surrounding Areas
@@ -1108,3 +1108,4 @@ export default function Home() {
     </div>
   )
 }
+
