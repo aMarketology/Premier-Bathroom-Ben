@@ -1,56 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Mailjet from 'node-mailjet'
-import FormData from 'form-data'
-import Mailgun from 'mailgun.js'
+import { Resend } from 'resend'
 
-// ── Mailgun (primary) ─────────────────────────────────────────────────────────
-async function sendViaMailgun(
-  to: string[],
-  subject: string,
-  text: string,
-  html: string
-): Promise<void> {
-  const mailgun = new Mailgun(FormData)
-  const mg = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY! })
-  const domain = process.env.MAILGUN_DOMAIN!
-  const from = process.env.MAILGUN_FROM!
-  await Promise.all(
-    to.map((recipient) =>
-      mg.messages.create(domain, { from, to: [recipient], subject, text, html })
-    )
-  )
-}
+const resend = new Resend(process.env.RESEND_API_KEY)
 
-// ── Mailjet (fallback) ────────────────────────────────────────────────────────
-async function sendViaMailjet(
-  to: string[],
-  subject: string,
-  text: string,
-  html: string
-): Promise<void> {
-  const apiKey = process.env.MAILJET_API_KEY
-  const apiSecret = process.env.MAILJET_SECRET_KEY
-  if (!apiKey || !apiSecret) throw new Error('Mailjet credentials not configured')
-  const mailjet = new Mailjet({ apiKey, apiSecret })
-  await Promise.all(
-    to.map((recipient) =>
-      mailjet.post('send', { version: 'v3.1' }).request({
-        Messages: [
-          {
-            From: { Email: 'info@amarketology.com', Name: 'Champs Tile Austin' },
-            To: [{ Email: recipient }],
-            Subject: subject,
-            TextPart: text,
-            HTMLPart: html,
-          },
-        ],
-      })
-    )
-  )
+// Simple in-memory rate limiter: max 5 submissions per IP per hour
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const entry = rateLimitMap.get(ip)
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + 60 * 60 * 1000 })
+    return false
+  }
+  if (entry.count >= 5) return true
+  entry.count++
+  return false
 }
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit by IP
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+      request.headers.get('x-real-ip') || 'unknown'
+    if (isRateLimited(ip)) {
+      console.warn('[spam] Rate limit exceeded for IP:', ip)
+      return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
+    }
+
     const body = await request.json()
     const { name, email, phone, service, message, smsConsent, pageUrl, _hp, _lt } = body
 
@@ -99,15 +76,6 @@ export async function POST(request: NextRequest) {
       }
     }
     // ─────────────────────────────────────────────────────────────────────────
-
-    const notificationEmails = [
-      process.env.NOTIFICATION_EMAIL_1,
-      process.env.NOTIFICATION_EMAIL_2,
-    ].filter(Boolean) as string[]
-
-    if (notificationEmails.length === 0) {
-      return NextResponse.json({ error: 'Email configuration error' }, { status: 500 })
-    }
 
     // Resolve the source URL — prefer explicit pageUrl, fall back to referer header
     const sourceUrl = pageUrl || request.headers.get('referer') || 'Direct submission'
@@ -195,25 +163,23 @@ export async function POST(request: NextRequest) {
       </html>
     `
 
-    // ── Send with Mailgun (primary) → Mailjet (fallback) ──────────────────────
-    let provider = 'unknown'
-    try {
-      await sendViaMailgun(notificationEmails, emailSubject, textContent, htmlContent)
-      provider = 'Mailgun'
-      console.log('[email] Sent via Mailgun')
-    } catch (mailgunError) {
-      console.warn('[email] Mailgun failed, trying Mailjet:', mailgunError)
-      try {
-        await sendViaMailjet(notificationEmails, emailSubject, textContent, htmlContent)
-        provider = 'Mailjet'
-        console.log('[email] Sent via Mailjet (fallback)')
-      } catch (mailjetError) {
-        console.error('[email] Both providers failed:', mailjetError)
-        return NextResponse.json({ error: 'Failed to send email' }, { status: 500 })
-      }
+    // ── Send via Resend ───────────────────────────────────────────────────────
+    const { error: sendError } = await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || 'info@amarketology.com',
+      to: [process.env.NOTIFICATION_EMAIL_1 || ''],
+      cc: ['max@amarketology.com'],
+      replyTo: email,
+      subject: `New Lead - Champs Tile Austin - ${name}`,
+      html: htmlContent,
+    })
+
+    if (sendError) {
+      console.error('[email] Resend error:', sendError)
+      return NextResponse.json({ error: 'Failed to send email' }, { status: 500 })
     }
 
-    return NextResponse.json({ success: true, message: 'Email sent successfully', provider })
+    console.log('[email] Sent via Resend')
+    return NextResponse.json({ success: true, message: 'Email sent successfully' })
 
   } catch (error) {
     console.error('Error sending email:', error)

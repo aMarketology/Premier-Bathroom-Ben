@@ -1,183 +1,150 @@
 ﻿import { NextRequest, NextResponse } from 'next/server'
-import Mailjet from 'node-mailjet'
-import FormData from 'form-data'
-import Mailgun from 'mailgun.js'
-// ── Mailgun (primary) ─────────────────────────────────────────────────────────
-async function sendViaMailgun(
-  to: string[],
-  subject: string,
-  text: string,
-  html: string
-): Promise<void> {
-  const mailgun = new Mailgun(FormData)
-  const mg = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY! })
-  const domain = process.env.MAILGUN_DOMAIN!
-  const from = process.env.MAILGUN_FROM!
-  await Promise.all(
-    to.map((recipient) =>
-      mg.messages.create(domain, { from, to: [recipient], subject, text, html })
-    )
-  )
-}
+import { Resend } from 'resend'
 
-// ── Mailjet (fallback) ────────────────────────────────────────────────────────
-async function sendViaMailjet(
-  to: string[],
-  subject: string,
-  text: string,
-  html: string
-): Promise<void> {
-  const apiKey = process.env.MAILJET_API_KEY
-  const apiSecret = process.env.MAILJET_SECRET_KEY
-  if (!apiKey || !apiSecret) throw new Error('Mailjet credentials not configured')
-  const mailjet = new Mailjet({ apiKey, apiSecret })
-  await Promise.all(
-    to.map((recipient) =>
-      mailjet.post('send', { version: 'v3.1' }).request({
-        Messages: [
-          {
-            From: { Email: 'info@amarketology.com', Name: 'Champs Tile Austin' },
-            To: [{ Email: recipient }],
-            Subject: subject,
-            TextPart: text,
-            HTMLPart: html,
-          },
-        ],
-      })
-    )
-  )
+const resend = new Resend(process.env.RESEND_API_KEY)
+
+// Simple in-memory rate limiter: max 5 submissions per IP per hour
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const entry = rateLimitMap.get(ip)
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + 60 * 60 * 1000 })
+    return false
+  }
+  if (entry.count >= 5) return true
+  entry.count++
+  return false
 }
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit by IP
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+      request.headers.get('x-real-ip') || 'unknown'
+    if (isRateLimited(ip)) {
+      console.warn('[spam] Rate limit exceeded for IP:', ip)
+      return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
+    }
+
     const body = await request.json()
-    const { name, email, phone, message, service, smsConsent, pageUrl } = body
+    const { name, email, phone, message, service, smsConsent, pageUrl, _hp, _lt } = body
+
+    // Honeypot
+    if (_hp) {
+      console.warn('[spam] Honeypot triggered — silently discarding')
+      return NextResponse.json({ success: true, message: 'Received' })
+    }
+    // Timing
+    if (_lt && Date.now() - Number(_lt) < 3000) {
+      console.warn('[spam] Submission too fast — silently discarding')
+      return NextResponse.json({ success: true, message: 'Received' })
+    }
 
     // Validate required fields
     if (!name || !email || !phone) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    // Get notification emails from environment variables
-    const notificationEmails = [
-      process.env.NOTIFICATION_EMAIL_1,
-      process.env.NOTIFICATION_EMAIL_2
-    ].filter(Boolean) as string[]
-
-    if (notificationEmails.length === 0) {
-      console.error('No notification emails configured')
-      return NextResponse.json(
-        { error: 'Email configuration error' },
-        { status: 500 }
-      )
+    if (typeof name !== 'string' || name.length > 80 || !/^[a-zA-Z\s'\-.]{2,80}$/.test(name.trim())) {
+      return NextResponse.json({ error: 'Invalid name' }, { status: 400 })
     }
-
-    // Prepare email content
-    const serviceText = service ? `\nService Requested: ${service}` : ''
-    const messageText = message ? `\n\nMessage:\n${message}` : ''
-    const smsConsentText = smsConsent ? '\n\n✓ Customer agreed to receive SMS messages' : ''
-    const pageUrlText = pageUrl ? `\nSubmitted from: ${pageUrl}` : ''
-
-    const emailContent = `
-New Lead - Champs Tile Austin
-
-Customer Information:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Name: ${name}
-Email: ${email}
-Phone: ${phone}${serviceText}${pageUrlText}${messageText}${smsConsentText}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })}
-    `.trim()
-
-    const subject = `New Contact Form - ${name}`
-
-    const htmlContent = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div style="background: linear-gradient(135deg, #d97706 0%, #92400e 100%); color: white; padding: 30px; text-align: center;">
-          <h1 style="margin: 0; font-size: 28px; letter-spacing: 1px;">New Lead</h1>
-          <p style="margin: 10px 0 0 0; font-size: 16px; font-weight: bold;">Champs Tile Austin</p>
-        </div>
-
-        ${pageUrl ? `
-        <div style="background: #fffbeb; border-left: 4px solid #d97706; padding: 14px 20px;">
-          <p style="margin: 0; font-size: 13px; color: #78350f;">
-            <strong style="color: #92400e;">Submitted from:</strong>&nbsp;
-            <a href="${pageUrl}" style="color: #b45309; word-break: break-all;">${pageUrl}</a>
-          </p>
-        </div>` : ''}
-        
-        <div style="background: #f7fafc; padding: 30px;">
-          <h2 style="color: #92400e; margin-top: 0;">Customer Information</h2>
-          
-          <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #d97706;">
-            <p style="margin: 0 0 10px 0;"><strong style="color: #92400e;">Name:</strong> ${name}</p>
-            <p style="margin: 0 0 10px 0;"><strong style="color: #92400e;">Email:</strong> <a href="mailto:${email}" style="color: #b45309;">${email}</a></p>
-            <p style="margin: 0 0 10px 0;"><strong style="color: #92400e;">Phone:</strong> <a href="tel:${phone}" style="color: #b45309;">${phone}</a></p>
-            ${service ? `<p style="margin: 0;"><strong style="color: #92400e;">Service:</strong> ${service}</p>` : ''}
-          </div>
-          
-          ${message ? `
-          <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #d97706;">
-            <h3 style="color: #92400e; margin-top: 0;">Message:</h3>
-            <p style="color: #2d3748; line-height: 1.6; white-space: pre-wrap;">${message}</p>
-          </div>
-          ` : ''}
-          
-          ${smsConsent ? `
-          <div style="background: #d6f5d6; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #48bb78;">
-            <p style="margin: 0; color: #22543d;"><strong>✓ SMS Consent:</strong> Customer agreed to receive SMS messages</p>
-          </div>
-          ` : ''}
-          
-          <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
-            <p style="margin: 0; color: #718096; font-size: 14px;">
-              <strong>Submitted:</strong> ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })} (Central Time)
-            </p>
-          </div>
-        </div>
-        
-        <div style="background: #1c1917; color: white; padding: 20px; text-align: center; font-size: 14px;">
-          <p style="margin: 0; font-weight: bold; color: #fbbf24;">Champs Tile</p>
-          <p style="margin: 4px 0 0 0; color: #d6d3d1;">Austin, TX &bull; (512) 706-9577</p>
-        </div>
-      </div>
-    `
-
-    // ── Send with Mailgun (primary) → Mailjet (fallback) ──────────────────────
-    let provider = 'unknown'
-    try {
-      await sendViaMailgun(notificationEmails, subject, emailContent, htmlContent)
-      provider = 'Mailgun'
-      console.log('[email] Sent via Mailgun')
-    } catch (mailgunError) {
-      console.warn('[email] Mailgun failed, trying Mailjet:', mailgunError)
-      try {
-        await sendViaMailjet(notificationEmails, subject, emailContent, htmlContent)
-        provider = 'Mailjet'
-        console.log('[email] Sent via Mailjet (fallback)')
-      } catch (mailjetError) {
-        console.error('[email] Both providers failed:', mailjetError)
-        return NextResponse.json(
-          { error: 'Failed to send email' },
-          { status: 500 }
-        )
+    if (typeof email !== 'string' || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) {
+      return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
+    }
+    const phoneDigits = String(phone).replace(/\D/g, '')
+    if (phoneDigits.length < 7 || phoneDigits.length > 15 || !/^[0-9\s().+\-]{7,20}$/.test(String(phone).trim())) {
+      return NextResponse.json({ error: 'Invalid phone number' }, { status: 400 })
+    }
+    if (message) {
+      if (String(message).length > 2000) {
+        return NextResponse.json({ error: 'Message too long' }, { status: 400 })
+      }
+      const urlCount = (String(message).match(/https?:\/\/|www\./gi) || []).length
+      if (urlCount > 2) {
+        return NextResponse.json({ error: 'Message contains too many links' }, { status: 400 })
       }
     }
 
-    return NextResponse.json(
-      { success: true, message: 'Form submitted successfully', provider },
-      { status: 200 }
-    )
+    const sourceUrl = pageUrl || request.headers.get('referer') || 'Direct submission'
+    const serviceLabel = service
+      ? service.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())
+      : 'Not specified'
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background: #f3f4f6; }
+            .container { max-width: 600px; margin: 0 auto; background: white; }
+            .header { background: linear-gradient(135deg, #1c1917 0%, #292524 100%); color: white; padding: 32px 30px; text-align: center; }
+            .gold-bar { background: linear-gradient(90deg, #d97706, #f59e0b, #d97706); height: 4px; }
+            .source-bar { background: #fffbeb; border-left: 4px solid #d97706; padding: 14px 20px; }
+            .content { background: #f9fafb; padding: 30px; }
+            .field { margin-bottom: 14px; padding: 16px; background: white; border-radius: 8px; border-left: 4px solid #d97706; }
+            .field-label { font-weight: bold; color: #374151; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+            .field-value { color: #111827; font-size: 15px; }
+            .footer { background: #1c1917; color: white; padding: 20px 30px; text-align: center; font-size: 13px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(217,119,6,0.2);border:1px solid rgba(217,119,6,0.4);border-radius:20px;padding:6px 14px;margin-bottom:14px;">
+                <div style="width:8px;height:8px;border-radius:50%;background:#fbbf24;"></div>
+                <span style="font-size:12px;color:#fcd34d;letter-spacing:0.08em;font-weight:500;">NEW LEAD</span>
+              </div>
+              <h1 style="margin:0;font-size:26px;font-weight:700;letter-spacing:2px;color:#fbbf24;">CHAMPS</h1>
+              <p style="margin:6px 0 0;font-size:14px;color:#a8a29e;">Tile &amp; Bathroom Services — Austin, TX</p>
+            </div>
+            <div class="gold-bar"></div>
+            <div class="source-bar">
+              <div style="font-size:11px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Submitted From</div>
+              <a href="${sourceUrl}" style="color:#b45309;font-size:13px;word-break:break-all;">${sourceUrl}</a>
+            </div>
+            <div class="content">
+              <div class="field"><div class="field-label">Customer Name</div><div class="field-value">${name}</div></div>
+              <div class="field"><div class="field-label">Email</div><div class="field-value"><a href="mailto:${email}" style="color:#d97706;">${email}</a></div></div>
+              <div class="field"><div class="field-label">Phone</div><div class="field-value"><a href="tel:${phone}" style="color:#d97706;">${phone}</a></div></div>
+              ${service ? `<div class="field"><div class="field-label">Service Requested</div><div class="field-value">${serviceLabel}</div></div>` : ''}
+              ${message ? `<div class="field"><div class="field-label">Message</div><div class="field-value" style="white-space:pre-wrap;">${message}</div></div>` : ''}
+              ${smsConsent ? `<div style="background:#fef3c7;border-left:4px solid #d97706;padding:14px 16px;border-radius:8px;margin-bottom:14px;"><div class="field-label">SMS Consent</div><div class="field-value">✓ Customer agreed to receive SMS messages</div></div>` : ''}
+              <div style="background:#f3f4f6;padding:12px 16px;border-radius:8px;font-size:13px;color:#6b7280;">
+                Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })} (Central Time)
+              </div>
+            </div>
+            <div class="footer">
+              <p style="margin:0;font-weight:700;color:#fbbf24;font-size:15px;letter-spacing:2px;">CHAMPS</p>
+              <p style="margin:4px 0 0;color:#a8a29e;">Austin, TX &bull; (512) 706-9577</p>
+              <p style="margin:8px 0 0;color:#78716c;font-size:12px;">Please respond to the customer as soon as possible.</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `
+
+    const { error: sendError } = await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || 'info@amarketology.com',
+      to: [process.env.NOTIFICATION_EMAIL_1 || ''],
+      cc: ['max@amarketology.com'],
+      replyTo: email,
+      subject: `New Contact Form - Champs Tile Austin - ${name}`,
+      html: htmlContent,
+    })
+
+    if (sendError) {
+      console.error('[email] Resend error:', sendError)
+      return NextResponse.json({ error: 'Failed to send email' }, { status: 500 })
+    }
+
+    console.log('[email] Sent via Resend')
+    return NextResponse.json({ success: true, message: 'Form submitted successfully' }, { status: 200 })
+
   } catch (error) {
     console.error('Error processing form submission:', error)
-    return NextResponse.json(
-      { error: 'Failed to send email' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to send email' }, { status: 500 })
   }
 }
+

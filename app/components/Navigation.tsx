@@ -140,7 +140,7 @@ export default function Navigation() {
                     href="/contact"
                     className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-semibold px-6 py-3 rounded-lg transition"
                   >
-                    Join Marketplace
+                    Get Free Quote
                   </Link>
                 </div>
               </div>
