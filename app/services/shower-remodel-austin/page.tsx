@@ -12,42 +12,42 @@ export default function ShowerRemodelAustin() {
     {
       title: 'Walk-in Showers',
       description: 'Barrier-free, spacious designs for easy access and modern aesthetics',
-      icon: 'ðŸš¿'
+      icon: '🚿'
     },
     {
       title: 'Rainfall Shower Heads',
       description: 'Luxurious overhead rainfall experience for spa-like relaxation',
-      icon: 'ðŸ’§'
+      icon: '💧'
     },
     {
       title: 'Custom Glass Enclosures',
       description: 'Frameless or semi-frameless designs tailored to your space',
-      icon: 'ðŸªŸ'
+      icon: '��'
     },
     {
       title: 'Frameless Shower Doors',
       description: 'Sleek, modern glass doors that enhance visual space',
-      icon: 'ðŸšª'
+      icon: '🚪'
     },
     {
       title: 'Tile & Stone Work',
       description: 'Premium porcelain, ceramic, natural stone, and mosaic options',
-      icon: 'ðŸŽ¨'
+      icon: '🎨'
     },
     {
       title: 'Built-in Benches',
       description: 'Comfortable seating integrated seamlessly into design',
-      icon: 'ðŸª‘'
+      icon: '🪑'
     },
     {
       title: 'Modern Fixtures',
       description: 'Contemporary faucets, valves, and hardware finishes',
-      icon: 'âœ¨'
+      icon: '✨'
     },
     {
       title: 'Spa-Inspired Designs',
       description: 'Steam showers, body jets, and therapeutic features',
-      icon: 'ðŸ§–'
+      icon: '🧖'
     }
   ]
 

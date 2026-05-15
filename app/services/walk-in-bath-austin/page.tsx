@@ -10,22 +10,22 @@ import ServiceLeadForm from '../../components/ServiceLeadForm'
 export default function WalkInBathAustin() {
   const features = [
     {
-      icon: 'ðŸšª',
+      icon: '🚪',
       title: 'Low Threshold Entry',
       description: 'Easy step-in design with minimal barrier for safe access'
     },
     {
-      icon: 'ðŸ›¡ï¸',
+      icon: '🛡️',
       title: 'Anti-Slip Flooring',
       description: 'Textured surfaces prevent slips and falls'
     },
     {
-      icon: 'ðŸª‘',
+      icon: '🪑',
       title: 'Built-in Seating',
       description: 'Comfortable molded seat for relaxed bathing'
     },
     {
-      icon: 'ðŸ”’',
+      icon: '🔑',
       title: 'Grab Bars & Handrails',
       description: 'Strategically placed for maximum stability'
     },
@@ -35,7 +35,7 @@ export default function WalkInBathAustin() {
       description: 'Fast drainage system minimizes wait time'
     },
     {
-      icon: 'ðŸ’†',
+      icon: '💆',
       title: 'Therapeutic Jets',
       description: 'Optional hydrotherapy for pain relief'
     },
@@ -45,7 +45,7 @@ export default function WalkInBathAustin() {
       description: 'Meets all accessibility standards'
     },
     {
-      icon: 'âœ…',
+      icon: '✅',
       title: 'Lifetime Warranty',
       description: 'Quality guaranteed for peace of mind'
     }

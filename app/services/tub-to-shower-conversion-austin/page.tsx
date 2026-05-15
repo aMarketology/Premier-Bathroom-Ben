@@ -15,37 +15,37 @@ export default function TubToShowerConversionAustin() {
       description: 'Most conversions completed in just 24 hours with minimal disruption'
     },
     {
-      icon: 'ðŸ“',
+      icon: '📋',
       title: 'Increased Space',
       description: 'Remove bulky tub to create a more spacious, open bathroom'
     },
     {
-      icon: 'ðŸ›¡ï¸',
+      icon: '🛡️',
       title: 'Enhanced Safety',
       description: 'Low or no threshold entry reduces fall risk for all ages'
     },
     {
-      icon: 'ðŸŒŸ',
+      icon: '🌟',
       title: 'Low Maintenance',
       description: 'Modern materials resist mold, mildew, and staining'
     },
     {
-      icon: 'ðŸŽ¨',
+      icon: '🎨',
       title: 'Custom Designs',
       description: 'Choose from hundreds of tile, fixture, and layout options'
     },
     {
-      icon: 'ðŸ’°',
+      icon: '💰',
       title: 'Increased Value',
       description: 'Modern showers are highly desirable to homebuyers'
     },
     {
-      icon: 'ðŸ’§',
+      icon: '💧',
       title: 'Water Efficiency',
       description: 'Low-flow fixtures save water and reduce utility bills'
     },
     {
-      icon: 'âœ…',
+      icon: '✅',
       title: 'Warranty Included',
       description: 'Full warranty on materials and workmanship'
     }
@@ -370,7 +370,7 @@ export default function TubToShowerConversionAustin() {
                   <div className="text-5xl font-bold text-cyan-200 mb-4">{item.step}</div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">{item.title}</h3>
                   <p className="text-gray-600 text-sm mb-3">{item.description}</p>
-                  <div className="text-xs text-cyan-600 font-medium">â±ï¸ {item.duration}</div>
+                  <div className="text-xs text-cyan-600 font-medium">⏱️ {item.duration}</div>
                 </div>
               </motion.div>
             ))}
