@@ -1,7 +1,7 @@
 {
   "name": "premier-bathroom-remodel-austin",
   "version": "1.0.0",
-  "description": "Premier Bathroom Remodel Austin - Austin's premier contractor for bathroom remodel, bathroom renovation, and flooring design",
+  "description": "Tile Pros Austin - Austin's expert tile installation contractor for bathroom remodeling, shower tile, kitchen backsplash, and flooring design",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

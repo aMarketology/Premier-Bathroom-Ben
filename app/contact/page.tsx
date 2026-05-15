@@ -124,7 +124,7 @@ export default function Contact() {
           <div>
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Get In Touch</h2>
             <p className="text-gray-700 mb-8 leading-relaxed">
-              Ready to transform your bathroom or upgrade your flooring? Contact Premier Bathroom Remodel Austin today for a free consultation and quote. We're here to answer all your questions and help you create the perfect space.
+              Ready to transform your bathroom or upgrade your flooring? Contact Tile Pros Austin today for a free consultation and quote. We're here to answer all your questions and help you create the perfect space.
             </p>
 
             <div className="space-y-8">

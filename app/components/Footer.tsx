@@ -37,13 +37,13 @@ export default function Footer() {
               className="mb-6"
               whileHover={{ scale: 1.02 }}
             >
-              <div className="text-2xl font-bold leading-none mb-1">Premier Bathroom</div>
+              <div className="text-2xl font-bold leading-none mb-1">Tile Pros</div>
               <div className="text-2xl font-bold leading-none">
-                <span className="text-blue-500">Remodel Austin</span>
+                <span className="text-sky-500">Austin</span>
               </div>
             </motion.div>
             <p className="text-gray-400 mb-6 text-sm leading-relaxed">
-              Austin's premier contractor for bathroom remodel, bathroom renovation, and flooring design. Serving the greater Austin area with exceptional craftsmanship.
+              Austin's trusted tile installation experts for bathroom remodeling, shower tile, kitchen backsplash, and flooring. Serving the greater Austin area with exceptional craftsmanship.
             </p>
             <div className="flex gap-4">
               <motion.a
@@ -175,7 +175,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="py-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
-          <p>&copy; 2024 Premier Bathroom Remodel Austin. All rights reserved.</p>
+          <p>&copy; 2026 Tile Pros Austin. All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="#" className="hover:text-blue-500 transition">Privacy Policy</Link>
             <Link href="#" className="hover:text-blue-500 transition">Terms of Service</Link>

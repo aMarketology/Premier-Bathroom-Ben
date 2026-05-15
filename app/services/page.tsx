@@ -67,7 +67,7 @@ export default function Services() {
                 </h2>
 
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  When you're looking for a bathroom remodel in Austin, TX, make sure to call the experts at Premier Bathroom Remodel Austin. We take pride in transforming ordinary bathrooms into stunning, functional spaces that exceed expectations.
+                  When you're looking for a bathroom remodel in Austin, TX, make sure to call the experts at Tile Pros Austin. We take pride in transforming ordinary bathrooms into stunning, functional spaces that exceed expectations.
                 </p>
 
                 <div className="space-y-3">
@@ -223,7 +223,7 @@ export default function Services() {
                 </h2>
 
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  Premier Bathroom Remodel Austin specializes in reimagining ordinary bathrooms as relaxing, spa-inspired spaces designed for both comfort and everyday functionality. From stepping onto warm, heated flooring in the morning to unwinding beneath a soothing rainfall shower at night, every detail is carefully considered.
+                  Tile Pros Austin specializes in reimagining ordinary bathrooms as relaxing, spa-inspired spaces designed for both comfort and everyday functionality. From stepping onto warm, heated flooring in the morning to unwinding beneath a soothing rainfall shower at night, every detail is carefully considered.
                 </p>
 
                 <div className="space-y-3">
@@ -675,7 +675,7 @@ export default function Services() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light text-slate-100 mb-4">
-              Why Choose <span className="text-blue-500">Premier Bathroom Remodel Austin</span>
+              Why Choose <span className="text-blue-500">Tile Pros Austin</span>
             </h2>
             <p className="text-xl text-slate-400 max-w-2xl mx-auto">
               Experience the difference of working with Austin's trusted remodeling experts
@@ -752,7 +752,7 @@ export default function Services() {
           </h2>
           
           <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto">
-            Contact Premier Bathroom Remodel Austin today for a free consultation. Let's bring your vision to life!
+            Contact Tile Pros Austin today for a free consultation. Let's bring your vision to life!
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

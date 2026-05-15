@@ -12,7 +12,7 @@ export default function About() {
       <section className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl md:text-5xl font-bold mb-4">About Us</h1>
-          <p className="text-xl text-gray-300">Learn about Premier Bathroom Remodel Austin</p>
+          <p className="text-xl text-gray-300">Learn about Tile Pros Austin</p>
         </div>
       </section>
 
@@ -21,12 +21,12 @@ export default function About() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-6">
-            Premier Bathroom Remodel Austin is a trusted design-build firm serving the greater Austin area. We are celebrated for our innovative approach and outstanding craftsmanship in bathroom remodeling and flooring services. We serve local Austin communities with a commitment to quality, sustainability, and a seamless customer experience.
+            Tile Pros Austin is a trusted tile installation and remodeling firm serving the greater Austin area. We are celebrated for our innovative approach and outstanding craftsmanship in tile installation, bathroom remodeling, and flooring services. We serve local Austin communities with a commitment to quality, sustainability, and a seamless customer experience.
           </p>
 
           <h2 className="text-4xl font-bold text-gray-900 mb-6 mt-12">Our Mission</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-6">
-            We're proud to transform Austin homes with beautiful bathrooms and premium flooring that inspire and endure. With over 15 years of experience, Premier Bathroom Remodel Austin is your trusted partner for bathroom renovation, walk-in baths, and luxury flooring services in Texas.
+            We're proud to transform Austin homes with beautiful tile work, bathrooms, and premium flooring that inspire and endure. With over 15 years of experience, Tile Pros Austin is your trusted partner for tile installation, bathroom renovation, walk-in baths, and luxury flooring services in Texas.
           </p>
 
           <h2 className="text-4xl font-bold text-gray-900 mb-6 mt-12">Why Choose Us?</h2>
