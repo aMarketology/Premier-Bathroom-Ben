@@ -16,9 +16,9 @@ function dedupKey(email: string, phone: string): string {
 // Clean entries older than 1 hour to prevent memory leaks
 function cleanOldEntries() {
   const cutoff = Date.now() - 60 * 60 * 1000
-  for (const [key, ts] of dedupMap.entries()) {
+  Array.from(dedupMap.entries()).forEach(([key, ts]) => {
     if (ts < cutoff) dedupMap.delete(key)
-  }
+  })
 }
 
 export async function POST(request: NextRequest) {
