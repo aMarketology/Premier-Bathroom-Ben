@@ -263,12 +263,12 @@ export default function Home() {
       {/* === SCROLLING BANNER === */}
       <section className="bg-gradient-to-r from-sky-600 to-sky-700 text-white py-4 overflow-hidden">
         <div className="whitespace-nowrap animate-scroll">
-          <span className="inline-block px-8 text-lg font-semibold">â˜… TILE PROS AUSTIN - SERVING AUSTIN FOR 15 YEARS â˜…</span>
-          <span className="inline-block px-8 text-lg font-semibold">â˜… EXPERT TILE INSTALLATION â˜…</span>
-          <span className="inline-block px-8 text-lg font-semibold">â˜… LICENSED & INSURED â˜…</span>
-          <span className="inline-block px-8 text-lg font-semibold">â˜… TILE PROS AUSTIN - SERVING AUSTIN FOR 15 YEARS â˜…</span>
-          <span className="inline-block px-8 text-lg font-semibold">â˜… EXPERT TILE INSTALLATION â˜…</span>
-          <span className="inline-block px-8 text-lg font-semibold">â˜… LICENSED & INSURED â˜…</span>
+          <span className="inline-block px-8 text-lg font-semibold">&#9733; TILE PROS AUSTIN - SERVING AUSTIN FOR 15 YEARS &#9733;</span>
+          <span className="inline-block px-8 text-lg font-semibold">&#9733; EXPERT TILE INSTALLATION &#9733;</span>
+          <span className="inline-block px-8 text-lg font-semibold">&#9733; LICENSED & INSURED &#9733;</span>
+          <span className="inline-block px-8 text-lg font-semibold">&#9733; TILE PROS AUSTIN - SERVING AUSTIN FOR 15 YEARS &#9733;</span>
+          <span className="inline-block px-8 text-lg font-semibold">&#9733; EXPERT TILE INSTALLATION &#9733;</span>
+          <span className="inline-block px-8 text-lg font-semibold">&#9733; LICENSED & INSURED &#9733;</span>
         </div>
       </section>
 
@@ -277,7 +277,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              WHY CHOOSE TILE PROS AUSTIN AUSTIN?
+              WHY CHOOSE TILE PROS AUSTIN?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Need a trusted tile installation company for custom tile work, kitchen backsplashes, bathroom tiles, or premium flooring? Our experienced team delivers quality, integrity, and reliable results.

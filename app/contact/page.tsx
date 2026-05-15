@@ -2,7 +2,7 @@
 
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function Contact() {
@@ -18,6 +18,33 @@ export default function Contact() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const honeypotRef = useRef('')
   const loadedAtRef = useRef(Date.now())
+  const partialSentRef = useRef(false)
+  const submittedRef = useRef(false)
+
+  // Partial lead capture — fires when user leaves the page with data filled but not submitted
+  const sendPartialLead = useCallback((data: typeof formData) => {
+    if (submittedRef.current || partialSentRef.current) return
+    if (honeypotRef.current) return // spam bot
+    const hasName = data.name.trim().length >= 2
+    const hasEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email.trim())
+    const hasPhone = data.phone.replace(/\D/g, '').length >= 7
+    if (!hasName && !hasEmail && !hasPhone) return
+    partialSentRef.current = true
+    navigator.sendBeacon(
+      '/api/partial-lead',
+      JSON.stringify({ ...data, pageUrl: window.location.href, _hp: honeypotRef.current })
+    )
+  }, [])
+
+  useEffect(() => {
+    const handleUnload = () => sendPartialLead(formData)
+    window.addEventListener('pagehide', handleUnload)
+    window.addEventListener('beforeunload', handleUnload)
+    return () => {
+      window.removeEventListener('pagehide', handleUnload)
+      window.removeEventListener('beforeunload', handleUnload)
+    }
+  }, [formData, sendPartialLead])
 
   const validate = (data: typeof formData) => {
     const errs: Record<string, string> = {}
@@ -82,6 +109,7 @@ export default function Contact() {
     }
     setErrors({})
     setIsSubmitting(true)
+    submittedRef.current = true
 
     try {
       const response = await fetch('/api/send-email', {
@@ -305,7 +333,7 @@ export default function Contact() {
                   className="mt-1 h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
                 />
                 <label htmlFor="smsConsent" className="ml-2 text-xs text-gray-600">
-                  By checking this box, you agree to receive SMS messages about your appointment/job from Champs Tile. 
+                  By checking this box, you agree to receive SMS messages about your appointment/job from Tile Pros Austin.
                   You may reply STOP to opt-out at any time.
                 </label>
               </div>
