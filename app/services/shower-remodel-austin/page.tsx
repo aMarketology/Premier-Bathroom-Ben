@@ -5,6 +5,7 @@ import Navigation from '../../components/Navigation'
 import Footer from '../../components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
+import ServiceLeadForm from '../../components/ServiceLeadForm'
 
 export default function ShowerRemodelAustin() {
   const showerFeatures = [
@@ -124,13 +125,13 @@ export default function ShowerRemodelAustin() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
-                  href="tel:512-492-2321"
+                  href="tel:512-706-9577"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg font-medium text-white hover:shadow-lg hover:shadow-blue-500/40 transition-all text-lg"
                 >
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                   </svg>
-                  Call 512-492-2321
+                  Call 512-706-9577
                 </a>
                 <Link
                   href="/get-started?service=shower-remodel"
@@ -169,23 +170,12 @@ export default function ShowerRemodelAustin() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
-                <Image 
-                  src="/IMG_7767 Ben.jpeg" 
-                  alt="Modern shower remodel in Austin, TX" 
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent" />
-              </div>
-              
-              {/* Floating Badge */}
-              <div className="absolute -bottom-6 -right-6 bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
-                <div className="text-4xl font-bold text-blue-600">Spa</div>
-                <div className="text-sm text-gray-600">Quality</div>
-              </div>
+              <ServiceLeadForm
+                service="shower-remodel"
+                serviceLabel="Shower Remodel"
+                accentColor="blue"
+                pageLocation="Hero"
+              />
             </motion.div>
           </div>
         </div>

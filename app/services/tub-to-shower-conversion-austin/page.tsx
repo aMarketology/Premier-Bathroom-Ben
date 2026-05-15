@@ -5,6 +5,7 @@ import Navigation from '../../components/Navigation'
 import Footer from '../../components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
+import ServiceLeadForm from '../../components/ServiceLeadForm'
 
 export default function TubToShowerConversionAustin() {
   const benefits = [
@@ -192,13 +193,13 @@ export default function TubToShowerConversionAustin() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
-                  href="tel:512-492-2321"
+                  href="tel:512-706-9577"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-lg font-medium text-white hover:shadow-lg hover:shadow-cyan-500/40 transition-all text-lg"
                 >
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                   </svg>
-                  Call 512-492-2321
+                  Call 512-706-9577
                 </a>
                 <Link
                   href="/get-started?service=tub-conversion"
@@ -237,23 +238,12 @@ export default function TubToShowerConversionAustin() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
-                <Image 
-                  src="/IMG_2329 Ben.jpeg" 
-                  alt="Tub to shower conversion in Austin, TX" 
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/30 to-transparent" />
-              </div>
-              
-              {/* Floating Stats */}
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
-                <div className="text-4xl font-bold text-cyan-600">300+</div>
-                <div className="text-sm text-gray-600">Conversions Done</div>
-              </div>
+              <ServiceLeadForm
+                service="tub-to-shower-conversion"
+                serviceLabel="Tub to Shower Conversion"
+                accentColor="cyan"
+                pageLocation="Hero"
+              />
             </motion.div>
           </div>
         </div>

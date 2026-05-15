@@ -13,8 +13,10 @@ export default function ThankYou() {
     if (typeof window !== 'undefined') {
       // Google Ads conversion
       if (typeof (window as any).gtag === 'function') {
-        ;(window as any).gtag('event', 'ads_conversion_Contact_Us_1', {
-          send_to: 'AW-17861557264',
+        ;(window as any).gtag('event', 'conversion', {
+          send_to: 'AW-17861557264/JbzgCLvCqK0cEJD4hsVC',
+          value: 100,
+          currency: 'USD',
         })
         // GA4 lead event
         ;(window as any).gtag('event', 'generate_lead', {

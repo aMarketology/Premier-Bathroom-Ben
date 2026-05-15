@@ -84,6 +84,18 @@ const nextConfig = {
         destination: '/services/bathroom-remodeling-austin',
         permanent: true,
       },
+
+      // Short ad URLs
+      {
+        source: '/tile-austin',
+        destination: '/services/tile-work-austin',
+        permanent: false,
+      },
+      {
+        source: '/vanity-austin',
+        destination: '/services/bathroom-vanity-austin',
+        permanent: false,
+      },
       
       // Blog posts â†’ Home page (no blog currently exists)
       {

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { organizationSchema, servicesSchema, reviewSchema } from '@/lib/schema'
 import FloatingContactButton from './components/FloatingContactButton'
+import StickyCallBar from './components/StickyCallBar'
 import AnalyticsProvider from './components/AnalyticsProvider'
 import './globals.css'
 
@@ -131,6 +132,7 @@ export default function RootLayout({
         <AnalyticsProvider>
           {children}
           <FloatingContactButton />
+          <StickyCallBar />
         </AnalyticsProvider>
       </body>
     </html>
