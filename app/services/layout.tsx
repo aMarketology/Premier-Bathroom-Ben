@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Bathroom Remodeling Services Texas | Premier Bathroom Remodel Texas',
   description:
-    'Premier Bathroom Remodel Texas offers complete bathroom remodeling, shower remodels, tub-to-shower conversions, walk-in baths, vanity installation, and ADA-accessible upgrades across Texas — Austin, Houston, Dallas, San Antonio, and more. Call 512-492-2321 for a free quote.',
+    'Premier Bathroom Remodel Texas offers complete bathroom remodeling, shower remodels, tub-to-shower conversions, walk-in baths, vanity installation, and ADA-accessible upgrades across Texas — Austin, Houston, Dallas, San Antonio, and more. Call 512-706-9577 for a free quote.',
   keywords: [
     'bathroom remodeling Texas',
     'shower remodel Texas',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Bathroom Remodeling Services Texas | Premier Bathroom Remodel Texas',
     description:
-      'Expert bathroom remodeling across Texas. Serving Austin, Houston, Dallas, San Antonio, and 50+ cities. Shower remodels, tub conversions, walk-in baths & more. Free quotes — call 512-492-2321.',
+      'Expert bathroom remodeling across Texas. Serving Austin, Houston, Dallas, San Antonio, and 50+ cities. Shower remodels, tub conversions, walk-in baths & more. Free quotes — call 512-706-9577.',
     url: 'https://premierbathroomremodelaustin.com/services',
     siteName: 'Premier Bathroom Remodel Texas',
     locale: 'en_US',
@@ -66,7 +66,7 @@ const jsonLd = {
     '@type': 'LocalBusiness',
     name: 'Premier Bathroom Remodel Austin',
     url: 'https://premierbathroomremodelaustin.com',
-    telephone: '512-492-2321',
+    telephone: '512-706-9577',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Austin',

@@ -269,7 +269,7 @@ export default function Gallery() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
-                href="tel:512-492-2321" 
+                href="tel:512-706-9577" 
                 className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold py-4 px-8 rounded-lg hover:from-blue-500 hover:to-cyan-500 transition-all shadow-lg text-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">

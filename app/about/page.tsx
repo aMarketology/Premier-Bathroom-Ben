@@ -179,7 +179,7 @@ export default function About() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
-                href="tel:512-492-2321" 
+                href="tel:512-706-9577" 
                 className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-4 px-8 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all shadow-lg text-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -205,10 +205,10 @@ export default function About() {
               Ready to transform your bathroom or upgrade your flooring? Get in touch today for a free consultation and quote.
             </p>
             <a 
-              href="tel:512-492-2321" 
+              href="tel:512-706-9577" 
               className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-3 px-8 rounded-lg inline-block transition shadow-lg"
             >
-              Call 512-492-2321
+              Call 512-706-9577
             </a>
           </div>
         </div>

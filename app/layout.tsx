@@ -14,7 +14,7 @@ export const viewport = {
 
 export const metadata: Metadata = {
   title: 'Premier Bathroom Remodel Texas | Expert Bathroom Renovation Statewide',
-  description: 'Premier bathroom remodeling services across Texas — Austin, Houston, Dallas, San Antonio, and 50+ cities. Walk-in baths, shower remodels, tub to shower conversions. Licensed, 15+ years experience. Call 512-492-2321.',
+  description: 'Premier bathroom remodeling services across Texas — Austin, Houston, Dallas, San Antonio, and 50+ cities. Walk-in baths, shower remodels, tub to shower conversions. Licensed, 15+ years experience. Call 512-706-9577.',
   keywords: 'bathroom remodeling Texas, bathroom renovation Texas, walk-in bath Texas, shower remodel Texas, tub to shower conversion Texas, Texas bathroom contractors, bathroom remodeling Austin, bathroom remodeling Houston, bathroom remodeling Dallas, bathroom remodeling San Antonio',
   metadataBase: new URL('https://premierbathroomremodelaustin.com'),
   openGraph: {

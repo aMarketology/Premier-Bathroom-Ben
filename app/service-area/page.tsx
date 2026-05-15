@@ -113,7 +113,7 @@ export default function ServiceAreasPage() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:512-492-2321"
+                href="tel:512-706-9577"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg font-medium text-white hover:shadow-lg hover:shadow-blue-500/40 transition-all text-lg"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -234,7 +234,7 @@ export default function ServiceAreasPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:512-492-2321"
+                href="tel:512-706-9577"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white rounded-lg font-medium text-blue-600 hover:bg-gray-50 transition-all text-lg shadow-lg"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">

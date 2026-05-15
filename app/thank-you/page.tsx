@@ -124,7 +124,7 @@ export default function ThankYou() {
                 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <a
-                    href="tel:512-492-2321"
+                    href="tel:512-706-9577"
                     className="flex-1 inline-flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-lg rounded-lg hover:shadow-lg hover:shadow-cyan-500/40 transition-all duration-300"
                   >
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">

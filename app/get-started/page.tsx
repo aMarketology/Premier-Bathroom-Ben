@@ -185,7 +185,7 @@ export default function GetStarted() {
                 className="flex flex-col sm:flex-row gap-4 pt-4"
               >
                 <a
-                  href="tel:512-492-2321"
+                  href="tel:512-706-9577"
                   className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-accent-gold text-gray-900 font-bold text-lg hover:bg-accent-gold/90 transition-all duration-300 shadow-2xl hover:shadow-accent-gold/50 hover:-translate-y-1"
                 >
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -517,7 +517,7 @@ export default function GetStarted() {
           <div className="text-center mt-8">
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:512-492-2321"
+                href="tel:512-706-9577"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg font-bold text-lg hover:from-blue-600 hover:to-cyan-700 transition-all shadow-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -612,7 +612,7 @@ export default function GetStarted() {
           <div className="text-center mt-12">
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:512-492-2321"
+                href="tel:512-706-9577"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg font-bold text-lg hover:from-blue-600 hover:to-cyan-700 transition-all shadow-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -1165,13 +1165,13 @@ export default function GetStarted() {
           {/* CTA Buttons Row */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="tel:512-492-2321"
+              href="tel:512-706-9577"
               className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-lg font-semibold text-lg text-white hover:shadow-2xl hover:shadow-blue-600/40 transition-all duration-300"
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
               </svg>
-              Call 512-492-2321
+              Call 512-706-9577
             </a>
             
             <Link
@@ -1201,7 +1201,7 @@ export default function GetStarted() {
       <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-gradient-to-r from-purple-900 to-purple-800 border-t-2 border-accent-gold shadow-2xl">
         <div className="flex">
           <a
-            href="tel:512-492-2321"
+            href="tel:512-706-9577"
             className="flex-1 flex items-center justify-center gap-2 py-4 text-white font-bold text-sm uppercase tracking-wide"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">

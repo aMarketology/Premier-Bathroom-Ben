@@ -279,6 +279,86 @@ export default function ShowerRemodelAustin() {
         </div>
       </section>
 
+      {/* Meet Ben Section */}
+      <section className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src="/IMG_2305 Ben.jpeg"
+                  alt="Ben — Owner of Premier Bathroom Remodel Austin"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur rounded-xl p-4 shadow-lg">
+                  <p className="font-bold text-gray-900 text-lg">Ben — Owner & Lead Installer</p>
+                  <p className="text-gray-600 text-sm">Austin, TX · Licensed & Insured · 15+ Years Experience</p>
+                  <div className="flex gap-1 mt-2">
+                    {[1,2,3,4,5].map(i => (
+                      <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                    <span className="text-sm text-gray-600 ml-1">5-Star Rated</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-200 bg-blue-50">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                <span className="text-xs font-medium text-blue-600 uppercase tracking-widest">Who You're Hiring</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-light text-gray-900">
+                Meet <span className="text-blue-600">Ben</span>
+              </h2>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                I'm Ben, owner and lead installer at Premier Bathroom Remodel Austin. When you hire us for your shower remodel, I show up — personally. You get my cell number, my expertise, and my commitment to getting it right.
+              </p>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                From frameless glass and custom tile to walk-in conversions and spa showers — I've built them all across Austin. I don't use subs. I do the work myself.
+              </p>
+              <div className="grid grid-cols-2 gap-4 pt-2">
+                {[
+                  { label: '15+', sub: 'Years Experience' },
+                  { label: '200+', sub: 'Showers Built' },
+                  { label: '5★', sub: 'Average Rating' },
+                  { label: '100%', sub: 'Licensed & Insured' },
+                ].map((stat, i) => (
+                  <div key={i} className="bg-blue-50 rounded-xl p-4 text-center border border-blue-100">
+                    <div className="text-2xl font-bold text-blue-700">{stat.label}</div>
+                    <div className="text-sm text-gray-600">{stat.sub}</div>
+                  </div>
+                ))}
+              </div>
+              <a
+                href="tel:512-706-9577"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg font-medium text-white hover:shadow-lg transition-all text-lg"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                </svg>
+                Call Ben — (512) 706-9577
+              </a>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <section className="py-24 bg-gray-50">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
@@ -327,13 +407,13 @@ export default function ShowerRemodelAustin() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:512-492-2321"
+                href="tel:512-706-9577"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white rounded-lg font-medium text-blue-600 hover:bg-blue-50 transition-all text-lg shadow-xl"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                Call 512-492-2321
+                Call 512-706-9577
               </a>
               <Link
                 href="/get-started?service=shower-remodel"
