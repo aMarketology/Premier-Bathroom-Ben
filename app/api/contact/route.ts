@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
     // ───────────────────────────────────────────────────────────────────────
 
     const body = await request.json()
-    const { name, email, phone, message, service, smsConsent, pageUrl, clientId, sessionId, _hp, _lt, _ca, _cb, _ck } = body
+    const { name, email, phone, message, service, smsConsent, pageUrl, clientId, sessionId, quiz, _hp, _lt, _ca, _cb, _ck } = body
 
     // ── Spam bot protection ───────────────────────────────────────────────────
     // 1. Honeypot: real users never fill this hidden field
@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
     }
     // ─────────────────────────────────────────────────────────────────────────
 
-    if (!name || !email || !phone) {
+    if (!name || !phone) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
@@ -117,15 +117,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email configuration error' }, { status: 500 })
     }
 
-    const subject = `New Contact Form - ${name}`
+    const subject = `New Lead: ${name} — ${service || 'General Inquiry'}`
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
 
     const textBody = [
-      'New Contact Form Submission - Premier Bathroom Remodel Austin',
+      'New Lead — Premier Bathroom Remodel Austin',
       `Name: ${name}`,
-      `Email: ${email}`,
+      email ? `Email: ${email}` : null,
       `Phone: ${phone}`,
       service ? `Service: ${service}` : null,
+      quiz?.timeline ? `Timeline: ${quiz.timeline}` : null,
+      quiz?.budget ? `Budget: ${quiz.budget}` : null,
       message ? `Message:\n${message}` : null,
       smsConsent ? 'Customer agreed to receive SMS messages' : null,
       pageUrl ? `Submitted from: ${pageUrl}` : null,
@@ -135,25 +137,31 @@ export async function POST(request: NextRequest) {
     const htmlBody = `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
         <div style="background:linear-gradient(135deg,#2563eb,#1e40af);color:white;padding:30px;text-align:center;">
-          <h1 style="margin:0;font-size:24px;">New Contact Form Submission</h1>
+          <h1 style="margin:0;font-size:24px;">New Lead</h1>
           <p style="margin:8px 0 0;font-size:15px;">Premier Bathroom Remodel Austin</p>
         </div>
         <div style="background:#f7fafc;padding:30px;">
           <div style="background:white;padding:20px;border-radius:8px;border-left:4px solid #3b82f6;margin-bottom:20px;">
             <p style="margin:0 0 8px;"><strong style="color:#2563eb;">Name:</strong> ${name}</p>
-            <p style="margin:0 0 8px;"><strong style="color:#2563eb;">Email:</strong> <a href="mailto:${email}">${email}</a></p>
+            ${email ? `<p style="margin:0 0 8px;"><strong style="color:#2563eb;">Email:</strong> <a href="mailto:${email}">${email}</a></p>` : \'\'}
             <p style="margin:0 0 8px;"><strong style="color:#2563eb;">Phone:</strong> <a href="tel:${phone}">${phone}</a></p>
-            ${service ? `<p style="margin:0 0 8px;"><strong style="color:#2563eb;">Service:</strong> ${service}</p>` : ''}
-            ${pageUrl ? `<p style="margin:0;"><strong style="color:#2563eb;">Page:</strong> ${pageUrl}</p>` : ''}
+            ${service ? `<p style="margin:0 0 8px;"><strong style="color:#2563eb;">Service:</strong> ${service}</p>` : \'\'}
+            ${pageUrl ? `<p style="margin:0;"><strong style="color:#2563eb;">Page:</strong> ${pageUrl}</p>` : \'\'}
           </div>
-          ${message ? `<div style="background:white;padding:20px;border-radius:8px;border-left:4px solid #2563eb;margin-bottom:20px;"><h3 style="color:#2563eb;margin-top:0;">Message</h3><p style="white-space:pre-wrap;">${message}</p></div>` : ''}
-          ${smsConsent ? `<div style="background:#d6f5d6;padding:12px;border-radius:8px;margin-bottom:20px;"><p style="margin:0;color:#22543d;"><strong>SMS Consent:</strong> Customer agreed to receive SMS messages</p></div>` : ''}
+          ${(quiz && (quiz.timeline || quiz.budget)) ? `
+          <div style="background:white;padding:20px;border-radius:8px;border-left:4px solid #10b981;margin-bottom:20px;">
+            <h3 style="color:#10b981;margin-top:0;font-size:15px;">Quiz Answers</h3>
+            ${quiz.timeline ? `<p style="margin:0 0 6px;"><strong>Timeline:</strong> ${quiz.timeline}</p>` : \'\'}
+            ${quiz.budget ? `<p style="margin:0;"><strong>Budget:</strong> ${quiz.budget}</p>` : \'\'}
+          </div>` : \'\'}
+          ${message ? `<div style="background:white;padding:20px;border-radius:8px;border-left:4px solid #2563eb;margin-bottom:20px;"><h3 style="color:#2563eb;margin-top:0;">Message</h3><p style="white-space:pre-wrap;">${message}</p></div>` : \'\'}
+          ${smsConsent ? `<div style="background:#d6f5d6;padding:12px;border-radius:8px;margin-bottom:20px;"><p style="margin:0;color:#22543d;"><strong>SMS Consent:</strong> Customer agreed to receive SMS messages</p></div>` : \'\'}
           <div style="background:white;padding:12px;border-radius:8px;border:1px solid #e2e8f0;">
             <p style="margin:0;color:#718096;font-size:13px;"><strong>Submitted:</strong> ${timestamp} (Central Time)</p>
           </div>
         </div>
         <div style="background:#2d3748;color:white;padding:20px;text-align:center;font-size:13px;">
-          <p style="margin:0;">Premier Bathroom Remodel Austin â€” (512) 492-2321</p>
+          <p style="margin:0;">Premier Bathroom Remodel Austin - (512) 706-9577</p>
         </div>
       </div>`
 

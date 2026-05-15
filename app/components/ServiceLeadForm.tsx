@@ -103,6 +103,14 @@ export default function ServiceLeadForm({
   const goToStep2 = () => {
     if (!quiz.timeline || !quiz.budget) return
     trackGA4('quiz_step1_complete')
+
+    // Fire partial lead email — best effort, never blocks the user
+    fetch('/api/partial-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ service, quiz, pageUrl: window.location.pathname }),
+    }).catch(() => {}) // silent fail
+
     setStep(2)
   }
 
