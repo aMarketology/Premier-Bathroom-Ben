@@ -181,6 +181,32 @@ export default function ShowerRemodelAustin() {
         </div>
       </section>
 
+      {/* Photo Strip — social proof, scrolls into view right after hero */}
+      <section className="bg-gray-900 py-6">
+        <div className="max-w-7xl mx-auto px-4">
+          <p className="text-center text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">Real Austin Projects — Completed by Ben</p>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+            {[
+              { src: '/bathroom remodel/DSCF8715.JPG', alt: 'Shower remodel project Austin' },
+              { src: '/bathroom remodel/DSCF8719.JPG', alt: 'Custom tile shower Austin TX' },
+              { src: '/bathroom remodel/DSCF8729.JPG', alt: 'Walk-in shower Austin' },
+              { src: '/bathroom remodel/DSCF8746.JPG', alt: 'Modern shower remodel Austin' },
+              { src: '/bathroom remodel/DSCF8758.JPG', alt: 'Frameless shower Austin TX' },
+            ].map((img, i) => (
+              <div key={i} className="relative aspect-square rounded-lg overflow-hidden group">
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 group-hover:brightness-100"
+                  sizes="(max-width: 768px) 50vw, 20vw"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Features Grid */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -210,43 +236,117 @@ export default function ShowerRemodelAustin() {
         </div>
       </section>
 
-      {/* Gallery Section */}
+      {/* Gallery Section — Masonry featured layout */}
       <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-4">
-              Austin Shower <span className="text-blue-600">Transformations</span>
-            </h2>
-            <p className="text-xl text-gray-600">Real projects from Austin homeowners</p>
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 gap-4">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-3">
+                Austin Shower <span className="text-blue-600">Transformations</span>
+              </h2>
+              <p className="text-xl text-gray-600">Real projects completed by Ben across Austin</p>
+            </div>
+            <Link
+              href="/gallery"
+              className="inline-flex items-center gap-2 text-blue-600 font-medium hover:text-blue-700 transition-colors shrink-0"
+            >
+              See Full Gallery
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Featured large + grid layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+            {/* Large featured image */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl group cursor-pointer"
+            >
+              <Image
+                src="/bathroom remodel/DSCF8715.JPG"
+                alt="Shower remodel Austin TX — completed by Premier Bathroom Remodel"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="px-3 py-1.5 bg-white/90 rounded-full text-xs font-semibold text-blue-700">Austin, TX</span>
+              </div>
+            </motion.div>
+
+            {/* Right 2×2 grid */}
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { src: '/bathroom remodel/DSCF8719.JPG', alt: 'Custom tile shower Austin' },
+                { src: '/bathroom remodel/DSCF8729.JPG', alt: 'Walk-in shower installation Austin' },
+                { src: '/bathroom remodel/DSCF8746.JPG', alt: 'Modern shower remodel Austin TX' },
+                { src: '/bathroom remodel/DSCF8758.JPG', alt: 'Frameless glass shower Austin' },
+              ].map((image, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.08 }}
+                  className="relative aspect-square rounded-xl overflow-hidden shadow-lg group cursor-pointer"
+                >
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    sizes="25vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom row — room for more photos */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { src: '/bathroom remodel/DSCF8715.JPG', alt: 'Shower remodel Austin TX — before and after' },
-              { src: '/bathroom remodel/DSCF8719.JPG', alt: 'Custom tile shower Austin' },
-              { src: '/bathroom remodel/DSCF8729.JPG', alt: 'Walk-in shower installation Austin' },
-              { src: '/bathroom remodel/DSCF8746.JPG', alt: 'Modern shower remodel Austin TX' },
-              { src: '/bathroom remodel/DSCF8758.JPG', alt: 'Frameless glass shower Austin' },
-              { src: '/IMG_7767 Ben.jpeg', alt: 'Luxury shower renovation Austin' },
+              { src: '/IMG_7767 Ben.jpeg', alt: 'Shower renovation Austin' },
+              { src: '/IMG_2324 Ben.jpeg', alt: 'Custom shower tile work Austin' },
+              { src: '/IMG_0387 Ben.jpeg', alt: 'Walk-in shower build Austin TX' },
+              { src: '/IMG_1551 Ben.jpeg', alt: 'Shower remodel Austin homeowner' },
             ].map((image, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="relative aspect-square rounded-xl overflow-hidden shadow-lg group cursor-pointer"
+                transition={{ delay: index * 0.08 }}
+                className="relative aspect-square rounded-xl overflow-hidden shadow-md group cursor-pointer"
               >
-                <Image 
+                <Image
                   src={image.src}
                   alt={image.alt}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  sizes="(max-width: 768px) 50vw, 25vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               </motion.div>
             ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <Link
+              href="/gallery"
+              className="inline-flex items-center gap-2 px-6 py-3 border-2 border-blue-600 rounded-lg text-blue-600 font-medium hover:bg-blue-50 transition-all"
+            >
+              View All Projects
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
           </div>
         </div>
       </section>
