@@ -8,7 +8,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: 'Champs Tile Austin TX | Professional Tile Installation & Flooring Services',
-  description: 'Champs Tile - Austin\'s premier tile installation and flooring experts. Specializing in custom tile work, kitchen backsplashes, bathroom tiles, shower installations, and premium flooring. Licensed, insured, 15+ years experience. Call 512-706-9577 for free quote.',
+  description: 'Champs Tile - Austin\'s premier tile installation and flooring experts. Specializing in custom tile work, kitchen backsplashes, bathroom tiles, shower installations, and premium flooring. Licensed, insured, 15+ years experience. Serving Austin & surrounding areas. Call 512-706-9577 for a free quote.',
   keywords: 'tile installation Austin TX, tile contractor Austin, flooring services Austin, kitchen backsplash Austin, bathroom tile Austin, shower tile installation, custom tile work Austin, ceramic tile Austin, porcelain tile Austin, tile flooring Austin, Champs Tile',
   metadataBase: new URL('https://champstile.com'),
   openGraph: {
