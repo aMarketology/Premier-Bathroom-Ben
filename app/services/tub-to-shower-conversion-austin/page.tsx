@@ -390,12 +390,12 @@ export default function TubToShowerConversionAustin() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { src: '/IMG_2329 Ben.jpeg', alt: 'Tub to shower conversion Austin' },
-              { src: '/IMG_7767 Ben.jpeg', alt: 'Walk-in shower conversion' },
-              { src: '/IMG_2324 Ben.jpeg', alt: 'Modern shower after tub removal' },
-              { src: '/IMG_0387 Ben.jpeg', alt: 'Custom shower conversion' },
-              { src: '/IMG_1551 Ben.jpeg', alt: 'Bathroom conversion project' },
-              { src: '/IMG_6283 Ben.jpeg', alt: 'Completed shower remodel' }
+              { src: '/bathroom remodel/DSCF8715.JPG', alt: 'Tub to shower conversion Austin TX — completed' },
+              { src: '/bathroom remodel/DSCF8719.JPG', alt: 'Walk-in shower after tub removal Austin' },
+              { src: '/bathroom remodel/DSCF8729.JPG', alt: 'Custom shower conversion Austin TX' },
+              { src: '/bathroom remodel/DSCF8746.JPG', alt: 'Tub removal and shower install Austin' },
+              { src: '/bathroom remodel/DSCF8758.JPG', alt: 'Modern walk-in shower conversion Austin' },
+              { src: '/IMG_2329 Ben.jpeg', alt: 'Tub to shower conversion project Austin' },
             ].map((image, index) => (
               <motion.div
                 key={index}

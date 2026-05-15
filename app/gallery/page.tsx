@@ -246,7 +246,7 @@ export default function Gallery() {
               <p className="text-blue-300 mb-1 md:mb-2 text-sm md:text-base">{galleryImages[selectedImage].category}</p>
               <p className="text-gray-300 text-sm md:text-base">{galleryImages[selectedImage].description}</p>
               <p className="text-gray-400 text-xs md:text-sm mt-3 md:hidden">
-                Swipe left or right to navigate â€¢ {selectedImage + 1} / {galleryImages.length}
+                Swipe left or right to navigate • {selectedImage + 1} / {galleryImages.length}
               </p>
             </div>
           </motion.div>

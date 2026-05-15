@@ -24,7 +24,7 @@ export const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
       role: 'Homeowner',
       content: 'Amazing work! My garage looks completely transformed. The team was professional and efficient.',
       rating: 5,
-      image: 'ðŸ‘¨â€ðŸ’¼',
+      image: '👨‍💼',
     },
     {
       id: 2,
@@ -32,7 +32,7 @@ export const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
       role: 'Business Owner',
       content: 'Best concrete coating service in Tampa Bay. Highly recommended for commercial spaces.',
       rating: 5,
-      image: 'ðŸ‘©â€ðŸ’¼',
+      image: '👩‍💼',
     },
     {
       id: 3,
@@ -40,7 +40,7 @@ export const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
       role: 'Homeowner',
       content: 'Excellent customer service and superior quality. Worth every penny!',
       rating: 5,
-      image: 'ðŸ‘¨â€ðŸ”§',
+      image: '👨‍🔧',
     },
     {
       id: 4,
@@ -48,7 +48,7 @@ export const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
       role: 'Property Manager',
       content: 'Professional team, on-time delivery, and fantastic results. Highly satisfied!',
       rating: 5,
-      image: 'ðŸ‘©â€ðŸ’¼',
+      image: '👩‍💼',
     },
   ],
 }) => {

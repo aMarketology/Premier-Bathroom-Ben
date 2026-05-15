@@ -208,7 +208,7 @@ export default function WalkInBathAustin() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
               <Image 
-                src="/IMG_1412 Ben.jpeg" 
+                src="/bathroom remodel/DSCF8758.JPG" 
                 alt="Safe walk-in bathtub for seniors in Austin" 
                 fill
                 className="object-cover"
@@ -332,6 +332,46 @@ export default function WalkInBathAustin() {
               >
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">{faq.question}</h3>
                 <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-4">
+              Our Austin <span className="text-cyan-600">Projects</span>
+            </h2>
+            <p className="text-xl text-gray-600">Real bathroom transformations across Austin</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { src: '/bathroom remodel/DSCF8715.JPG', alt: 'Walk-in bath installation Austin TX' },
+              { src: '/bathroom remodel/DSCF8719.JPG', alt: 'Accessible bathroom remodel Austin' },
+              { src: '/bathroom remodel/DSCF8729.JPG', alt: 'Senior-friendly bathroom Austin' },
+              { src: '/bathroom remodel/DSCF8746.JPG', alt: 'Walk-in tub project Austin TX' },
+              { src: '/bathroom remodel/DSCF8758.JPG', alt: 'Safe bathing solution Austin' },
+              { src: '/IMG_1412 Ben.jpeg', alt: 'Ben — Austin bathroom remodel specialist' },
+            ].map((image, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="relative aspect-square rounded-xl overflow-hidden shadow-lg group cursor-pointer"
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               </motion.div>
             ))}
           </div>

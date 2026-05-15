@@ -909,7 +909,7 @@ export default function GetStarted() {
               Serving Greater Austin
             </h2>
             <p className="text-xl text-slate-400">
-              Austin â€¢ Round Rock â€¢ Cedar Park â€¢ Pflugerville â€¢ West Lake Hills â€¢ Bee Cave & More
+              Austin • Round Rock • Cedar Park • Pflugerville • West Lake Hills • Bee Cave & More
             </p>
           </div>
 

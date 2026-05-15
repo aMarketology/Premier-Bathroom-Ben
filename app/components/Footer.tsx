@@ -196,7 +196,7 @@ export default function Footer() {
                 href={`/service-area/${area.slug}`}
                 className="text-gray-500 hover:text-blue-500 transition"
               >
-                {area.name}{index < serviceAreas.length - 1 ? ' â€¢' : ''}
+                {area.name}{index < serviceAreas.length - 1 ? ' •' : ''}
               </Link>
             ))}
           </div>

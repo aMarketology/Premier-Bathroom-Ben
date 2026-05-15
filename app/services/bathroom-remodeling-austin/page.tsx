@@ -230,12 +230,12 @@ export default function BathroomRemodelingAustin() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { src: '/IMG_0387 Ben.jpeg', alt: 'Modern bathroom remodel in Austin' },
-              { src: '/IMG_1412 Ben.jpeg', alt: 'Custom shower installation Austin TX' },
-              { src: '/IMG_2305 Ben.jpeg', alt: 'Luxury bathroom renovation Austin' },
-              { src: '/IMG_5970 Ben.jpeg', alt: 'Contemporary bathroom design Austin' },
-              { src: '/IMG_6283 Ben.jpeg', alt: 'Bathroom tile work Austin' },
-              { src: '/IMG_7767 Ben.jpeg', alt: 'Complete bathroom remodel Austin' }
+              { src: '/bathroom remodel/DSCF8715.JPG', alt: 'Bathroom remodel Austin TX — completed project' },
+              { src: '/bathroom remodel/DSCF8719.JPG', alt: 'Full bathroom renovation Austin' },
+              { src: '/bathroom remodel/DSCF8729.JPG', alt: 'Custom bathroom design Austin TX' },
+              { src: '/bathroom remodel/DSCF8746.JPG', alt: 'Master bathroom remodel Austin' },
+              { src: '/bathroom remodel/DSCF8758.JPG', alt: 'Luxury bathroom renovation Austin TX' },
+              { src: '/IMG_0387 Ben.jpeg', alt: 'Complete bathroom remodel Austin' },
             ].map((image, index) => (
               <motion.div
                 key={index}

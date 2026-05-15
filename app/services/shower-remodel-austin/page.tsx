@@ -222,12 +222,12 @@ export default function ShowerRemodelAustin() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { src: '/IMG_7767 Ben.jpeg', alt: 'Walk-in shower remodel Austin' },
-              { src: '/IMG_2324 Ben.jpeg', alt: 'Custom tile shower Austin TX' },
-              { src: '/IMG_0387 Ben.jpeg', alt: 'Frameless shower door installation' },
-              { src: '/IMG_1551 Ben.jpeg', alt: 'Modern shower design Austin' },
-              { src: '/IMG_2596 Ben.jpeg', alt: 'Luxury shower renovation' },
-              { src: '/IMG_8122 Ben.jpeg', alt: 'Contemporary shower remodel' }
+              { src: '/bathroom remodel/DSCF8715.JPG', alt: 'Shower remodel Austin TX — before and after' },
+              { src: '/bathroom remodel/DSCF8719.JPG', alt: 'Custom tile shower Austin' },
+              { src: '/bathroom remodel/DSCF8729.JPG', alt: 'Walk-in shower installation Austin' },
+              { src: '/bathroom remodel/DSCF8746.JPG', alt: 'Modern shower remodel Austin TX' },
+              { src: '/bathroom remodel/DSCF8758.JPG', alt: 'Frameless glass shower Austin' },
+              { src: '/IMG_7767 Ben.jpeg', alt: 'Luxury shower renovation Austin' },
             ].map((image, index) => (
               <motion.div
                 key={index}
