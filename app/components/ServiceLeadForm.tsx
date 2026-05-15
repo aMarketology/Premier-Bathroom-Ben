@@ -1,16 +1,16 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { trackCTAClick, trackPhoneClick, trackFormInteraction, trackFormError } from '@/lib/ga4-client'
 
 interface ServiceLeadFormProps {
-  service: string          // pre-filled service value e.g. 'tub-to-shower-conversion'
-  serviceLabel: string     // human-readable e.g. 'Tub to Shower Conversion'
-  accentColor?: 'cyan' | 'blue' | 'purple' // theme color
-  pageLocation: string     // e.g. '/services/tub-to-shower-conversion-austin'
+  service: string
+  serviceLabel: string
+  accentColor?: 'cyan' | 'blue' | 'purple' | 'indigo' | 'emerald'
+  pageLocation: string
 }
 
 const PARTIAL_KEY = 'pbr_partial_lead'
+const TTL_MS = 48 * 60 * 60 * 1000 // 48 hours
 
 export default function ServiceLeadForm({
   service,
@@ -18,112 +18,97 @@ export default function ServiceLeadForm({
   accentColor = 'cyan',
   pageLocation,
 }: ServiceLeadFormProps) {
-  const [formData, setFormData] = useState({
+  const startTime = useRef(Date.now())
+
+  const [fields, setFields] = useState({
     name: '',
     phone: '',
     email: '',
-    service,
     message: '',
     smsConsent: false,
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
-  const loadTimeRef = useRef(Date.now())
+  const [restored, setRestored] = useState(false)
 
-  // Restore any partial fill from localStorage on mount
+  // Restore partial lead from localStorage
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(PARTIAL_KEY)
-      if (saved) {
-        const parsed = JSON.parse(saved)
-        // Only restore if saved within last 48 hours
-        if (Date.now() - parsed._ts < 48 * 60 * 60 * 1000) {
-          setFormData((prev) => ({
-            ...prev,
-            name: parsed.name || '',
-            phone: parsed.phone || '',
-            email: parsed.email || '',
-          }))
+      const raw = localStorage.getItem(PARTIAL_KEY)
+      if (raw) {
+        const saved = JSON.parse(raw)
+        if (Date.now() - saved.ts < TTL_MS && saved.service === service) {
+          setFields(f => ({ ...f, ...saved.fields }))
+          setRestored(true)
         }
       }
     } catch {}
-  }, [])
+  }, [service])
 
-  // Save partial fill to localStorage on every change
-  const savePartial = (updated: typeof formData) => {
+  // Save partial lead on every keystroke
+  const savePartial = (updated: typeof fields) => {
     try {
-      localStorage.setItem(
-        PARTIAL_KEY,
-        JSON.stringify({
-          name: updated.name,
-          phone: updated.phone,
-          email: updated.email,
-          service: updated.service,
-          _ts: Date.now(),
-        })
-      )
+      localStorage.setItem(PARTIAL_KEY, JSON.stringify({
+        ts: Date.now(),
+        service,
+        fields: { name: updated.name, phone: updated.phone, email: updated.email },
+      }))
     } catch {}
   }
 
-  // Fire GA4 partial step events
-  const handleFieldChange = (field: string, value: string | boolean) => {
-    const updated = { ...formData, [field]: value }
-    setFormData(updated)
+  const update = (key: keyof typeof fields, value: string | boolean) => {
+    const updated = { ...fields, [key]: value }
+    setFields(updated)
     savePartial(updated)
-    // Track each field interaction for funnel visibility
-    trackFormInteraction(`${serviceLabel} Hero Form`, field, 'change')
+
+    // GA4 field interaction tracking
+    if (typeof (window as any).gtag === 'function') {
+      ;(window as any).gtag('event', 'form_field_interaction', {
+        field_name: key,
+        service,
+        page_location: pageLocation,
+      })
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError('')
 
-    // Basic validation
-    if (!formData.name.trim()) {
-      trackFormError(`${serviceLabel} Hero Form`, 'name', 'required')
-      setError('Please enter your name.')
+    if (!fields.name || !fields.phone) {
+      setError('Please fill in your name and phone number.')
       return
     }
-    if (!formData.phone.trim()) {
-      trackFormError(`${serviceLabel} Hero Form`, 'phone', 'required')
-      setError('Please enter your phone number.')
-      return
+
+    const elapsed = Math.floor((Date.now() - startTime.current) / 1000)
+
+    // GA4 submit attempt
+    if (typeof (window as any).gtag === 'function') {
+      ;(window as any).gtag('event', 'form_submit_attempt', { service, page_location: pageLocation })
     }
 
     setIsSubmitting(true)
-    setError('')
-
-    // Track CTA click
-    trackCTAClick(`${serviceLabel} Form Submit`, pageLocation, '/thank-you')
-
-    // Fire GA4 partial-capture event immediately on submit attempt
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      ;(window as any).gtag('event', 'form_submit_attempt', {
-        form_name: `${serviceLabel} Hero Form`,
-        form_location: pageLocation,
-        service_type: service,
-      })
-    }
 
     try {
-      const response = await fetch('/api/contact', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...formData,
-          pageUrl: pageLocation,
-          _lt: loadTimeRef.current, // timing check for spam
+          name: fields.name,
+          phone: fields.phone,
+          email: fields.email,
+          service,
+          message: fields.message || `Inquiry from ${serviceLabel} landing page`,
+          smsConsent: fields.smsConsent,
+          pageUrl: window.location.pathname,
+          _lt: elapsed,
         }),
       })
 
-      const data = await response.json()
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Submission failed')
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to send message')
-      }
-
-      // Clear partial on success
-      try { localStorage.removeItem(PARTIAL_KEY) } catch {}
-
+      localStorage.removeItem(PARTIAL_KEY)
       window.location.href = '/thank-you'
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
@@ -131,189 +116,124 @@ export default function ServiceLeadForm({
     }
   }
 
-  const accent = {
-    cyan: {
-      ring: 'focus:ring-cyan-500',
-      btn: 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:shadow-cyan-500/40',
-      badge: 'bg-cyan-50 border-cyan-200 text-cyan-700',
-      dot: 'bg-cyan-500',
-      check: 'text-cyan-600 border-cyan-300 focus:ring-cyan-500',
-    },
-    blue: {
-      ring: 'focus:ring-blue-500',
-      btn: 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:shadow-blue-500/40',
-      badge: 'bg-blue-50 border-blue-200 text-blue-700',
-      dot: 'bg-blue-500',
-      check: 'text-blue-600 border-blue-300 focus:ring-blue-500',
-    },
-    purple: {
-      ring: 'focus:ring-purple-500',
-      btn: 'bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-purple-500/40',
-      badge: 'bg-purple-50 border-purple-200 text-purple-700',
-      dot: 'bg-purple-500',
-      check: 'text-purple-600 border-purple-300 focus:ring-purple-500',
-    },
-  }[accentColor]
+  const colors = {
+    cyan:   { ring: 'focus:ring-cyan-500',   btn: 'from-cyan-600 to-blue-600',   dot: 'bg-cyan-400',   check: 'accent-cyan-600' },
+    blue:   { ring: 'focus:ring-blue-500',   btn: 'from-blue-600 to-cyan-600',   dot: 'bg-blue-400',   check: 'accent-blue-600' },
+    purple: { ring: 'focus:ring-purple-500', btn: 'from-purple-600 to-blue-600', dot: 'bg-purple-400', check: 'accent-purple-600' },
+    indigo: { ring: 'focus:ring-indigo-500', btn: 'from-indigo-600 to-blue-600', dot: 'bg-indigo-400', check: 'accent-indigo-600' },
+    emerald:{ ring: 'focus:ring-emerald-500',btn: 'from-emerald-600 to-teal-600',dot: 'bg-emerald-400',check: 'accent-emerald-600' },
+  }
+  const c = colors[accentColor]
 
   return (
     <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
       {/* Header */}
-      <div className="bg-gray-900 px-8 py-6">
-        <div className="flex items-center gap-2 mb-2">
-          <div className={`w-2 h-2 rounded-full ${accent.dot} animate-pulse`} />
-          <span className="text-xs font-medium text-gray-400 uppercase tracking-widest">Free Quote — No Obligation</span>
+      <div className="bg-gray-900 px-6 py-5">
+        <div className="flex items-center gap-2 mb-1">
+          <div className={`w-2 h-2 rounded-full ${c.dot} animate-pulse`} />
+          <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Free Quote — No Obligation</span>
         </div>
-        <h3 className="text-2xl font-semibold text-white">Request an Appointment</h3>
-        <p className="text-gray-400 text-sm mt-1">We typically respond within 2 hours</p>
+        <h3 className="text-xl font-semibold text-white">Request an Appointment</h3>
+        <p className="text-gray-400 text-sm mt-0.5">We typically respond within 2 hours</p>
       </div>
 
+      {/* Restored banner */}
+      {restored && (
+        <div className="px-6 py-3 bg-blue-50 border-b border-blue-100 text-sm text-blue-700 flex items-center gap-2">
+          <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" /></svg>
+          We saved your info — just finish and submit!
+        </div>
+      )}
+
       {/* Form */}
-      <form onSubmit={handleSubmit} className="px-8 py-6 space-y-4">
+      <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
-            {error}
-          </div>
+          <div className="p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">{error}</div>
         )}
 
-        {/* Name */}
-        <div>
-          <label htmlFor="slp-name" className="block text-sm font-medium text-gray-700 mb-1.5">
-            Your Name <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="slp-name"
-            required
-            value={formData.name}
-            onChange={(e) => handleFieldChange('name', e.target.value)}
-            onFocus={() => trackFormInteraction(`${serviceLabel} Hero Form`, 'name', 'focus')}
-            className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ${accent.ring} focus:border-transparent transition-all text-gray-900 placeholder-gray-400`}
-            placeholder="John Smith"
-          />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Your Name <span className="text-red-500">*</span></label>
+            <input
+              type="text"
+              required
+              value={fields.name}
+              onChange={e => update('name', e.target.value)}
+              placeholder="John Smith"
+              className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ${c.ring} focus:border-transparent text-gray-900 placeholder-gray-400 transition-all`}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number <span className="text-red-500">*</span></label>
+            <input
+              type="tel"
+              required
+              value={fields.phone}
+              onChange={e => update('phone', e.target.value)}
+              placeholder="(512) 555-0123"
+              className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ${c.ring} focus:border-transparent text-gray-900 placeholder-gray-400 transition-all`}
+            />
+          </div>
         </div>
 
-        {/* Phone */}
         <div>
-          <label htmlFor="slp-phone" className="block text-sm font-medium text-gray-700 mb-1.5">
-            Phone Number <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="tel"
-            id="slp-phone"
-            required
-            value={formData.phone}
-            onChange={(e) => handleFieldChange('phone', e.target.value)}
-            onFocus={() => trackFormInteraction(`${serviceLabel} Hero Form`, 'phone', 'focus')}
-            className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ${accent.ring} focus:border-transparent transition-all text-gray-900 placeholder-gray-400`}
-            placeholder="(512) 555-0123"
-          />
-        </div>
-
-        {/* Email */}
-        <div>
-          <label htmlFor="slp-email" className="block text-sm font-medium text-gray-700 mb-1.5">
-            Email Address
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
           <input
             type="email"
-            id="slp-email"
-            value={formData.email}
-            onChange={(e) => handleFieldChange('email', e.target.value)}
-            onFocus={() => trackFormInteraction(`${serviceLabel} Hero Form`, 'email', 'focus')}
-            className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ${accent.ring} focus:border-transparent transition-all text-gray-900 placeholder-gray-400`}
+            value={fields.email}
+            onChange={e => update('email', e.target.value)}
             placeholder="john@example.com"
+            className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ${c.ring} focus:border-transparent text-gray-900 placeholder-gray-400 transition-all`}
           />
         </div>
 
-        {/* Service — pre-filled but editable */}
         <div>
-          <label htmlFor="slp-service" className="block text-sm font-medium text-gray-700 mb-1.5">
-            Service Interested In
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Service Interested In</label>
           <select
-            id="slp-service"
-            value={formData.service}
-            onChange={(e) => handleFieldChange('service', e.target.value)}
-            className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ${accent.ring} focus:border-transparent transition-all bg-white text-gray-900`}
+            value={service}
+            disabled
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-700"
           >
-            <option value="tub-to-shower-conversion">Tub to Shower Conversion</option>
-            <option value="walk-in-bath">Walk-In Bath</option>
-            <option value="shower-remodel">Shower Remodel</option>
-            <option value="full-bathroom-remodel">Full Bathroom Remodel</option>
-            <option value="bathroom-vanity">Bathroom Vanity</option>
-            <option value="other">Other / Not Sure Yet</option>
+            <option value={service}>{serviceLabel}</option>
           </select>
         </div>
 
-        {/* Optional message */}
         <div>
-          <label htmlFor="slp-message" className="block text-sm font-medium text-gray-700 mb-1.5">
-            Tell us about your project <span className="text-gray-400">(optional)</span>
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Tell us about your project <span className="text-gray-400">(optional)</span></label>
           <textarea
-            id="slp-message"
             rows={3}
-            value={formData.message}
-            onChange={(e) => handleFieldChange('message', e.target.value)}
-            onFocus={() => trackFormInteraction(`${serviceLabel} Hero Form`, 'message', 'focus')}
-            className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ${accent.ring} focus:border-transparent transition-all text-gray-900 placeholder-gray-400 resize-none`}
-            placeholder="e.g. 5x8 bathroom, want a walk-in shower with frameless glass..."
+            value={fields.message}
+            onChange={e => update('message', e.target.value)}
+            placeholder="e.g. We want to convert our tub to a walk-in shower..."
+            className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ${c.ring} focus:border-transparent text-gray-900 placeholder-gray-400 transition-all resize-none`}
           />
         </div>
 
-        {/* SMS Consent */}
         <div className="flex items-start gap-3">
           <input
             type="checkbox"
-            id="slp-sms"
-            checked={formData.smsConsent}
-            onChange={(e) => handleFieldChange('smsConsent', e.target.checked)}
-            className={`mt-1 w-4 h-4 rounded ${accent.check}`}
+            id={`sms-${service}`}
+            checked={fields.smsConsent}
+            onChange={e => update('smsConsent', e.target.checked)}
+            className={`mt-1 w-4 h-4 rounded border-gray-300 ${c.check}`}
           />
-          <label htmlFor="slp-sms" className="text-xs text-gray-500 leading-relaxed">
-            By checking this box, you agree to receive SMS messages about your appointment from Premier Bathroom Remodel Austin. Reply STOP to opt-out at any time.
+          <label htmlFor={`sms-${service}`} className="text-xs text-gray-500 leading-relaxed">
+            By checking this box you agree to receive SMS messages about your quote from Premier Bathroom Remodel Austin. Reply STOP to opt-out anytime.
           </label>
         </div>
 
-        {/* Submit */}
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full py-4 ${accent.btn} text-white rounded-lg font-semibold text-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed`}
+          className={`w-full py-4 bg-gradient-to-r ${c.btn} text-white rounded-lg font-semibold text-base hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed`}
         >
-          {isSubmitting ? (
-            <span className="flex items-center justify-center gap-2">
-              <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-              </svg>
-              Sending...
-            </span>
-          ) : (
-            'Get My Free Quote →'
-          )}
+          {isSubmitting ? 'Sending…' : 'Get My Free Quote →'}
         </button>
 
-        {/* Trust micro-copy */}
-        <div className="flex items-center justify-center gap-4 text-xs text-gray-400 pt-1">
-          <span className="flex items-center gap-1">
-            <svg className="w-3.5 h-3.5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-            No spam, ever
-          </span>
-          <span className="flex items-center gap-1">
-            <svg className="w-3.5 h-3.5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-            Response in 2 hrs
-          </span>
-          <span className="flex items-center gap-1">
-            <svg className="w-3.5 h-3.5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-            Free estimate
-          </span>
+        <div className="flex items-center justify-center gap-4 text-xs text-gray-400">
+          <span className="flex items-center gap-1">🔒 No spam, ever</span>
+          <span className="flex items-center gap-1">⚡ Response in 2 hrs</span>
+          <span className="flex items-center gap-1">✅ Free estimate</span>
         </div>
       </form>
     </div>
