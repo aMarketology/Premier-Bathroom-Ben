@@ -81,25 +81,25 @@ export default function GetStarted() {
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-400/10 rounded-full blur-3xl" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-28">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:py-24 lg:py-28">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
 
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="space-y-8"
+              className="space-y-5 md:space-y-8"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm">
                 <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
                 <span className="text-xs font-semibold text-blue-200 uppercase tracking-widest">Austin, TX &middot; Free Estimate</span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-white leading-tight">
                 {config.headline}
               </h1>
 
-              <p className="text-xl text-blue-100 leading-relaxed">
+              <p className="text-base md:text-xl text-blue-100 leading-relaxed">
                 {config.sub}
               </p>
 
@@ -196,16 +196,16 @@ export default function GetStarted() {
       </section>
 
       {/* MEET BEN */}
-      <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <section className="py-12 md:py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative aspect-[4/5] max-h-[480px] lg:max-h-none rounded-2xl overflow-hidden shadow-2xl">
                 <Image
                   src="/IMG_2305 Ben.jpeg"
                   alt="Ben — Owner of Premier Bathroom Remodel Austin"
@@ -239,7 +239,7 @@ export default function GetStarted() {
                 <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
                 <span className="text-xs font-semibold text-blue-600 uppercase tracking-widest">Why Homeowners Choose Ben</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-light text-gray-900">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900">
                 You Talk to <span className="text-blue-600">Ben.</span><br />Ben Does the Work.
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed">
@@ -264,10 +264,10 @@ export default function GetStarted() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-light text-gray-900 mb-3">
+      <section className="py-12 md:py-20 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3">
               How It <span className="text-blue-600">Works</span>
             </h2>
             <p className="text-xl text-gray-600">Simple and pressure-free</p>
@@ -296,10 +296,10 @@ export default function GetStarted() {
       </section>
 
       {/* SERVICES GRID */}
-      <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-light text-gray-900 mb-3">
+      <section className="py-12 md:py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3">
               What We <span className="text-blue-600">Remodel</span>
             </h2>
             <p className="text-xl text-gray-600">Each quote is 100% free — no obligation, ever</p>
@@ -341,7 +341,7 @@ export default function GetStarted() {
       </section>
 
       {/* BOTTOM CTA */}
-      <section className="py-20 bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 relative overflow-hidden">
+      <section className="py-12 md:py-20 bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.07)_1px,transparent_1px)] bg-[size:80px_80px]" />
         <div className="relative z-10 max-w-3xl mx-auto px-6 text-center space-y-6">
           <h2 className="text-4xl md:text-5xl font-light text-white">

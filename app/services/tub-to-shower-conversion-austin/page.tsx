@@ -164,14 +164,14 @@ export default function TubToShowerConversionAustin() {
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="space-y-8"
+              className="space-y-5 md:space-y-8"
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-200 bg-white shadow-sm">
                 <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
                 <span className="text-xs font-medium text-cyan-600 uppercase tracking-widest">Quick Conversion</span>
               </div>
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-gray-900 tracking-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-gray-900 tracking-tight">
                 Tub to Shower
                 <br />
                 <span className="bg-gradient-to-r from-cyan-600 via-blue-500 to-cyan-700 bg-clip-text text-transparent">Conversion Austin</span>
@@ -422,7 +422,7 @@ export default function TubToShowerConversionAustin() {
       {/* Meet Ben Section */}
       <section className="py-24 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
