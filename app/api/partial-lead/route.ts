@@ -35,9 +35,9 @@ export async function POST(request: NextRequest) {
     recentPartials.set(dedupKey, Date.now())
 
     // Clean up old entries (>1 hour) to prevent memory leak
-    for (const [key, ts] of recentPartials.entries()) {
+    Array.from(recentPartials.entries()).forEach(([key, ts]) => {
       if (Date.now() - ts > 60 * 60 * 1000) recentPartials.delete(key)
-    }
+    })
 
     const notificationEmails = [
       process.env.NOTIFICATION_EMAIL_1,
