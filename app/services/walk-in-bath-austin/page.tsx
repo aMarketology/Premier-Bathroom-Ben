@@ -10,22 +10,22 @@ import ServiceLeadForm from '../../components/ServiceLeadForm'
 export default function WalkInBathAustin() {
   const features = [
     {
-      icon: 'ðŸšª',
+      icon: '🚪',
       title: 'Low Threshold Entry',
       description: 'Easy step-in design with minimal barrier for safe access'
     },
     {
-      icon: 'ðŸ›¡ï¸',
+      icon: '🛡️',
       title: 'Anti-Slip Flooring',
       description: 'Textured surfaces prevent slips and falls'
     },
     {
-      icon: 'ðŸª‘',
+      icon: '🪑',
       title: 'Built-in Seating',
       description: 'Comfortable molded seat for relaxed bathing'
     },
     {
-      icon: 'ðŸ”’',
+      icon: '🔑',
       title: 'Grab Bars & Handrails',
       description: 'Strategically placed for maximum stability'
     },
@@ -35,7 +35,7 @@ export default function WalkInBathAustin() {
       description: 'Fast drainage system minimizes wait time'
     },
     {
-      icon: 'ðŸ’†',
+      icon: '💆',
       title: 'Therapeutic Jets',
       description: 'Optional hydrotherapy for pain relief'
     },
@@ -45,7 +45,7 @@ export default function WalkInBathAustin() {
       description: 'Meets all accessibility standards'
     },
     {
-      icon: 'âœ…',
+      icon: '✅',
       title: 'Lifetime Warranty',
       description: 'Quality guaranteed for peace of mind'
     }
@@ -98,14 +98,14 @@ export default function WalkInBathAustin() {
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="space-y-8"
+              className="space-y-5 md:space-y-8"
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-200 bg-white shadow-sm">
                 <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
                 <span className="text-xs font-medium text-cyan-600 uppercase tracking-widest">Safety & Accessibility</span>
               </div>
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-gray-900 tracking-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-gray-900 tracking-tight">
                 Walk-in Bath
                 <br />
                 <span className="bg-gradient-to-r from-cyan-600 via-blue-500 to-cyan-700 bg-clip-text text-transparent">Austin, TX</span>
@@ -208,7 +208,7 @@ export default function WalkInBathAustin() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
               <Image 
-                src="/IMG_1412 Ben.jpeg" 
+                src="/bathroom remodel/DSCF8758.JPG" 
                 alt="Safe walk-in bathtub for seniors in Austin" 
                 fill
                 className="object-cover"
@@ -338,6 +338,46 @@ export default function WalkInBathAustin() {
         </div>
       </section>
 
+      {/* Gallery Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-4">
+              Our Austin <span className="text-cyan-600">Projects</span>
+            </h2>
+            <p className="text-xl text-gray-600">Real bathroom transformations across Austin</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { src: '/bathroom remodel/DSCF8715.JPG', alt: 'Walk-in bath installation Austin TX' },
+              { src: '/bathroom remodel/DSCF8719.JPG', alt: 'Accessible bathroom remodel Austin' },
+              { src: '/bathroom remodel/DSCF8729.JPG', alt: 'Senior-friendly bathroom Austin' },
+              { src: '/bathroom remodel/DSCF8746.JPG', alt: 'Walk-in tub project Austin TX' },
+              { src: '/bathroom remodel/DSCF8758.JPG', alt: 'Safe bathing solution Austin' },
+              { src: '/IMG_1412 Ben.jpeg', alt: 'Ben — Austin bathroom remodel specialist' },
+            ].map((image, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="relative aspect-square rounded-xl overflow-hidden shadow-lg group cursor-pointer"
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-24 bg-gradient-to-br from-cyan-600 via-blue-600 to-cyan-700 relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:100px_100px]" />
@@ -358,13 +398,13 @@ export default function WalkInBathAustin() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:512-492-2321"
+                href="tel:512-706-9577"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white rounded-lg font-medium text-cyan-600 hover:bg-cyan-50 transition-all text-lg shadow-xl"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                Call 512-492-2321 Now
+                Call 512-706-9577 Now
               </a>
               <Link
                 href="/get-started?service=walk-in-bath"

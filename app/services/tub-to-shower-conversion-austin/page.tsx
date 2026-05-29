@@ -15,37 +15,37 @@ export default function TubToShowerConversionAustin() {
       description: 'Most conversions completed in just 24 hours with minimal disruption'
     },
     {
-      icon: 'ðŸ“',
+      icon: '📋',
       title: 'Increased Space',
       description: 'Remove bulky tub to create a more spacious, open bathroom'
     },
     {
-      icon: 'ðŸ›¡ï¸',
+      icon: '🛡️',
       title: 'Enhanced Safety',
       description: 'Low or no threshold entry reduces fall risk for all ages'
     },
     {
-      icon: 'ðŸŒŸ',
+      icon: '🌟',
       title: 'Low Maintenance',
       description: 'Modern materials resist mold, mildew, and staining'
     },
     {
-      icon: 'ðŸŽ¨',
+      icon: '🎨',
       title: 'Custom Designs',
       description: 'Choose from hundreds of tile, fixture, and layout options'
     },
     {
-      icon: 'ðŸ’°',
+      icon: '💰',
       title: 'Increased Value',
       description: 'Modern showers are highly desirable to homebuyers'
     },
     {
-      icon: 'ðŸ’§',
+      icon: '💧',
       title: 'Water Efficiency',
       description: 'Low-flow fixtures save water and reduce utility bills'
     },
     {
-      icon: 'âœ…',
+      icon: '✅',
       title: 'Warranty Included',
       description: 'Full warranty on materials and workmanship'
     }
@@ -164,14 +164,14 @@ export default function TubToShowerConversionAustin() {
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="space-y-8"
+              className="space-y-5 md:space-y-8"
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-200 bg-white shadow-sm">
                 <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
                 <span className="text-xs font-medium text-cyan-600 uppercase tracking-widest">Quick Conversion</span>
               </div>
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-gray-900 tracking-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-gray-900 tracking-tight">
                 Tub to Shower
                 <br />
                 <span className="bg-gradient-to-r from-cyan-600 via-blue-500 to-cyan-700 bg-clip-text text-transparent">Conversion Austin</span>
@@ -370,7 +370,7 @@ export default function TubToShowerConversionAustin() {
                   <div className="text-5xl font-bold text-cyan-200 mb-4">{item.step}</div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">{item.title}</h3>
                   <p className="text-gray-600 text-sm mb-3">{item.description}</p>
-                  <div className="text-xs text-cyan-600 font-medium">â±ï¸ {item.duration}</div>
+                  <div className="text-xs text-cyan-600 font-medium">⏱️ {item.duration}</div>
                 </div>
               </motion.div>
             ))}
@@ -390,12 +390,12 @@ export default function TubToShowerConversionAustin() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { src: '/IMG_2329 Ben.jpeg', alt: 'Tub to shower conversion Austin' },
-              { src: '/IMG_7767 Ben.jpeg', alt: 'Walk-in shower conversion' },
-              { src: '/IMG_2324 Ben.jpeg', alt: 'Modern shower after tub removal' },
-              { src: '/IMG_0387 Ben.jpeg', alt: 'Custom shower conversion' },
-              { src: '/IMG_1551 Ben.jpeg', alt: 'Bathroom conversion project' },
-              { src: '/IMG_6283 Ben.jpeg', alt: 'Completed shower remodel' }
+              { src: '/bathroom remodel/DSCF8715.JPG', alt: 'Tub to shower conversion Austin TX — completed' },
+              { src: '/bathroom remodel/DSCF8719.JPG', alt: 'Walk-in shower after tub removal Austin' },
+              { src: '/bathroom remodel/DSCF8729.JPG', alt: 'Custom shower conversion Austin TX' },
+              { src: '/bathroom remodel/DSCF8746.JPG', alt: 'Tub removal and shower install Austin' },
+              { src: '/bathroom remodel/DSCF8758.JPG', alt: 'Modern walk-in shower conversion Austin' },
+              { src: '/IMG_2329 Ben.jpeg', alt: 'Tub to shower conversion project Austin' },
             ].map((image, index) => (
               <motion.div
                 key={index}
@@ -415,6 +415,86 @@ export default function TubToShowerConversionAustin() {
                 <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Meet Ben Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src="/IMG_2329 Ben.jpeg"
+                  alt="Ben — Owner of Premier Bathroom Remodel Austin"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/40 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur rounded-xl p-4 shadow-lg">
+                  <p className="font-bold text-gray-900 text-lg">Ben — Owner & Lead Installer</p>
+                  <p className="text-gray-600 text-sm">Austin, TX · Licensed & Insured · 15+ Years Experience</p>
+                  <div className="flex gap-1 mt-2">
+                    {[1,2,3,4,5].map(i => (
+                      <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                    <span className="text-sm text-gray-600 ml-1">5-Star Rated</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-200 bg-cyan-50">
+                <div className="w-1.5 h-1.5 rounded-full bg-cyan-500" />
+                <span className="text-xs font-medium text-cyan-600 uppercase tracking-widest">Who You're Hiring</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-light text-gray-900">
+                Meet <span className="text-cyan-600">Ben</span>
+              </h2>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                I'm Ben — I personally handle every tub-to-shower conversion we do. No middlemen, no subcontractors. When you call, you get me. When we start your job, I'm on site.
+              </p>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                I've done hundreds of tub removals and walk-in shower installs across Austin. I'll demo your old tub, handle the plumbing, tile the floor and walls, and install the glass — start to finish.
+              </p>
+              <div className="grid grid-cols-2 gap-4 pt-2">
+                {[
+                  { label: '15+', sub: 'Years Experience' },
+                  { label: '200+', sub: 'Conversions Done' },
+                  { label: '5★', sub: 'Average Rating' },
+                  { label: '100%', sub: 'Licensed & Insured' },
+                ].map((stat, i) => (
+                  <div key={i} className="bg-cyan-50 rounded-xl p-4 text-center border border-cyan-100">
+                    <div className="text-2xl font-bold text-cyan-700">{stat.label}</div>
+                    <div className="text-sm text-gray-600">{stat.sub}</div>
+                  </div>
+                ))}
+              </div>
+              <a
+                href="tel:512-706-9577"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-lg font-medium text-white hover:shadow-lg transition-all text-lg"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                </svg>
+                Call Ben — (512) 706-9577
+              </a>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -467,13 +547,13 @@ export default function TubToShowerConversionAustin() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:512-492-2321"
+                href="tel:512-706-9577"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white rounded-lg font-medium text-cyan-600 hover:bg-cyan-50 transition-all text-lg shadow-xl"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                Call 512-492-2321
+                Call 512-706-9577
               </a>
               <Link
                 href="/get-started?service=tub-conversion"

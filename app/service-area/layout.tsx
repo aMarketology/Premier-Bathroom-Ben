@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Bathroom Remodeling Service Areas | Texas Statewide | Premier Bathroom Remodel Texas',
-  description: 'Premier Bathroom Remodel Texas serves Austin, Houston, Dallas, San Antonio, Fort Worth, Plano, Frisco, and 50+ Texas cities. Expert bathroom renovation services statewide. Call 512-492-2321.',
+  description: 'Premier Bathroom Remodel Texas serves Austin, Houston, Dallas, San Antonio, Fort Worth, Plano, Frisco, and 50+ Texas cities. Expert bathroom renovation services statewide. Call 512-706-9577.',
   keywords: 'bathroom remodeling Texas, bathroom renovation Texas cities, Austin bathroom remodeling, Houston bathroom remodeling, Dallas bathroom remodeling, San Antonio bathroom remodeling, Texas bathroom contractors',
   openGraph: {
     title: 'Bathroom Remodeling Service Areas — All of Texas | Premier Bathroom Remodel Texas',

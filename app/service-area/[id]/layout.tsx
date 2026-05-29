@@ -22,11 +22,11 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const city = cityNames[id] ?? id.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
   return {
     title: `Bathroom Remodeling ${city}, TX | Premier Bathroom Remodel Texas`,
-    description: `Expert bathroom remodeling in ${city}, TX. Walk-in showers, tub to shower conversions, walk-in baths, full renovations, and vanity upgrades. Licensed & insured. Call 512-492-2321 for a free quote.`,
+    description: `Expert bathroom remodeling in ${city}, TX. Walk-in showers, tub to shower conversions, walk-in baths, full renovations, and vanity upgrades. Licensed & insured. Call 512-706-9577 for a free quote.`,
     keywords: `bathroom remodeling ${city}, bathroom renovation ${city} TX, shower remodel ${city}, walk-in bath ${city}, tub to shower conversion ${city}, bathroom contractor ${city} Texas`,
     openGraph: {
       title: `Bathroom Remodeling in ${city}, TX | Premier Bathroom Remodel Texas`,
-      description: `Transform your ${city} bathroom with Texas\'s trusted remodeling experts. Free consultations. Call 512-492-2321.`,
+      description: `Transform your ${city} bathroom with Texas\'s trusted remodeling experts. Free consultations. Call 512-706-9577.`,
       type: 'website',
     },
     alternates: {
