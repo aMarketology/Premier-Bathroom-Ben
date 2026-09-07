@@ -22,9 +22,20 @@ async function sendSmsAlert(name: string, phone: string, service: string | null,
   const twilioAuthToken  = process.env.TWILIO_AUTH_TOKEN
   const twilioFrom       = process.env.TWILIO_PHONE_NUMBER
   const bossPhone        = process.env.BOSS_PHONE_NUMBER
+  const ccPhone          = process.env.CC_PHONE_NUMBER
 
-  if (!twilioAccountSid || !twilioAuthToken || !twilioFrom || !bossPhone) {
+  if (!twilioAccountSid || !twilioAuthToken || !twilioFrom) {
     console.warn('[sms] Twilio not configured — skipping SMS alert')
+    return
+  }
+
+  // Build recipient list: boss + CC (deduplicated)
+  const recipients: string[] = []
+  if (bossPhone) recipients.push(bossPhone)
+  if (ccPhone && ccPhone !== bossPhone) recipients.push(ccPhone)
+
+  if (recipients.length === 0) {
+    console.warn('[sms] No phone numbers configured — skipping SMS alert')
     return
   }
 
@@ -32,13 +43,12 @@ async function sendSmsAlert(name: string, phone: string, service: string | null,
     const client = twilio(twilioAccountSid, twilioAuthToken)
     const serviceLine = service ? `Service: ${service}` : 'General Inquiry'
     const emailLine   = email ? `Email: ${email}` : 'No email provided'
+    const body = `🔔 NEW LEAD — ${siteName}\n\nName: ${name}\nPhone: ${phone}\n${emailLine}\n${serviceLine}\n\nCall them ASAP!`
 
-    await client.messages.create({
-      body: `🔔 NEW LEAD — ${siteName}\n\nName: ${name}\nPhone: ${phone}\n${emailLine}\n${serviceLine}\n\nCall them ASAP!`,
-      from: twilioFrom,
-      to: bossPhone,
-    })
-    console.log('[sms] Alert sent to boss')
+    for (const recipient of recipients) {
+      await client.messages.create({ body, from: twilioFrom, to: recipient })
+    }
+    console.log(`[sms] Alert sent to ${recipients.length} recipient(s): ${recipients.join(', ')}`)
   } catch (err) {
     console.error('[sms] Failed to send SMS alert:', err)
   }
