@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import emailjs from '@emailjs/nodejs'
+import twilio from 'twilio'
 import { trackFormSubmission } from '@/lib/ga4-tracking'
 
 // ── IP Rate Limiting ──────────────────────────────────────────────────────────
@@ -32,6 +34,35 @@ const BUDGET_LABELS: Record<string, string> = {
   '10k-20k':  '$10,000 – $20,000',
   '20k-plus': '$20,000+',
 }
+
+// ── Twilio SMS helper ────────────────────────────────────────────────────────
+async function sendSmsAlert(name: string, phone: string, service: string | null, email: string | null, siteName: string) {
+  const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID
+  const twilioAuthToken  = process.env.TWILIO_AUTH_TOKEN
+  const twilioFrom       = process.env.TWILIO_PHONE_NUMBER
+  const bossPhone        = process.env.BOSS_PHONE_NUMBER
+
+  if (!twilioAccountSid || !twilioAuthToken || !twilioFrom || !bossPhone) {
+    console.warn('[sms] Twilio not configured — skipping SMS alert')
+    return
+  }
+
+  try {
+    const client = twilio(twilioAccountSid, twilioAuthToken)
+    const serviceLine = service ? `Service: ${service}` : 'General Inquiry'
+    const emailLine   = email ? `Email: ${email}` : 'No email provided'
+
+    await client.messages.create({
+      body: `🔔 NEW LEAD — ${siteName}\n\nName: ${name}\nPhone: ${phone}\n${emailLine}\n${serviceLine}\n\nCall them ASAP!`,
+      from: twilioFrom,
+      to: bossPhone,
+    })
+    console.log('[sms] Alert sent to boss')
+  } catch (err) {
+    console.error('[sms] Failed to send SMS alert:', err)
+  }
+}
+// ─────────────────────────────────────────────────────────────────────────────
 
 export async function POST(request: NextRequest) {
   try {
@@ -73,7 +104,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email configuration error' }, { status: 500 })
     }
 
-    const resend = new Resend(process.env.RESEND_API_KEY)
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
     const subject = `New Lead: ${name} — ${service || 'General Inquiry'}`
 
@@ -123,13 +153,62 @@ export async function POST(request: NextRequest) {
   </div>
 </div>`
 
-    await resend.emails.send({
-      from: 'Premier Bathroom Remodel <info@amarketology.com>',
-      to: notificationEmails,
-      subject,
-      html,
-    })
-    console.log('[email] Sent via Resend to:', notificationEmails)
+    // ── Send SMS alert to boss (non-blocking) ────────────────────────────────
+    const siteName = process.env.SITE_NAME || 'Premier Bathroom Remodel'
+    sendSmsAlert(name, phone, service, email, siteName)
+    // ────────────────────────────────────────────────────────────────────────
+
+    // ── PRIMARY: EmailJS ─────────────────────────────────────────────────────
+    let emailSent = false
+    const emailjsServiceId = process.env.EMAILJS_SERVICE_ID
+    const emailjsTemplateId = process.env.EMAILJS_TEMPLATE_ID
+    const emailjsPublicKey  = process.env.EMAILJS_PUBLIC_KEY
+
+    if (emailjsServiceId && emailjsTemplateId && emailjsPublicKey) {
+      try {
+        emailjs.init({
+          publicKey: emailjsPublicKey,
+          ...(process.env.EMAILJS_PRIVATE_KEY ? { privateKey: process.env.EMAILJS_PRIVATE_KEY } : {}),
+        })
+        await emailjs.send(
+          emailjsServiceId,
+          emailjsTemplateId,
+          {
+            to_email: notificationEmails.join(','),
+            subject,
+            html,
+            name,
+            email: email || 'Not provided',
+            phone,
+            service: service || 'General Inquiry',
+            message: message || 'N/A',
+            page_url: pageUrl || 'N/A',
+            submission_time: timestamp,
+            site_name: siteName,
+          },
+        )
+        console.log('[email] Sent via EmailJS to:', notificationEmails)
+        emailSent = true
+      } catch (emailjsErr) {
+        console.warn('[email] EmailJS failed, falling back to Resend:', emailjsErr)
+      }
+    } else {
+      console.warn('[email] EmailJS not configured — will use Resend')
+    }
+    // ────────────────────────────────────────────────────────────────────────
+
+    // ── FALLBACK: Resend ─────────────────────────────────────────────────────
+    if (!emailSent) {
+      const resend = new Resend(process.env.RESEND_API_KEY)
+      await resend.emails.send({
+        from: 'Premier Bathroom Remodel <info@amarketology.com>',
+        to: notificationEmails,
+        subject,
+        html,
+      })
+      console.log('[email] Sent via Resend (fallback) to:', notificationEmails)
+    }
+    // ────────────────────────────────────────────────────────────────────────
 
     // GA4 tracking (non-blocking)
     trackFormSubmission({
