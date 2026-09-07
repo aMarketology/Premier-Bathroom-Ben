@@ -1,129 +1,80 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
-// Simple in-memory dedup: track partial leads sent in the last 30 minutes
-// Prevents flooding if user keeps tabbing away
-const recentPartials = new Map<string, number>()
+const TIMELINE_LABELS: Record<string, string> = {
+  'asap':         'As soon as possible',
+  '1-3mo':        'Within 1–3 months',
+  '3-6mo':        'Within 3–6 months',
+  'just-looking': 'Just exploring',
+}
+const BUDGET_LABELS: Record<string, string> = {
+  'under-5k': 'Under $5,000',
+  '5k-10k':   '$5,000 – $10,000',
+  '10k-20k':  '$10,000 – $20,000',
+  '20k-plus': '$20,000+',
+}
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, email, phone, message, pageUrl, _hp } = body
+    const { service, quiz, pageUrl } = body
 
-    // Honeypot check
-    if (_hp) return NextResponse.json({ success: true })
-
-    // Need at least one meaningful field filled
-    const hasName = typeof name === 'string' && name.trim().length >= 2
-    const hasEmail = typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())
-    const hasPhone = typeof phone === 'string' && phone.replace(/\D/g, '').length >= 7
-
-    // Must have at least name OR (email or phone) to be worth capturing
-    if (!hasName && !hasEmail && !hasPhone) {
-      return NextResponse.json({ success: true })
+    if (!quiz?.timeline && !quiz?.budget) {
+      return NextResponse.json({ ok: true })
     }
-
-    // Dedup key — use email or phone as identifier, or name+page combo
-    const dedupKey = (email || phone || name || '').trim().toLowerCase() + (pageUrl || '')
-    const lastSent = recentPartials.get(dedupKey)
-    if (lastSent && Date.now() - lastSent < 30 * 60 * 1000) {
-      // Already sent a partial for this person in the last 30 min — skip
-      return NextResponse.json({ success: true })
-    }
-    recentPartials.set(dedupKey, Date.now())
-
-    // Clean up old entries (>1 hour) to prevent memory leak
-    Array.from(recentPartials.entries()).forEach(([key, ts]) => {
-      if (Date.now() - ts > 60 * 60 * 1000) recentPartials.delete(key)
-    })
 
     const notificationEmails = [
       process.env.NOTIFICATION_EMAIL_1,
       process.env.NOTIFICATION_EMAIL_2,
     ].filter(Boolean) as string[]
 
-    if (notificationEmails.length === 0) return NextResponse.json({ success: true })
+    if (notificationEmails.length === 0) {
+      return NextResponse.json({ ok: true })
+    }
 
-    const sourceUrl = pageUrl || 'Direct'
-    const submitted = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
+    const resend = new Resend(process.env.RESEND_API_KEY)
+    const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
+    const timelineLabel = quiz?.timeline ? (TIMELINE_LABELS[quiz.timeline] || quiz.timeline) : '—'
+    const budgetLabel   = quiz?.budget   ? (BUDGET_LABELS[quiz.budget]     || quiz.budget)   : '—'
+    const subject = `Partial Lead — ${service || 'Unknown Service'} (Quiz Completed)`
 
-    // Build filled fields summary
-    const filledFields = [
-      hasName ? `<div class="field"><div class="field-label">Name</div><div class="field-value">${name}</div></div>` : '',
-      hasEmail ? `<div class="field"><div class="field-label">Email</div><div class="field-value"><a href="mailto:${email}" style="color:#0284c7;">${email}</a></div></div>` : '',
-      hasPhone ? `<div class="field"><div class="field-label">Phone</div><div class="field-value"><a href="tel:${phone}" style="color:#0284c7;">${phone}</a></div></div>` : '',
-      message ? `<div class="field"><div class="field-label">Message (partial)</div><div class="field-value" style="white-space:pre-wrap;">${message}</div></div>` : '',
-    ].filter(Boolean).join('')
+    const html = `
+<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
+  <div style="background:linear-gradient(135deg,#f59e0b,#d97706);color:white;padding:30px;text-align:center;">
+    <h1 style="margin:0;font-size:22px;">Partial Lead — Quiz Completed</h1>
+    <p style="margin:8px 0 0;font-size:14px;">Visitor answered the quiz but hasn't submitted contact info yet</p>
+  </div>
+  <div style="background:#fffbeb;padding:30px;">
+    <div style="background:white;padding:20px;border-radius:8px;border-left:4px solid #f59e0b;margin-bottom:16px;">
+      <p style="margin:0 0 6px;font-size:12px;color:#92400e;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">What they told us</p>
+      <p style="margin:0 0 10px;font-size:17px;"><strong>Service:</strong> ${service || '—'}</p>
+      <p style="margin:0 0 10px;font-size:17px;"><strong>Timeline:</strong> ${timelineLabel}</p>
+      <p style="margin:0;font-size:17px;"><strong>Budget:</strong> ${budgetLabel}</p>
+    </div>
+    ${pageUrl ? `<div style="background:white;padding:12px 16px;border-radius:8px;margin-bottom:16px;border:1px solid #fde68a;"><p style="margin:0;font-size:13px;color:#78350f;"><strong>Page:</strong> ${pageUrl}</p></div>` : ''}
+    <div style="background:#fef3c7;padding:16px;border-radius:8px;border:1px solid #fde68a;">
+      <p style="margin:0;color:#92400e;font-size:13px;">
+        <strong>Note:</strong> This visitor completed the quiz but has not yet filled in their contact info.
+        They are likely still on the page. Follow up if they complete the form shortly.
+      </p>
+    </div>
+  </div>
+  <div style="background:#2d3748;color:white;padding:16px;text-align:center;font-size:12px;">
+    <p style="margin:0;">Premier Bathroom Remodel Austin — (512) 706-9577 — ${timestamp} CT</p>
+  </div>
+</div>`
 
-    const htmlContent = `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background: #f3f4f6; }
-            .container { max-width: 600px; margin: 0 auto; background: white; }
-            .header { background: linear-gradient(135deg, #713f12 0%, #92400e 100%); color: white; padding: 28px 30px; text-align: center; }
-            .amber-bar { background: linear-gradient(90deg, #d97706, #fbbf24, #d97706); height: 4px; }
-            .source-bar { background: #fffbeb; border-left: 4px solid #d97706; padding: 14px 20px; }
-            .content { background: #f9fafb; padding: 30px; }
-            .field { margin-bottom: 14px; padding: 16px; background: white; border-radius: 8px; border-left: 4px solid #d97706; }
-            .field-label { font-weight: bold; color: #374151; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-            .field-value { color: #111827; font-size: 15px; }
-            .footer { background: #0c4a6e; color: white; padding: 20px 30px; text-align: center; font-size: 13px; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(251,191,36,0.2);border:1px solid rgba(251,191,36,0.4);border-radius:20px;padding:6px 14px;margin-bottom:12px;">
-                <div style="width:8px;height:8px;border-radius:50%;background:#fbbf24;animation:pulse 2s infinite;"></div>
-                <span style="font-size:12px;color:#fde68a;letter-spacing:0.08em;font-weight:500;">PARTIAL LEAD &#9888;</span>
-              </div>
-              <h1 style="margin:0;font-size:22px;font-weight:700;letter-spacing:2px;color:#fde68a;">TILE PROS AUSTIN</h1>
-              <p style="margin:6px 0 0;font-size:13px;color:#fcd34d;">Started form but did not submit</p>
-            </div>
-            <div class="amber-bar"></div>
-            <div class="source-bar">
-              <div style="font-size:11px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Abandoned On</div>
-              <a href="${sourceUrl}" style="color:#b45309;font-size:13px;word-break:break-all;">${sourceUrl}</a>
-            </div>
-            <div class="content">
-              <p style="background:#fffbeb;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:8px;font-size:13px;color:#92400e;margin:0 0 20px;">
-                This visitor started filling out the contact form but left without submitting. Follow up if contact details are available.
-              </p>
-              ${filledFields}
-              <div style="background:#f3f4f6;padding:12px 16px;border-radius:8px;font-size:13px;color:#6b7280;">
-                Captured: ${submitted} (Central Time)
-              </div>
-            </div>
-            <div class="footer">
-              <p style="margin:0;font-weight:700;color:#38bdf8;font-size:15px;letter-spacing:2px;">TILE PROS AUSTIN</p>
-              <p style="margin:4px 0 0;color:#7dd3fc;font-size:13px;">Austin, TX &#183; (512) 492-2321</p>
-            </div>
-          </div>
-        </body>
-      </html>
-    `
-
-    const identifier = name || email || phone || 'Unknown visitor'
-    const { error } = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL!,
+    await resend.emails.send({
+      from: 'Premier Bathroom Remodel <info@amarketology.com>',
       to: notificationEmails,
-      cc: ['max@amarketology.com'],
-      replyTo: email || undefined,
-      subject: `⚠️ Partial Lead - ${identifier} (did not submit)`,
-      html: htmlContent,
+      subject,
+      html,
     })
+    console.log('[partial-lead] Sent via Resend')
 
-    if (error) console.error('[resend partial] Error:', error)
-    else console.log('[resend partial] Partial lead captured for:', identifier)
-
-    return NextResponse.json({ success: true })
-
-  } catch (error) {
-    console.error('Partial lead error:', error)
-    return NextResponse.json({ success: true }) // always return 200 to the client
+    return NextResponse.json({ ok: true })
+  } catch (err) {
+    console.error('[partial-lead] Error:', err)
+    return NextResponse.json({ ok: true }) // Never block the user
   }
 }
