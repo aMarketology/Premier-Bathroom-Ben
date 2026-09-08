@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import emailjs from '@emailjs/nodejs'
+import twilio from 'twilio'
 
 const TIMELINE_LABELS: Record<string, string> = {
   'asap':         'As soon as possible',
@@ -12,6 +14,119 @@ const BUDGET_LABELS: Record<string, string> = {
   '5k-10k':   '$5,000 – $10,000',
   '10k-20k':  '$10,000 – $20,000',
   '20k-plus': '$20,000+',
+}
+
+// ── Twilio SMS helper ────────────────────────────────────────────────────────
+async function sendSmsAlert(name: string, phone: string, service: string | null, email: string | null, siteName: string) {
+  const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID
+  const twilioAuthToken  = process.env.TWILIO_AUTH_TOKEN
+  const twilioFrom       = process.env.TWILIO_PHONE_NUMBER
+  const bossPhone        = process.env.BOSS_PHONE_NUMBER
+  const ccPhone          = process.env.CC_PHONE_NUMBER
+
+  if (!twilioAccountSid || !twilioAuthToken || !twilioFrom) {
+    console.warn('[sms] Twilio not configured — skipping SMS alert')
+    return
+  }
+
+  // Build recipient list: boss + CC (deduplicated)
+  const recipients: string[] = []
+  if (bossPhone) recipients.push(bossPhone)
+  if (ccPhone && ccPhone !== bossPhone) recipients.push(ccPhone)
+
+  if (recipients.length === 0) {
+    console.warn('[sms] No phone numbers configured — skipping SMS alert')
+    return
+  }
+
+  try {
+    const client = twilio(twilioAccountSid, twilioAuthToken)
+    const serviceLine = service ? `Service: ${service}` : 'General Inquiry'
+    const emailLine   = email ? `Email: ${email}` : 'No email provided'
+    const body = `🔔 NEW LEAD — ${siteName}\n\nName: ${name}\nPhone: ${phone}\n${emailLine}\n${serviceLine}\n\nCall them ASAP!`
+
+    for (const recipient of recipients) {
+      await client.messages.create({ body, from: twilioFrom, to: recipient })
+    }
+    console.log(`[sms] Alert sent to ${recipients.length} recipient(s): ${recipients.join(', ')}`)
+  } catch (err) {
+    console.error('[sms] Failed to send SMS alert:', err)
+  }
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
+async function sendPartialLeadEmail({
+  notificationEmails,
+  subject,
+  html,
+  service,
+  timelineLabel,
+  budgetLabel,
+  pageUrl,
+  timestamp,
+  siteName,
+}: {
+  notificationEmails: string[]
+  subject: string
+  html: string
+  service: string
+  timelineLabel: string
+  budgetLabel: string
+  pageUrl: string
+  timestamp: string
+  siteName: string
+}) {
+  // ── PRIMARY: EmailJS ─────────────────────────────────────────────────────
+  let emailSent = false
+  const emailjsServiceId = process.env.EMAILJS_SERVICE_ID
+  const emailjsTemplateId = process.env.EMAILJS_TEMPLATE_ID
+  const emailjsPublicKey  = process.env.EMAILJS_PUBLIC_KEY
+
+  if (emailjsServiceId && emailjsTemplateId && emailjsPublicKey) {
+    try {
+      emailjs.init({
+        publicKey: emailjsPublicKey,
+        ...(process.env.EMAILJS_PRIVATE_KEY ? { privateKey: process.env.EMAILJS_PRIVATE_KEY } : {}),
+      })
+      await emailjs.send(
+        emailjsServiceId,
+        emailjsTemplateId,
+        {
+          to_email: notificationEmails.join(','),
+          subject,
+          html,
+          name: 'Quiz Visitor (no contact info)',
+          email: 'N/A',
+          phone: 'N/A',
+          service: service || 'Unknown Service',
+          message: `Timeline: ${timelineLabel} | Budget: ${budgetLabel}`,
+          page_url: pageUrl || 'N/A',
+          submission_time: timestamp,
+          site_name: siteName,
+        },
+      )
+      console.log('[partial-lead] Sent via EmailJS')
+      emailSent = true
+    } catch (emailjsErr) {
+      console.warn('[partial-lead] EmailJS failed, falling back to Resend:', emailjsErr)
+    }
+  } else {
+    console.warn('[partial-lead] EmailJS not configured — will use Resend')
+  }
+  // ────────────────────────────────────────────────────────────────────────
+
+  // ── FALLBACK: Resend ─────────────────────────────────────────────────────
+  if (!emailSent) {
+    const resend = new Resend(process.env.RESEND_API_KEY)
+    await resend.emails.send({
+      from: 'Premier Bathroom Remodel <info@amarketology.com>',
+      to: notificationEmails,
+      subject,
+      html,
+    })
+    console.log('[partial-lead] Sent via Resend (fallback)')
+  }
+  // ────────────────────────────────────────────────────────────────────────
 }
 
 export async function POST(request: NextRequest) {
@@ -32,7 +147,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: true })
     }
 
-    const resend = new Resend(process.env.RESEND_API_KEY)
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
     const timelineLabel = quiz?.timeline ? (TIMELINE_LABELS[quiz.timeline] || quiz.timeline) : '—'
     const budgetLabel   = quiz?.budget   ? (BUDGET_LABELS[quiz.budget]     || quiz.budget)   : '—'
@@ -64,13 +178,20 @@ export async function POST(request: NextRequest) {
   </div>
 </div>`
 
-    await resend.emails.send({
-      from: 'Premier Bathroom Remodel <info@amarketology.com>',
-      to: notificationEmails,
+    // ── Fire-and-forget: send partial lead email in background ──────────────
+    const siteName = process.env.SITE_NAME || 'Premier Bathroom Remodel'
+    sendPartialLeadEmail({
+      notificationEmails,
       subject,
       html,
+      service: service || 'Unknown Service',
+      timelineLabel,
+      budgetLabel,
+      pageUrl: pageUrl || 'N/A',
+      timestamp,
+      siteName,
     })
-    console.log('[partial-lead] Sent via Resend')
+    // ────────────────────────────────────────────────────────────────────────
 
     return NextResponse.json({ ok: true })
   } catch (err) {
