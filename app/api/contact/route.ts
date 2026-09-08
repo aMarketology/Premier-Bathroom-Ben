@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import emailjs from '@emailjs/nodejs'
 import twilio from 'twilio'
-import { trackFormSubmission } from '@/lib/ga4-tracking'
 
 // ── IP Rate Limiting ──────────────────────────────────────────────────────────
 const rateLimitMap = new Map<string, { count: number; firstRequest: number }>()
@@ -151,7 +150,7 @@ export async function POST(request: NextRequest) {
     // ────────────────────────────────────────────────────────────────────────
 
     const body = await request.json()
-    const { name, email, phone, message, service, smsConsent, pageUrl, clientId, sessionId, quiz, _hp, _lt } = body
+    const { name, email, phone, message, service, smsConsent, pageUrl, quiz, _hp, _lt } = body
 
     // ── Spam protection ──────────────────────────────────────────────────────
     if (_hp) {
@@ -249,13 +248,6 @@ export async function POST(request: NextRequest) {
     // Don't await — respond to user immediately, email sends in background
     sendLeadEmail(emailPayload)
     // ────────────────────────────────────────────────────────────────────────
-
-    // GA4 tracking (non-blocking)
-    trackFormSubmission({
-      formName: pageUrl?.includes('/contact') ? 'Contact Page Form' : 'Landing Page Form',
-      formLocation: pageUrl || 'Unknown',
-      service, name, email, phone, smsConsent, clientId, sessionId,
-    }).catch((err) => console.error('GA4 tracking error:', err))
 
     return NextResponse.json({ success: true, message: 'Form submitted successfully' }, { status: 200 })
   } catch (error) {
