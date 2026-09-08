@@ -74,6 +74,69 @@ async function sendSmsAlert(name: string, phone: string, service: string | null,
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
+// ── Fire-and-forget email sender (runs in background, never blocks user) ────
+async function sendLeadEmail(payload: {
+  notificationEmails: string[]
+  subject: string
+  html: string
+  name: string
+  email: string
+  phone: string
+  service: string
+  message: string
+  pageUrl: string
+  timestamp: string
+  siteName: string
+}) {
+  const { notificationEmails, subject, html, name, email, phone, service, message, pageUrl, timestamp, siteName } = payload
+
+  // Try EmailJS first
+  const emailjsServiceId = process.env.EMAILJS_SERVICE_ID
+  const emailjsTemplateId = process.env.EMAILJS_TEMPLATE_ID
+  const emailjsPublicKey  = process.env.EMAILJS_PUBLIC_KEY
+
+  if (emailjsServiceId && emailjsTemplateId && emailjsPublicKey) {
+    try {
+      emailjs.init({
+        publicKey: emailjsPublicKey,
+        ...(process.env.EMAILJS_PRIVATE_KEY ? { privateKey: process.env.EMAILJS_PRIVATE_KEY } : {}),
+      })
+      await emailjs.send(emailjsServiceId, emailjsTemplateId, {
+        to_email: notificationEmails.join(','),
+        subject,
+        html,
+        name,
+        email,
+        phone,
+        service,
+        message,
+        page_url: pageUrl,
+        submission_time: timestamp,
+        site_name: siteName,
+      })
+      console.log('[email] Sent via EmailJS to:', notificationEmails)
+      return
+    } catch (emailjsErr) {
+      console.warn('[email] EmailJS failed, falling back to Resend:', emailjsErr)
+    }
+  }
+
+  // Fallback: Resend
+  try {
+    const resend = new Resend(process.env.RESEND_API_KEY)
+    await resend.emails.send({
+      from: 'Premier Bathroom Remodel <info@amarketology.com>',
+      to: notificationEmails,
+      subject,
+      html,
+    })
+    console.log('[email] Sent via Resend (fallback) to:', notificationEmails)
+  } catch (resendErr) {
+    console.error('[email] Both EmailJS and Resend failed:', resendErr)
+  }
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 export async function POST(request: NextRequest) {
   try {
     // ── Rate Limiting ────────────────────────────────────────────────────────
@@ -168,56 +231,23 @@ export async function POST(request: NextRequest) {
     sendSmsAlert(name, phone, service, email, siteName)
     // ────────────────────────────────────────────────────────────────────────
 
-    // ── PRIMARY: EmailJS ─────────────────────────────────────────────────────
-    let emailSent = false
-    const emailjsServiceId = process.env.EMAILJS_SERVICE_ID
-    const emailjsTemplateId = process.env.EMAILJS_TEMPLATE_ID
-    const emailjsPublicKey  = process.env.EMAILJS_PUBLIC_KEY
-
-    if (emailjsServiceId && emailjsTemplateId && emailjsPublicKey) {
-      try {
-        emailjs.init({
-          publicKey: emailjsPublicKey,
-          ...(process.env.EMAILJS_PRIVATE_KEY ? { privateKey: process.env.EMAILJS_PRIVATE_KEY } : {}),
-        })
-        await emailjs.send(
-          emailjsServiceId,
-          emailjsTemplateId,
-          {
-            to_email: notificationEmails.join(','),
-            subject,
-            html,
-            name,
-            email: email || 'Not provided',
-            phone,
-            service: service || 'General Inquiry',
-            message: message || 'N/A',
-            page_url: pageUrl || 'N/A',
-            submission_time: timestamp,
-            site_name: siteName,
-          },
-        )
-        console.log('[email] Sent via EmailJS to:', notificationEmails)
-        emailSent = true
-      } catch (emailjsErr) {
-        console.warn('[email] EmailJS failed, falling back to Resend:', emailjsErr)
-      }
-    } else {
-      console.warn('[email] EmailJS not configured — will use Resend')
+    // ── Fire-and-forget: send email in background, respond immediately ──────
+    const emailPayload = {
+      notificationEmails,
+      subject,
+      html,
+      name,
+      email: email || 'Not provided',
+      phone,
+      service: service || 'General Inquiry',
+      message: message || 'N/A',
+      pageUrl: pageUrl || 'N/A',
+      timestamp,
+      siteName,
     }
-    // ────────────────────────────────────────────────────────────────────────
 
-    // ── FALLBACK: Resend ─────────────────────────────────────────────────────
-    if (!emailSent) {
-      const resend = new Resend(process.env.RESEND_API_KEY)
-      await resend.emails.send({
-        from: 'Premier Bathroom Remodel <info@amarketology.com>',
-        to: notificationEmails,
-        subject,
-        html,
-      })
-      console.log('[email] Sent via Resend (fallback) to:', notificationEmails)
-    }
+    // Don't await — respond to user immediately, email sends in background
+    sendLeadEmail(emailPayload)
     // ────────────────────────────────────────────────────────────────────────
 
     // GA4 tracking (non-blocking)

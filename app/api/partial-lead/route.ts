@@ -55,6 +55,80 @@ async function sendSmsAlert(name: string, phone: string, service: string | null,
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
+async function sendPartialLeadEmail({
+  notificationEmails,
+  subject,
+  html,
+  service,
+  timelineLabel,
+  budgetLabel,
+  pageUrl,
+  timestamp,
+  siteName,
+}: {
+  notificationEmails: string[]
+  subject: string
+  html: string
+  service: string
+  timelineLabel: string
+  budgetLabel: string
+  pageUrl: string
+  timestamp: string
+  siteName: string
+}) {
+  // ── PRIMARY: EmailJS ─────────────────────────────────────────────────────
+  let emailSent = false
+  const emailjsServiceId = process.env.EMAILJS_SERVICE_ID
+  const emailjsTemplateId = process.env.EMAILJS_TEMPLATE_ID
+  const emailjsPublicKey  = process.env.EMAILJS_PUBLIC_KEY
+
+  if (emailjsServiceId && emailjsTemplateId && emailjsPublicKey) {
+    try {
+      emailjs.init({
+        publicKey: emailjsPublicKey,
+        ...(process.env.EMAILJS_PRIVATE_KEY ? { privateKey: process.env.EMAILJS_PRIVATE_KEY } : {}),
+      })
+      await emailjs.send(
+        emailjsServiceId,
+        emailjsTemplateId,
+        {
+          to_email: notificationEmails.join(','),
+          subject,
+          html,
+          name: 'Quiz Visitor (no contact info)',
+          email: 'N/A',
+          phone: 'N/A',
+          service: service || 'Unknown Service',
+          message: `Timeline: ${timelineLabel} | Budget: ${budgetLabel}`,
+          page_url: pageUrl || 'N/A',
+          submission_time: timestamp,
+          site_name: siteName,
+        },
+      )
+      console.log('[partial-lead] Sent via EmailJS')
+      emailSent = true
+    } catch (emailjsErr) {
+      console.warn('[partial-lead] EmailJS failed, falling back to Resend:', emailjsErr)
+    }
+  } else {
+    console.warn('[partial-lead] EmailJS not configured — will use Resend')
+  }
+  // ────────────────────────────────────────────────────────────────────────
+
+  // ── FALLBACK: Resend ─────────────────────────────────────────────────────
+  if (!emailSent) {
+    const resend = new Resend(process.env.RESEND_API_KEY)
+    await resend.emails.send({
+      from: 'Premier Bathroom Remodel <info@amarketology.com>',
+      to: notificationEmails,
+      subject,
+      html,
+    })
+    console.log('[partial-lead] Sent via Resend (fallback)')
+  }
+  // ────────────────────────────────────────────────────────────────────────
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -104,57 +178,19 @@ export async function POST(request: NextRequest) {
   </div>
 </div>`
 
-    // ── PRIMARY: EmailJS ─────────────────────────────────────────────────────
-    let emailSent = false
-    const emailjsServiceId = process.env.EMAILJS_SERVICE_ID
-    const emailjsTemplateId = process.env.EMAILJS_TEMPLATE_ID
-    const emailjsPublicKey  = process.env.EMAILJS_PUBLIC_KEY
+    // ── Fire-and-forget: send partial lead email in background ──────────────
     const siteName = process.env.SITE_NAME || 'Premier Bathroom Remodel'
-
-    if (emailjsServiceId && emailjsTemplateId && emailjsPublicKey) {
-      try {
-        emailjs.init({
-          publicKey: emailjsPublicKey,
-          ...(process.env.EMAILJS_PRIVATE_KEY ? { privateKey: process.env.EMAILJS_PRIVATE_KEY } : {}),
-        })
-        await emailjs.send(
-          emailjsServiceId,
-          emailjsTemplateId,
-          {
-            to_email: notificationEmails.join(','),
-            subject,
-            html,
-            name: 'Quiz Visitor (no contact info)',
-            email: 'N/A',
-            phone: 'N/A',
-            service: service || 'Unknown Service',
-            message: `Timeline: ${timelineLabel} | Budget: ${budgetLabel}`,
-            page_url: pageUrl || 'N/A',
-            submission_time: timestamp,
-            site_name: siteName,
-          },
-        )
-        console.log('[partial-lead] Sent via EmailJS')
-        emailSent = true
-      } catch (emailjsErr) {
-        console.warn('[partial-lead] EmailJS failed, falling back to Resend:', emailjsErr)
-      }
-    } else {
-      console.warn('[partial-lead] EmailJS not configured — will use Resend')
-    }
-    // ────────────────────────────────────────────────────────────────────────
-
-    // ── FALLBACK: Resend ─────────────────────────────────────────────────────
-    if (!emailSent) {
-      const resend = new Resend(process.env.RESEND_API_KEY)
-      await resend.emails.send({
-        from: 'Premier Bathroom Remodel <info@amarketology.com>',
-        to: notificationEmails,
-        subject,
-        html,
-      })
-      console.log('[partial-lead] Sent via Resend (fallback)')
-    }
+    sendPartialLeadEmail({
+      notificationEmails,
+      subject,
+      html,
+      service: service || 'Unknown Service',
+      timelineLabel,
+      budgetLabel,
+      pageUrl: pageUrl || 'N/A',
+      timestamp,
+      siteName,
+    })
     // ────────────────────────────────────────────────────────────────────────
 
     return NextResponse.json({ ok: true })
