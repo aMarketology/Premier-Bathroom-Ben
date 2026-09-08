@@ -4,7 +4,6 @@ import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
 import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
-import { getGA4ClientId, getGA4SessionId } from '@/lib/ga4-client'
 
 const galleryImages = [
   { src: '/IMG_0387 Ben.jpeg', alt: 'Modern Bathroom Remodel Austin' },
@@ -83,31 +82,21 @@ export default function Contact() {
 
     setLoading(true)
     try {
-      const [clientId, sessionId] = await Promise.all([getGA4ClientId(), getGA4SessionId()])
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
           pageUrl: window.location.href,
-          clientId,
-          sessionId,
           _hp: honeypotRef.current,
           _lt: loadedAtRef.current,
-          _ca: captcha.a,
-          _cb: captcha.b,
-          _ck: parseInt(captchaInput),
         }),
       })
       if (!response.ok) {
         const data = await response.json().catch(() => ({}))
         throw new Error(data.error || 'Failed to submit form')
       }
-      if (typeof window !== 'undefined' && (window as any).gtagSendEvent) {
-        (window as any).gtagSendEvent('/thank-you')
-      } else {
-        window.location.href = '/thank-you'
-      }
+      window.location.href = '/thank-you'
     } catch (err: any) {
       setError(err.message || 'Failed to submit. Please try again or call us directly.')
       setCaptcha({ a: Math.floor(Math.random() * 9) + 1, b: Math.floor(Math.random() * 9) + 1 })

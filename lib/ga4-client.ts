@@ -4,43 +4,55 @@
  */
 
 /**
- * Get the GA4 client ID from gtag
+ * Get the GA4 client ID from gtag (with 3s timeout fallback)
  */
 export function getGA4ClientId(): Promise<string> {
   return new Promise((resolve) => {
-    if (typeof window === 'undefined' || !window.gtag) {
-      resolve(`client_${Date.now()}.${Math.random()}`)
+    const fallback = () => resolve(`client_${Date.now()}.${Math.random()}`)
+    const timeout = setTimeout(fallback, 3000)
+
+    if (typeof window === 'undefined' || !(window as any).gtag) {
+      clearTimeout(timeout)
+      fallback()
       return
     }
 
     try {
-      window.gtag('get', 'G-45B5X6PQ1F', 'client_id', (clientId: string) => {
+      (window as any).gtag('get', 'G-45B5X6PQ1F', 'client_id', (clientId: string) => {
+        clearTimeout(timeout)
         resolve(clientId || `client_${Date.now()}.${Math.random()}`)
       })
     } catch (error) {
+      clearTimeout(timeout)
       console.error('Error getting GA4 client ID:', error)
-      resolve(`client_${Date.now()}.${Math.random()}`)
+      fallback()
     }
   })
 }
 
 /**
- * Get the GA4 session ID from gtag
+ * Get the GA4 session ID from gtag (with 3s timeout fallback)
  */
 export function getGA4SessionId(): Promise<string> {
   return new Promise((resolve) => {
-    if (typeof window === 'undefined' || !window.gtag) {
-      resolve(`session_${Date.now()}`)
+    const fallback = () => resolve(`session_${Date.now()}`)
+    const timeout = setTimeout(fallback, 3000)
+
+    if (typeof window === 'undefined' || !(window as any).gtag) {
+      clearTimeout(timeout)
+      fallback()
       return
     }
 
     try {
-      window.gtag('get', 'G-45B5X6PQ1F', 'session_id', (sessionId: string) => {
+      (window as any).gtag('get', 'G-45B5X6PQ1F', 'session_id', (sessionId: string) => {
+        clearTimeout(timeout)
         resolve(sessionId || `session_${Date.now()}`)
       })
     } catch (error) {
+      clearTimeout(timeout)
       console.error('Error getting GA4 session ID:', error)
-      resolve(`session_${Date.now()}`)
+      fallback()
     }
   })
 }
