@@ -170,6 +170,7 @@ export async function POST(request: NextRequest) {
     const notificationEmails = [
       process.env.NOTIFICATION_EMAIL_1,
       process.env.NOTIFICATION_EMAIL_2,
+      process.env.NOTIFICATION_EMAIL_3,
     ].filter(Boolean) as string[]
 
     if (notificationEmails.length === 0) {
@@ -225,13 +226,10 @@ export async function POST(request: NextRequest) {
   </div>
 </div>`
 
-    // ── Send SMS alert to boss (non-blocking) ────────────────────────────────
+    // ── Send SMS + email in background (non-blocking) ──────────────────────
     const siteName = process.env.SITE_NAME || 'Premier Bathroom Remodel'
     sendSmsAlert(name, phone, service, email, siteName)
-    // ────────────────────────────────────────────────────────────────────────
-
-    // ── Fire-and-forget: send email in background, respond immediately ──────
-    const emailPayload = {
+    sendLeadEmail({
       notificationEmails,
       subject,
       html,
@@ -243,12 +241,10 @@ export async function POST(request: NextRequest) {
       pageUrl: pageUrl || 'N/A',
       timestamp,
       siteName,
-    }
-
-    // Don't await — respond to user immediately, email sends in background
-    sendLeadEmail(emailPayload)
+    })
     // ────────────────────────────────────────────────────────────────────────
 
+    // Respond immediately
     return NextResponse.json({ success: true, message: 'Form submitted successfully' }, { status: 200 })
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error)

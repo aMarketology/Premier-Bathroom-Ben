@@ -141,6 +141,7 @@ export async function POST(request: NextRequest) {
     const notificationEmails = [
       process.env.NOTIFICATION_EMAIL_1,
       process.env.NOTIFICATION_EMAIL_2,
+      process.env.NOTIFICATION_EMAIL_3,
     ].filter(Boolean) as string[]
 
     if (notificationEmails.length === 0) {
