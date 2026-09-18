@@ -124,7 +124,7 @@ async function sendLeadEmail(payload: {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY)
     await resend.emails.send({
-      from: 'Premier Bathroom Remodel <info@amarketology.com>',
+      from: `${siteName} <info@amarketology.com>`,
       to: notificationEmails,
       subject,
       html,
@@ -182,12 +182,13 @@ export async function POST(request: NextRequest) {
 
     const timelineLabel = quiz?.timeline ? (TIMELINE_LABELS[quiz.timeline] || quiz.timeline) : null
     const budgetLabel   = quiz?.budget   ? (BUDGET_LABELS[quiz.budget]     || quiz.budget)   : null
+    const siteName = process.env.SITE_NAME || 'Premier Bathroom Remodel'
 
     const html = `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
   <div style="background:linear-gradient(135deg,#2563eb,#1e40af);color:white;padding:30px;text-align:center;">
     <h1 style="margin:0;font-size:24px;">New Lead</h1>
-    <p style="margin:8px 0 0;font-size:15px;">Premier Bathroom Remodel Austin</p>
+    <p style="margin:8px 0 0;font-size:15px;">${siteName}</p>
   </div>
   <div style="background:#f7fafc;padding:30px;">
 
@@ -222,12 +223,11 @@ export async function POST(request: NextRequest) {
     </div>
   </div>
   <div style="background:#2d3748;color:white;padding:16px;text-align:center;font-size:13px;">
-    <p style="margin:0;">Premier Bathroom Remodel Austin — (512) 706-9577</p>
+    <p style="margin:0;">${siteName} — (512) 706-9577</p>
   </div>
 </div>`
 
     // ── Send SMS + email in background (non-blocking) ──────────────────────
-    const siteName = process.env.SITE_NAME || 'Premier Bathroom Remodel'
     sendSmsAlert(name, phone, service, email, siteName)
     sendLeadEmail({
       notificationEmails,
