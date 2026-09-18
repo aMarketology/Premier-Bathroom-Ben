@@ -4,6 +4,9 @@
   "description": "Premier Bathroom Remodel Austin - Austin's premier contractor for bathroom remodel, bathroom renovation, and flooring design",
   "scripts": {
     "dev": "next dev",
+    "dev:champs": "cp .env.champs .env.local && next dev",
+    "dev:tilepros": "cp .env.tilepros .env.local && next dev",
+    "dev:main": "cp .env .env.local && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
