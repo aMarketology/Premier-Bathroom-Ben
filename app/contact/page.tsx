@@ -112,15 +112,15 @@ export default function Contact() {
       <Navigation />
 
       {/* Hero Banner */}
-      <section className="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-16 px-4 text-center text-white">
-        <div className="inline-block px-4 py-2 bg-blue-500/20 border border-blue-400/30 rounded-full mb-4">
+      <section className="bg-gradient-to-br from-slate-900 via-amber-900 to-slate-900 py-16 px-4 text-center text-white">
+        <div className="inline-block px-4 py-2 bg-amber-500/20 border border-amber-400/30 rounded-full mb-4">
           <span className="text-sm font-bold uppercase tracking-wider">Speak to an Expert Today</span>
         </div>
         <h1 className="text-4xl md:text-5xl font-bold mb-3">
-          Talk to a <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Bathroom Expert</span>
+          Talk to a <span className="bg-gradient-to-r from-amber-400 to-amber-400 bg-clip-text text-transparent">Tile Expert</span>
         </h1>
         <p className="text-lg text-gray-300 max-w-xl mx-auto">
-          Austin's top-rated bathroom remodelers. Our experts are ready to help — we respond within 24 hours, usually same day.
+          Austin's top-rated tile installers. Our experts are ready to help — we respond within 24 hours, usually same day.
         </p>
 
         {/* Trust bar */}
@@ -132,7 +132,7 @@ export default function Contact() {
             { icon: <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />, text: 'Serving Greater Austin' },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-cyan-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">{item.icon}</svg>
+              <svg className="w-5 h-5 text-amber-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">{item.icon}</svg>
               <span>{item.text}</span>
             </div>
           ))}
@@ -169,7 +169,7 @@ export default function Contact() {
                 <input
                   id="name" type="text" name="name" value={formData.name} onChange={handleChange}
                   autoComplete="name" disabled={loading} placeholder="e.g. John Smith"
-                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50 ${fieldErrors.name ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50 ${fieldErrors.name ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
                 />
                 {fieldErrors.name && <p className="mt-1 text-xs text-red-600">{fieldErrors.name}</p>}
               </div>
@@ -182,7 +182,7 @@ export default function Contact() {
                 <input
                   id="phone" type="tel" name="phone" value={formData.phone} onChange={handleChange}
                   autoComplete="tel" disabled={loading} placeholder="(512) 000-0000"
-                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50 ${fieldErrors.phone ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50 ${fieldErrors.phone ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
                 />
                 {fieldErrors.phone && <p className="mt-1 text-xs text-red-600">{fieldErrors.phone}</p>}
               </div>
@@ -195,7 +195,7 @@ export default function Contact() {
                 <input
                   id="email" type="email" name="email" value={formData.email} onChange={handleChange}
                   autoComplete="email" disabled={loading} placeholder="you@example.com"
-                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50 ${fieldErrors.email ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition text-gray-900 placeholder-gray-400 disabled:opacity-50 ${fieldErrors.email ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
                 />
                 {fieldErrors.email && <p className="mt-1 text-xs text-red-600">{fieldErrors.email}</p>}
               </div>
@@ -208,7 +208,7 @@ export default function Contact() {
                 <select
                   id="service" name="service" value={formData.service} onChange={handleChange}
                   disabled={loading}
-                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 disabled:opacity-50 ${fieldErrors.service ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition text-gray-900 disabled:opacity-50 ${fieldErrors.service ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
                 >
                   <option value="">Select a service...</option>
                   <option value="bathroom-remodel">Bathroom Remodeling</option>
@@ -233,13 +233,13 @@ export default function Contact() {
                   id="message" name="message" value={formData.message} onChange={handleChange}
                   disabled={loading} rows={4} maxLength={1000}
                   placeholder="Describe your bathroom, what you'd like changed, any specific ideas..."
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 resize-none disabled:opacity-50"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition text-gray-900 placeholder-gray-400 resize-none disabled:opacity-50"
                 />
                 <p className="text-right text-xs text-gray-400 mt-1">{formData.message.length}/1000</p>
               </div>
 
               {/* Math Captcha */}
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
                 <label htmlFor="captcha" className="block text-sm font-semibold text-gray-700 mb-2">
                   🛡️ Quick Verification — What is {captcha.a} + {captcha.b}? <span className="text-red-500">*</span>
                 </label>
@@ -247,14 +247,14 @@ export default function Contact() {
                   id="captcha" type="number" value={captchaInput}
                   onChange={e => { setCaptchaInput(e.target.value); setCaptchaError(false) }}
                   disabled={loading} placeholder="Enter the answer"
-                  className={`w-32 px-4 py-3 bg-white border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 disabled:opacity-50 ${captchaError ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
+                  className={`w-32 px-4 py-3 bg-white border rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition text-gray-900 disabled:opacity-50 ${captchaError ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}
                 />
                 {captchaError && <p className="mt-1 text-xs text-red-600">Incorrect answer — please try again.</p>}
               </div>
 
               <button
                 type="submit" disabled={loading}
-                className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold text-lg rounded-xl hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                className="w-full py-4 bg-gradient-to-r from-amber-600 to-amber-600 text-white font-bold text-lg rounded-xl hover:from-amber-500 hover:to-amber-500 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
               >
                 {loading ? (
                   <>
@@ -275,7 +275,7 @@ export default function Contact() {
             {/* Direct call CTA */}
             <div className="mt-6 pt-6 border-t border-gray-100 text-center">
               <p className="text-gray-500 text-sm mb-2">Prefer to talk? Call us directly:</p>
-              <a href="tel:512-706-9577" className="inline-flex items-center gap-2 text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors">
+              <a href="tel:512-706-9577" className="inline-flex items-center gap-2 text-2xl font-bold text-amber-600 hover:text-amber-700 transition-colors">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
@@ -309,32 +309,32 @@ export default function Contact() {
               <h3 className="text-xl font-bold text-gray-900">Contact Information</h3>
 
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                   </svg>
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">Phone</p>
-                  <a href="tel:512-706-9577" className="text-xl font-bold text-blue-600 hover:text-blue-700">512-706-9577</a>
+                  <a href="tel:512-706-9577" className="text-xl font-bold text-amber-600 hover:text-amber-700">512-706-9577</a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">Email</p>
-                  <a href="mailto:info@premierbathroomremodel.com" className="text-blue-600 hover:text-blue-700 font-medium break-all">info@premierbathroomremodel.com</a>
+                  <a href="mailto:info@premierbathroomremodel.com" className="text-amber-600 hover:text-amber-700 font-medium break-all">info@premierbathroomremodel.com</a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                   </svg>
                 </div>
@@ -345,8 +345,8 @@ export default function Contact() {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
                   </svg>
                 </div>
@@ -357,8 +357,8 @@ export default function Contact() {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                   </svg>
                 </div>
