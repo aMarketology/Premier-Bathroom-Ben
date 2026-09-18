@@ -9,7 +9,7 @@ A modern Next.js 13+ website built with React and TypeScript for Tampa Bay Concr
 - **Styling**: Tailwind CSS
 - **Package Manager**: npm
 
-## Project Structure
+## Project Structuress
 ```
 app/
 ├── layout.tsx                 # Root layout with metadata
