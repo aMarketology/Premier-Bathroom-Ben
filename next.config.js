@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Give each site its own build dir so dev servers can run simultaneously
+  distDir: process.env.SITE_ID ? `.next-${process.env.SITE_ID}` : '.next',
   async redirects() {
     return [
       // Location-specific bathroom remodel pages â†’ main bathroom remodeling service
