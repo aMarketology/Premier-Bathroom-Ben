@@ -3,8 +3,11 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { trackPhoneClick, trackEmailClick } from '@/lib/ga4-client'
+import { getSiteConfig } from '@/lib/site-config'
 
 export default function Footer() {
+  const site = getSiteConfig()
+  const { tw, phone, phoneHref, name, shortName } = site
   const services = [
     'Bathroom Remodeling',
     'Shower Remodel',
@@ -50,9 +53,9 @@ export default function Footer() {
               className="mb-6"
               whileHover={{ scale: 1.02 }}
             >
-              <div className="text-2xl font-bold leading-none mb-1">Premier Bathroom</div>
+              <div className="text-2xl font-bold leading-none mb-1">{shortName}</div>
               <div className="text-2xl font-bold leading-none">
-                <span className="text-blue-500">Remodel Austin</span>
+                <span className={tw.primaryText}> {name.replace(shortName, "").trim()}</span>
               </div>
             </motion.div>
             <p className="text-gray-400 mb-6 text-sm leading-relaxed">
@@ -61,7 +64,7 @@ export default function Footer() {
             <div className="flex gap-4">
               <motion.a
                 href="#"
-                className="w-10 h-10 bg-white/10 hover:bg-blue-500 rounded-full flex items-center justify-center transition"
+                className="w-10 h-10 bg-white/10 hover:${tw.primaryBg} rounded-full flex items-center justify-center transition"
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -71,7 +74,7 @@ export default function Footer() {
               </motion.a>
               <motion.a
                 href="#"
-                className="w-10 h-10 bg-white/10 hover:bg-blue-500 rounded-full flex items-center justify-center transition"
+                className="w-10 h-10 bg-white/10 hover:${tw.primaryBg} rounded-full flex items-center justify-center transition"
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -96,9 +99,9 @@ export default function Footer() {
                 >
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-blue-500 transition flex items-center gap-2 group"
+                    className="text-gray-400 hover:${tw.primaryText} transition flex items-center gap-2 group"
                   >
-                    <span className="w-0 h-0.5 bg-blue-500 group-hover:w-4 transition-all" />
+                    <span className="w-0 h-0.5 ${tw.primaryBg} group-hover:w-4 transition-all" />
                     {link.name}
                   </Link>
                 </motion.li>
@@ -119,7 +122,7 @@ export default function Footer() {
                   viewport={{ once: true }}
                   className="text-gray-400 flex items-center gap-2"
                 >
-                  <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-4 h-4 ${tw.primaryText}" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   {service}
@@ -134,21 +137,21 @@ export default function Footer() {
             <ul className="space-y-4">
               <li>
                 <a
-                  href="tel:512-706-9577"
-                  onClick={() => trackPhoneClick('512-706-9577', 'Footer')}
-                  className="text-blue-500 hover:text-blue-400 transition font-semibold flex items-center gap-2"
+                  href={phoneHref}
+                  onClick={() => trackPhoneClick(phone, 'Footer')}
+                  className="${tw.primaryText} ${tw.primaryTextLight} transition font-semibold flex items-center gap-2"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                   </svg>
-                  512-706-9577
+                  {phone}
                 </a>
               </li>
               <li>
                 <Link
                   href="/contact"
                   onClick={() => trackEmailClick('Footer Contact Link')}
-                  className="text-blue-500 hover:text-blue-400 transition font-semibold flex items-center gap-2"
+                  className="${tw.primaryText} ${tw.primaryTextLight} transition font-semibold flex items-center gap-2"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/>
@@ -181,7 +184,7 @@ export default function Footer() {
           <div className="text-center mb-4">
             <Link 
               href="/service-area" 
-              className="text-gray-400 text-sm hover:text-blue-500 transition inline-flex items-center gap-2"
+              className="text-gray-400 text-sm hover:${tw.primaryText} transition inline-flex items-center gap-2"
             >
               Service Areas
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -194,7 +197,7 @@ export default function Footer() {
               <Link 
                 key={index} 
                 href={`/service-area/${area.slug}`}
-                className="text-gray-500 hover:text-blue-500 transition"
+                className="text-gray-500 hover:${tw.primaryText} transition"
               >
                 {area.name}{index < serviceAreas.length - 1 ? ' •' : ''}
               </Link>
@@ -204,10 +207,10 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="py-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
-          <p>&copy; 2024 Premier Bathroom Remodel Austin. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {name}. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="#" className="hover:text-blue-500 transition">Privacy Policy</Link>
-            <Link href="#" className="hover:text-blue-500 transition">Terms of Service</Link>
+            <Link href="#" className="hover:${tw.primaryText} transition">Privacy Policy</Link>
+            <Link href="#" className="hover:${tw.primaryText} transition">Terms of Service</Link>
           </div>
         </div>
       </div>
