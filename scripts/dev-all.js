@@ -1,9 +1,9 @@
 /**
  * Dev script — starts all 3 sites simultaneously.
  *
- *   premier  → http://localhost:3000
- *   champs   → http://localhost:3001
- *   tilepros → http://localhost:3002
+ *   premier  → http://localhost:3100
+ *   champs   → http://localhost:3101
+ *   tilepros → http://localhost:3102
  *
  * Each runs with its own SITE_ID / NEXT_PUBLIC_SITE_ID.
  * Usage: node scripts/dev-all.js
@@ -12,9 +12,9 @@
 const { spawn } = require('child_process')
 
 const sites = [
-  { name: 'premier',  port: 3000, color: '\x1b[34m' }, // blue
-  { name: 'champs',   port: 3001, color: '\x1b[33m' }, // orange
-  { name: 'tilepros', port: 3002, color: '\x1b[36m' }, // cyan
+  { name: 'premier',  port: 3100, color: '\x1b[34m' }, // blue
+  { name: 'champs',   port: 3101, color: '\x1b[33m' }, // orange
+  { name: 'tilepros', port: 3102, color: '\x1b[36m' }, // cyan
 ]
 
 const reset = '\x1b[0m'
