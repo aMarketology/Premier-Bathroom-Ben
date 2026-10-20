@@ -1,8 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { getSiteConfig } from '@/lib/site-config'
 
 export default function StickyCallBar() {
+  const site = getSiteConfig()
+  const { tw, phone, phoneHref } = site
   const [visible, setVisible] = useState(false)
   const [dismissed, setDismissed] = useState(false)
 
@@ -16,7 +19,7 @@ export default function StickyCallBar() {
 
   const trackCall = () => {
     if (typeof (window as any).gtag === 'function') {
-      ;(window as any).gtag('event', 'phone_click', { location: 'StickyCallBar', phone: '512-706-9577' })
+      ;(window as any).gtag('event', 'phone_click', { location: 'StickyCallBar', phone })
     }
   }
 
@@ -25,16 +28,16 @@ export default function StickyCallBar() {
       {/* Mobile — fixed bottom bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 flex md:hidden shadow-2xl">
         <a
-          href="tel:512-706-9577"
+          href={phoneHref}
           onClick={trackCall}
-          className="flex-1 flex flex-col items-center justify-center py-3 bg-blue-600 text-white"
+          className={`flex-1 flex flex-col items-center justify-center py-3 ${tw.primaryBg} text-white`}
         >
           <span className="text-xs font-bold uppercase tracking-wider">Speak to an Expert</span>
-          <span className="text-base font-bold">512-706-9577</span>
+          <span className="text-base font-bold">{phone}</span>
         </a>
         <a
           href="/get-started"
-          className="flex-1 flex flex-col items-center justify-center py-3 bg-white text-blue-600 border-l border-blue-200"
+          className={`flex-1 flex flex-col items-center justify-center py-3 bg-white ${tw.primaryText} border-l ${tw.softBg}`}
         >
           <span className="text-xs font-bold uppercase tracking-wider">Free Quote</span>
           <span className="text-sm font-semibold">No obligation</span>
@@ -45,8 +48,8 @@ export default function StickyCallBar() {
       <div className="hidden md:flex fixed bottom-6 right-6 z-50 items-center gap-3 bg-gray-900 text-white pl-5 pr-4 py-3 rounded-full shadow-2xl border border-gray-700">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          <a href="tel:512-706-9577" onClick={trackCall} className="font-semibold hover:text-blue-400 transition-colors">
-            Schedule a Call — 512-706-9577
+          <a href={phoneHref} onClick={trackCall} className={`font-semibold hover:${tw.primaryTextLight} transition-colors`}>
+            Schedule a Call — {phone}
           </a>
         </div>
         <button

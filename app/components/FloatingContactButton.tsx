@@ -2,8 +2,11 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { getSiteConfig } from '@/lib/site-config'
 
 export default function FloatingContactButton() {
+  const site = getSiteConfig()
+  const { tw } = site
   const pathname = usePathname()
   
   // Don't show on contact page
@@ -14,7 +17,7 @@ export default function FloatingContactButton() {
   return (
     <Link
       href="/contact"
-      className="fixed bottom-6 left-6 z-50 flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-full shadow-2xl hover:shadow-blue-500/50 hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 hover:scale-110"
+      className={`fixed bottom-6 left-6 z-50 flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r ${tw.gradientFrom} ${tw.gradientTo} text-white rounded-full shadow-2xl hover:shadow-black/30 hover:scale-110 transition-all duration-300`}
       aria-label="Contact Us"
     >
       <svg className="w-7 h-7 sm:w-8 sm:h-8" fill="currentColor" viewBox="0 0 20 20">
