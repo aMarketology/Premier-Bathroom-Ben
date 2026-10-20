@@ -34,7 +34,7 @@ export default function Navigation() {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0 right-0 z-[60] ${tw.primaryBg} overflow-hidden"
+            className={`fixed top-0 left-0 right-0 z-[60] ${tw.primaryBg} overflow-hidden`}
           >
             <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between gap-4">
               <div className="hidden sm:flex items-center gap-2 text-blue-100 text-sm">
@@ -46,7 +46,7 @@ export default function Navigation() {
               <a
                 href={phoneHref}
                 onClick={() => trackPhoneClick(phone, 'Top Bar')}
-                className="ml-auto flex items-center gap-2 bg-white ${tw.primaryText} font-bold text-sm px-4 py-1.5 rounded-full hover:${tw.softBg} transition-all whitespace-nowrap"
+                className={`ml-auto flex items-center gap-2 bg-white ${tw.primaryText} font-bold text-sm px-4 py-1.5 rounded-full hover:${tw.softBg} transition-all whitespace-nowrap`}
               >
                 <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -95,12 +95,12 @@ export default function Navigation() {
                   href={`/${item.toLowerCase()}`}
                   className={`font-medium transition-colors relative group ${
                     scrolled
-                      ? 'text-gray-700 hover:${tw.primaryText}'
-                      : 'text-white ${tw.primaryTextLight}'
+                      ? `text-gray-700 hover:${tw.primaryText}`
+                      : `text-white ${tw.primaryTextLight}`
                   }`}
                 >
                   {item}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 ${tw.softBg}0 transition-all group-hover:w-full" />
+                  <span className={`absolute -bottom-1 left-0 w-0 h-0.5 ${tw.primaryBg} transition-all group-hover:w-full`} />
                 </Link>
               </motion.div>
             ))}
@@ -111,7 +111,7 @@ export default function Navigation() {
               onClick={() => trackPhoneClick(phone, 'Navigation Desktop')}
               className={`hidden lg:flex items-center gap-2 font-semibold transition-all px-4 py-2 rounded-lg border-2 ${
                 scrolled
-                  ? '${tw.primaryBorder} ${tw.primaryText} hover:${tw.primaryBg} hover:text-white'
+                  ? `${tw.primaryBorder} ${tw.primaryText} hover:${tw.primaryBg} hover:text-white`
                   : 'border-white/60 text-white hover:border-white hover:bg-white/10'
               }`}
             >
@@ -123,7 +123,7 @@ export default function Navigation() {
 
             <Link
               href="/contact"
-              className="font-semibold px-5 py-2 rounded-lg transition-all ${tw.primaryBg} text-white hover:${tw.primaryHoverBg} shadow-lg hover:shadow-black/20"
+              className={`font-semibold px-5 py-2 rounded-lg transition-all ${tw.primaryBg} text-white hover:${tw.primaryHoverBg} shadow-lg hover:shadow-black/20`}
             >
               Free Quote
             </Link>
@@ -136,7 +136,7 @@ export default function Navigation() {
               onClick={() => trackPhoneClick(phone, 'Navigation Mobile')}
               className={`flex items-center gap-1.5 text-sm font-bold px-3 py-1.5 rounded-full transition-all ${
                 scrolled
-                  ? '${tw.primaryBg} text-white'
+                  ? `${tw.primaryBg} text-white`
                   : 'bg-white/20 backdrop-blur-sm text-white border border-white/30'
               }`}
             >
@@ -200,7 +200,7 @@ export default function Navigation() {
                   >
                     <Link
                       href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-                      className="block px-4 py-3 text-gray-700 hover:${tw.softBg} hover:${tw.primaryText} transition font-medium rounded"
+                      className={`block px-4 py-3 text-gray-700 hover:${tw.softBg} hover:${tw.primaryText} transition font-medium rounded`}
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {item}
@@ -211,7 +211,7 @@ export default function Navigation() {
                   <a
                     href={phoneHref}
                     onClick={() => trackPhoneClick(phone, 'Navigation Mobile Menu')}
-                    className="flex items-center justify-center gap-2 w-full ${tw.primaryBg} hover:${tw.primaryHoverBg} text-white text-center font-semibold px-6 py-3 rounded-lg transition"
+                    className={`flex items-center justify-center gap-2 w-full ${tw.primaryBg} hover:${tw.primaryHoverBg} text-white text-center font-semibold px-6 py-3 rounded-lg transition`}
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
