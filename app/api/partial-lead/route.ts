@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import emailjs from '@emailjs/nodejs'
-import twilio from 'twilio'
+import { getSiteConfig } from '@/lib/site-config'
 
 const TIMELINE_LABELS: Record<string, string> = {
   'asap':         'As soon as possible',
@@ -16,133 +15,41 @@ const BUDGET_LABELS: Record<string, string> = {
   '20k-plus': '$20,000+',
 }
 
-// ── Twilio SMS helper ────────────────────────────────────────────────────────
-async function sendSmsAlert(name: string, phone: string, service: string | null, email: string | null, siteName: string) {
-  const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID
-  const twilioAuthToken  = process.env.TWILIO_AUTH_TOKEN
-  const twilioFrom       = process.env.TWILIO_PHONE_NUMBER
-  const bossPhone        = process.env.BOSS_PHONE_NUMBER
-  const ccPhone          = process.env.CC_PHONE_NUMBER
-
-  if (!twilioAccountSid || !twilioAuthToken || !twilioFrom) {
-    console.warn('[sms] Twilio not configured — skipping SMS alert')
-    return
-  }
-
-  // Build recipient list: boss + CC (deduplicated)
-  const recipients: string[] = []
-  if (bossPhone) recipients.push(bossPhone)
-  if (ccPhone && ccPhone !== bossPhone) recipients.push(ccPhone)
-
-  if (recipients.length === 0) {
-    console.warn('[sms] No phone numbers configured — skipping SMS alert')
-    return
-  }
-
-  try {
-    const client = twilio(twilioAccountSid, twilioAuthToken)
-    const serviceLine = service ? `Service: ${service}` : 'General Inquiry'
-    const emailLine   = email ? `Email: ${email}` : 'No email provided'
-    const body = `🔔 NEW LEAD — ${siteName}\n\nName: ${name}\nPhone: ${phone}\n${emailLine}\n${serviceLine}\n\nCall them ASAP!`
-
-    for (const recipient of recipients) {
-      await client.messages.create({ body, from: twilioFrom, to: recipient })
-    }
-    console.log(`[sms] Alert sent to ${recipients.length} recipient(s): ${recipients.join(', ')}`)
-  } catch (err) {
-    console.error('[sms] Failed to send SMS alert:', err)
-  }
-}
-// ─────────────────────────────────────────────────────────────────────────────
-
-async function sendPartialLeadEmail({
-  notificationEmails,
-  subject,
-  html,
-  service,
-  timelineLabel,
-  budgetLabel,
-  pageUrl,
-  timestamp,
-  siteName,
-}: {
+// ── Fire-and-forget email sender (Resend primary) ───────────────────────────
+async function sendPartialLeadEmail(payload: {
   notificationEmails: string[]
   subject: string
   html: string
-  service: string
-  timelineLabel: string
-  budgetLabel: string
-  pageUrl: string
-  timestamp: string
-  siteName: string
 }) {
-  // ── PRIMARY: EmailJS ─────────────────────────────────────────────────────
-  let emailSent = false
-  const emailjsServiceId = process.env.EMAILJS_SERVICE_ID
-  const emailjsTemplateId = process.env.EMAILJS_TEMPLATE_ID
-  const emailjsPublicKey  = process.env.EMAILJS_PUBLIC_KEY
+  const { notificationEmails, subject, html } = payload
+  const site = getSiteConfig()
 
-  if (emailjsServiceId && emailjsTemplateId && emailjsPublicKey) {
-    try {
-      emailjs.init({
-        publicKey: emailjsPublicKey,
-        ...(process.env.EMAILJS_PRIVATE_KEY ? { privateKey: process.env.EMAILJS_PRIVATE_KEY } : {}),
-      })
-      await emailjs.send(
-        emailjsServiceId,
-        emailjsTemplateId,
-        {
-          to_email: notificationEmails.join(','),
-          subject,
-          html,
-          name: 'Quiz Visitor (no contact info)',
-          email: 'N/A',
-          phone: 'N/A',
-          service: service || 'Unknown Service',
-          message: `Timeline: ${timelineLabel} | Budget: ${budgetLabel}`,
-          page_url: pageUrl || 'N/A',
-          submission_time: timestamp,
-          site_name: siteName,
-        },
-      )
-      console.log('[partial-lead] Sent via EmailJS')
-      emailSent = true
-    } catch (emailjsErr) {
-      console.warn('[partial-lead] EmailJS failed, falling back to Resend:', emailjsErr)
-    }
-  } else {
-    console.warn('[partial-lead] EmailJS not configured — will use Resend')
-  }
-  // ────────────────────────────────────────────────────────────────────────
-
-  // ── FALLBACK: Resend ─────────────────────────────────────────────────────
-  if (!emailSent) {
+  try {
     const resend = new Resend(process.env.RESEND_API_KEY)
     await resend.emails.send({
-      from: 'Premier Bathroom Remodel <info@amarketology.com>',
+      from: site.fromEmail,
       to: notificationEmails,
       subject,
       html,
     })
-    console.log('[partial-lead] Sent via Resend (fallback)')
+    console.log(`[partial-lead] Sent via Resend (${site.id}) to:`, notificationEmails)
+  } catch (resendErr) {
+    console.error('[partial-lead] Resend failed:', resendErr)
   }
-  // ────────────────────────────────────────────────────────────────────────
 }
+// ─────────────────────────────────────────────────────────────────────────────
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { service, quiz, pageUrl } = body
+    const site = getSiteConfig()
 
     if (!quiz?.timeline && !quiz?.budget) {
       return NextResponse.json({ ok: true })
     }
 
-    const notificationEmails = [
-      process.env.NOTIFICATION_EMAIL_1,
-      process.env.NOTIFICATION_EMAIL_2,
-      process.env.NOTIFICATION_EMAIL_3,
-    ].filter(Boolean) as string[]
+    const notificationEmails = site.notificationEmails
 
     if (notificationEmails.length === 0) {
       return NextResponse.json({ ok: true })
@@ -151,16 +58,16 @@ export async function POST(request: NextRequest) {
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
     const timelineLabel = quiz?.timeline ? (TIMELINE_LABELS[quiz.timeline] || quiz.timeline) : '—'
     const budgetLabel   = quiz?.budget   ? (BUDGET_LABELS[quiz.budget]     || quiz.budget)   : '—'
-    const subject = `Partial Lead — ${service || 'Unknown Service'} (Quiz Completed)`
+    const subject = `[${site.name}] Partial Lead — ${service || 'Unknown Service'} (Quiz Completed)`
 
     const html = `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
-  <div style="background:linear-gradient(135deg,#f59e0b,#d97706);color:white;padding:30px;text-align:center;">
+  <div style="background:linear-gradient(135deg,${site.primaryHex},${site.primaryDarkHex});color:white;padding:30px;text-align:center;">
     <h1 style="margin:0;font-size:22px;">Partial Lead — Quiz Completed</h1>
-    <p style="margin:8px 0 0;font-size:14px;">Visitor answered the quiz but hasn't submitted contact info yet</p>
+    <p style="margin:8px 0 0;font-size:14px;">${site.name} — visitor answered the quiz but hasn't submitted contact info yet</p>
   </div>
   <div style="background:#fffbeb;padding:30px;">
-    <div style="background:white;padding:20px;border-radius:8px;border-left:4px solid #f59e0b;margin-bottom:16px;">
+    <div style="background:white;padding:20px;border-radius:8px;border-left:4px solid ${site.accentHex};margin-bottom:16px;">
       <p style="margin:0 0 6px;font-size:12px;color:#92400e;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">What they told us</p>
       <p style="margin:0 0 10px;font-size:17px;"><strong>Service:</strong> ${service || '—'}</p>
       <p style="margin:0 0 10px;font-size:17px;"><strong>Timeline:</strong> ${timelineLabel}</p>
@@ -175,22 +82,15 @@ export async function POST(request: NextRequest) {
     </div>
   </div>
   <div style="background:#2d3748;color:white;padding:16px;text-align:center;font-size:12px;">
-    <p style="margin:0;">Premier Bathroom Remodel Austin — (512) 706-9577 — ${timestamp} CT</p>
+    <p style="margin:0;">${site.name} — ${site.phone} — ${timestamp} CT</p>
   </div>
 </div>`
 
     // ── Fire-and-forget: send partial lead email in background ──────────────
-    const siteName = process.env.SITE_NAME || 'Premier Bathroom Remodel'
     sendPartialLeadEmail({
       notificationEmails,
       subject,
       html,
-      service: service || 'Unknown Service',
-      timelineLabel,
-      budgetLabel,
-      pageUrl: pageUrl || 'N/A',
-      timestamp,
-      siteName,
     })
     // ────────────────────────────────────────────────────────────────────────
 

@@ -1,34 +1,38 @@
 import type { Metadata } from 'next'
 import { organizationSchema, servicesSchema, reviewSchema } from '@/lib/schema'
+import { getSiteConfig } from '@/lib/site-config'
 import FloatingContactButton from './components/FloatingContactButton'
 import StickyCallBar from './components/StickyCallBar'
 import AnalyticsProvider from './components/AnalyticsProvider'
 import './globals.css'
+
+const site = getSiteConfig()
 
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  themeColor: site.primaryHex,
 }
 
 export const metadata: Metadata = {
-  title: 'Premier Bathroom Remodel Texas | Expert Bathroom Renovation Statewide',
-  description: 'Premier bathroom remodeling services across Texas — Austin, Houston, Dallas, San Antonio, and 50+ cities. Walk-in baths, shower remodels, tub to shower conversions. Licensed, 15+ years experience. Call 512-706-9577.',
-  keywords: 'bathroom remodeling Texas, bathroom renovation Texas, walk-in bath Texas, shower remodel Texas, tub to shower conversion Texas, Texas bathroom contractors, bathroom remodeling Austin, bathroom remodeling Houston, bathroom remodeling Dallas, bathroom remodeling San Antonio',
-  metadataBase: new URL('https://premierbathroomremodelaustin.com'),
+  title: `${site.name} | Expert ${site.shortName} Services`,
+  description: `${site.name} — professional services across Texas. Licensed, 15+ years experience. Call ${site.phone}.`,
+  keywords: `${site.name}, Austin TX, Texas contractors`,
+  metadataBase: new URL(site.url),
   openGraph: {
     type: 'website',
-    url: 'https://premierbathroomremodelaustin.com',
-    title: 'Premier Bathroom Remodel Texas | Expert Bathroom Renovation',
-    description: 'Transform your bathroom with Texas\'s trusted remodeling experts. Serving Austin, Houston, Dallas, San Antonio, and all major TX cities. Custom designs, quality craftsmanship.',
-    siteName: 'Premier Bathroom Remodel Texas',
+    url: site.url,
+    title: `${site.name} | Expert Services`,
+    description: `${site.name} — trusted experts serving Austin and all major TX cities. Custom designs, quality craftsmanship.`,
+    siteName: site.name,
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Premier Bathroom Remodel Texas',
-    description: 'Expert bathroom remodeling services across Texas. Serving Austin, Houston, Dallas, San Antonio, and more. Free consultations available.',
+    title: site.name,
+    description: `Expert services across Texas. Serving Austin, Houston, Dallas, San Antonio, and more. Free consultations available.`,
   },
   robots: {
     index: true,
@@ -40,9 +44,6 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
-  },
-  verification: {
-    google: 'your-google-verification-code',
   },
 }
 
@@ -122,7 +123,7 @@ export default function RootLayout({
         {/* Google Search Console Verification */}
         <meta name="google-site-verification" content="your-google-verification" />
         {/* Additional Meta Tags */}
-        <meta name="theme-color" content="#2563eb" />
+        <meta name="theme-color" content={site.primaryHex} />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         {/* Elfsight All-in-One Reviews */}
