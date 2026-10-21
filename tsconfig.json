@@ -38,7 +38,9 @@
     ".next-champs/types/**/*.ts",
     ".next-champs/dev/types/**/*.ts",
     ".next-premier/types/**/*.ts",
-    ".next-premier/dev/types/**/*.ts"
+    ".next-premier/dev/types/**/*.ts",
+    ".next-tilepros/types/**/*.ts",
+    ".next-tilepros/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
