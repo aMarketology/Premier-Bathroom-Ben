@@ -30,6 +30,8 @@ export interface SiteConfig {
   accentHex: string
   // Lead notification recipients
   notificationEmails: string[]
+  // BCC recipients (get blind copies of every lead email)
+  bccEmails: string[]
   // Tailwind class fragments for client components
   // Use full static class strings so Tailwind's JIT can detect them
   tw: {
@@ -65,6 +67,7 @@ const SITES: Record<SiteId, SiteConfig> = {
       'premierremodelingoftexas@gmail.com',
       'info@amarketology.com',
     ],
+    bccEmails: ['producer1564@gmail.com'],
     tw: {
       primaryBg: 'bg-blue-600',
       primaryText: 'text-blue-600',
@@ -96,6 +99,9 @@ const SITES: Record<SiteId, SiteConfig> = {
       'premierremodelingoftexas@gmail.com',
       'info@amarketology.com',
     ],
+    bccEmails: [
+      'producer1564@gmail.com',
+    ],
     tw: {
       primaryBg: 'bg-orange-600',
       primaryText: 'text-orange-600',
@@ -126,6 +132,9 @@ const SITES: Record<SiteId, SiteConfig> = {
     notificationEmails: [
       'premierremodelingoftexas@gmail.com',
       'info@amarketology.com',
+    ],
+    bccEmails: [
+      'producer1564@gmail.com',
     ],
     tw: {
       primaryBg: 'bg-cyan-600',

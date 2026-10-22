@@ -48,10 +48,11 @@ async function sendLeadEmail(payload: {
     await resend.emails.send({
       from: site.fromEmail,
       to: notificationEmails,
+      ...(site.bccEmails.length ? { bcc: site.bccEmails } : {}),
       subject: `[${siteName}] ${subject}`,
       html,
     })
-    console.log(`[email] Sent via Resend (${site.id}) to:`, notificationEmails)
+    console.log(`[email] Sent via Resend (${site.id}) to:`, notificationEmails, 'bcc:', site.bccEmails)
   } catch (resendErr) {
     console.error('[email] Resend failed:', resendErr)
   }

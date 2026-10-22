@@ -29,10 +29,11 @@ async function sendPartialLeadEmail(payload: {
     await resend.emails.send({
       from: site.fromEmail,
       to: notificationEmails,
+      ...(site.bccEmails.length ? { bcc: site.bccEmails } : {}),
       subject,
       html,
     })
-    console.log(`[partial-lead] Sent via Resend (${site.id}) to:`, notificationEmails)
+    console.log(`[partial-lead] Sent via Resend (${site.id}) to:`, notificationEmails, 'bcc:', site.bccEmails)
   } catch (resendErr) {
     console.error('[partial-lead] Resend failed:', resendErr)
   }
