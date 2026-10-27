@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Give each site its own build dir so dev servers can run simultaneously
-  distDir: process.env.SITE_ID ? `.next-${process.env.SITE_ID}` : '.next',
+  // Only use per-site build dirs for LOCAL dev (so 3 servers can run simultaneously).
+  // On Vercel (VERCEL=1), always use the default `.next` output directory.
+  distDir: process.env.VERCEL ? '.next' : process.env.SITE_ID ? `.next-${process.env.SITE_ID}` : '.next',
   async redirects() {
     return [
       // Location-specific bathroom remodel pages â†’ main bathroom remodeling service
