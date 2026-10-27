@@ -39,14 +39,14 @@ async function sendLeadEmail(payload: {
   subject: string
   html: string
   siteName: string
-}) {
+}): Promise<boolean> {
   const { notificationEmails, subject, html, siteName } = payload
   const site = getSiteConfig()
 
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) {
     console.error('[email] CRITICAL: RESEND_API_KEY is missing on this deployment')
-    return
+    return false
   }
 
   try {
@@ -59,8 +59,10 @@ async function sendLeadEmail(payload: {
       html,
     })
     console.log(`[email] Sent via Resend (${site.id}) to:`, notificationEmails, 'bcc:', site.bccEmails)
+    return true
   } catch (resendErr) {
     console.error('[email] Resend failed:', resendErr)
+    return false
   }
 }
 // ─────────────────────────────────────────────────────────────────────────────
@@ -153,12 +155,15 @@ export async function POST(request: NextRequest) {
 </div>`
 
     // ── Send email (awaited — must complete before response on serverless) ────
-    await sendLeadEmail({
+    const emailSent = await sendLeadEmail({
       notificationEmails,
       subject,
       html,
       siteName: site.name,
     })
+    if (!emailSent) {
+      return NextResponse.json({ error: 'Failed to send email' }, { status: 500 })
+    }
     // ────────────────────────────────────────────────────────────────────────
 
     // Respond immediately
