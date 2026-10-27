@@ -43,8 +43,14 @@ async function sendLeadEmail(payload: {
   const { notificationEmails, subject, html, siteName } = payload
   const site = getSiteConfig()
 
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) {
+    console.error('[email] CRITICAL: RESEND_API_KEY is missing on this deployment')
+    return
+  }
+
   try {
-    const resend = new Resend(process.env.RESEND_API_KEY)
+    const resend = new Resend(apiKey)
     await resend.emails.send({
       from: site.fromEmail,
       to: notificationEmails,
