@@ -28,7 +28,7 @@ export interface SiteConfig {
   primaryHex: string
   primaryDarkHex: string
   accentHex: string
-  // Lead notification recipients
+  // Lead notification recipients — read from env with sensible defaults
   notificationEmails: string[]
   // BCC recipients (get blind copies of every lead email)
   bccEmails: string[]
@@ -163,7 +163,23 @@ export function getSiteId(): SiteId {
 }
 
 export function getSiteConfig(): SiteConfig {
-  return SITES[getSiteId()]
+  const config = SITES[getSiteId()]
+
+  // Notification emails can be overridden via env (NOTIFICATION_EMAIL_1/2/3)
+  const envEmails = [
+    process.env.NOTIFICATION_EMAIL_1,
+    process.env.NOTIFICATION_EMAIL_2,
+    process.env.NOTIFICATION_EMAIL_3,
+  ].filter(Boolean) as string[]
+
+  // BCC can be overridden via env (BCC_EMAIL), falls back to producer1564@gmail.com
+  const bccEmails = (process.env.BCC_EMAIL ? [process.env.BCC_EMAIL] : config.bccEmails)
+
+  return {
+    ...config,
+    notificationEmails: envEmails.length ? envEmails : config.notificationEmails,
+    bccEmails,
+  }
 }
 
 export { SITES }
