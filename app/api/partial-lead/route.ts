@@ -87,8 +87,8 @@ export async function POST(request: NextRequest) {
   </div>
 </div>`
 
-    // ── Fire-and-forget: send partial lead email in background ──────────────
-    sendPartialLeadEmail({
+    // ── Send partial lead email (awaited — must complete on serverless) ──────
+    await sendPartialLeadEmail({
       notificationEmails,
       subject,
       html,

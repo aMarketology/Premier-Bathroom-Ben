@@ -146,8 +146,8 @@ export async function POST(request: NextRequest) {
   </div>
 </div>`
 
-    // ── Send email in background (non-blocking) ───────────────────────────
-    sendLeadEmail({
+    // ── Send email (awaited — must complete before response on serverless) ────
+    await sendLeadEmail({
       notificationEmails,
       subject,
       html,
